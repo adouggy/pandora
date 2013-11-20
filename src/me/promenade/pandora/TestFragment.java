@@ -30,6 +30,8 @@ public class TestFragment extends SherlockFragment {
         Log.d(TAG, "TestFragment-----onCreate");
         Bundle args = getArguments();
         hello = args != null ? args.getString("hello") : defaultHello;
+        
+        
     }
 
     @Override

@@ -178,7 +178,7 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 
 		Fragment f1 = TestFragment.newInstance("Hello 首页.");
 		Fragment f2 = TestFragment.newInstance("Hello 交谈.");
-		Fragment f3 = TestFragment.newInstance("Hello Vi");
+		MyVibrateViewFragment f3 = new MyVibrateViewFragment();
 		Fragment f4 = TestFragment.newInstance("Hello Ma");
 		Fragment f5 = TestFragment.newInstance("Hello 更多");
 
@@ -234,10 +234,12 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 				getSupportActionBar().setTitle(R.string.txt_tab3);
 				break;
 			case 3:
+				VibrateUtil.INSTANCE.test();
 				makeTabSelected(3);
 				getSupportActionBar().setTitle(R.string.txt_tab4);
 				break;
 			case 4:
+				makeTabSelected(4);
 				getSupportActionBar().setTitle(R.string.txt_tab5);
 				break;
 			}

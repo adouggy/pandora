@@ -26,7 +26,8 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int arg0) {
-        return fragmentsList.get(arg0);
+    	Fragment f =  fragmentsList.get(arg0);
+        return f;
     }
 
     @Override
