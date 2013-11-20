@@ -7,15 +7,14 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
-import android.graphics.Color;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.util.StateSet;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,7 +23,6 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class StubActivity extends SherlockFragmentActivity implements OnClickListener {
-
 	private static final String TAG = "StubActivity";
 	private ViewPager mPager;
 	private ArrayList<Fragment> mFragmentsList;
@@ -35,7 +33,7 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 	@Override
 	protected void onCreate(
 			Bundle savedInstanceState) {
-		setTheme(R.style.Theme_Sherlock);
+		setTheme(R.style.Theme_Styled);
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_stub);
@@ -51,7 +49,7 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 		// if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 		BitmapDrawable bg = (BitmapDrawable) getResources().getDrawable(R.drawable.img_top_bar_bg);
 		bg.setTileModeXY(TileMode.REPEAT,
-				TileMode.REPEAT);
+				TileMode.CLAMP);
 		getSupportActionBar().setBackgroundDrawable(bg);
 
 		// BitmapDrawable bgSplit = (BitmapDrawable)
@@ -77,7 +75,7 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 		try {
 			ColorStateList csl = ColorStateList.createFromXml(getResources(),
 					xrp);
-			for( TextView tv: mTxtList ){
+			for (TextView tv : mTxtList) {
 				tv.setTextColor(csl);
 			}
 		} catch (XmlPullParserException e) {
@@ -225,18 +223,22 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 			switch (arg0) {
 			case 0:
 				makeTabSelected(0);
+				getSupportActionBar().setTitle(R.string.txt_tab1);
 				break;
 			case 1:
 				makeTabSelected(1);
+				getSupportActionBar().setTitle(R.string.txt_tab2);
 				break;
 			case 2:
 				makeTabSelected(2);
+				getSupportActionBar().setTitle(R.string.txt_tab3);
 				break;
 			case 3:
 				makeTabSelected(3);
+				getSupportActionBar().setTitle(R.string.txt_tab4);
 				break;
 			case 4:
-				makeTabSelected(4);
+				getSupportActionBar().setTitle(R.string.txt_tab5);
 				break;
 			}
 
@@ -265,5 +267,7 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 			int index) {
 		clearAllTabStatus();
 		mTxtList[index].setSelected(true);
+		currIndex = index;
+		Log.d(TAG, "changed to index;" + currIndex);
 	}
 }

@@ -3,7 +3,6 @@ package me.promenade.pandora;
 import com.actionbarsherlock.app.SherlockFragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
