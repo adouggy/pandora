@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Pandora</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+
+    <string name="txt_tab1">首页</string>
+    <string name="txt_tab2">交谈</string>
+    <string name="txt_tab3">Vi</string>
+    <string name="txt_tab4">Ma</string>
+    <string name="txt_tab5">更多</string>
+</resources>

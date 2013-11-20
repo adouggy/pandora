@@ -1,0 +1,90 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="14"
+    tools:context=".StubActivity" >
+
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/layout_bottom"
+        android:background="#ffffff"
+        android:flipInterval="30"
+        android:persistentDrawingCache="animation" >
+    </android.support.v4.view.ViewPager>
+
+    <LinearLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bottom_bg"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:weightSum="5" >
+
+        <TextView
+            android:id="@+id/txt_tab1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:drawablePadding="-5dp"
+            android:gravity="center"
+            android:maxHeight="95dp"
+            android:padding="0dp"
+            android:text="@string/txt_tab1" />
+
+        <TextView
+            android:id="@+id/txt_tab2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:drawablePadding="-5dp"
+            android:gravity="center"
+            android:maxHeight="95dp"
+            android:padding="0dp"
+            android:text="@string/txt_tab2" />
+
+        <TextView
+            android:id="@+id/txt_tab3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:drawablePadding="-5dp"
+            android:gravity="center"
+            android:maxHeight="95dp"
+            android:padding="0dp"
+            android:text="@string/txt_tab3" />
+
+        <TextView
+            android:id="@+id/txt_tab4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:drawablePadding="-5dp"
+            android:gravity="center"
+            android:maxHeight="95dp"
+            android:padding="0dp"
+            android:text="@string/txt_tab4" />
+
+        <TextView
+            android:id="@+id/txt_tab5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:drawablePadding="-5dp"
+            android:gravity="center"
+            android:maxHeight="95dp"
+            android:padding="0dp"
+            android:text="@string/txt_tab5" />
+    </LinearLayout>
+
+</RelativeLayout>
