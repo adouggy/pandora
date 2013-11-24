@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="top" >
+
+    <ImageView
+        android:layout_marginTop="5dp"
+        android:id="@+id/img_chat_person"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:contentDescription="@string/defaultDescription"
+        android:src="@drawable/empty_profile" />
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/txt_chat_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="200dp"
+        android:background="@drawable/chat_bubble_green_blue" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+         >
+
+        <TextView
+            android:id="@+id/txt_chat_send_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/chat_bullet_blue" />
+
+        <TextView
+            android:id="@+id/txt_chat_timestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/chat_bullet_blue" />
+    </LinearLayout>
+
+</LinearLayout>

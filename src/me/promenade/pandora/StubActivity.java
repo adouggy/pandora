@@ -3,6 +3,12 @@ package me.promenade.pandora;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import me.promenade.pandora.adapter.MyFragmentPagerAdapter;
+import me.promenade.pandora.fragment.ChatFragment;
+import me.promenade.pandora.fragment.MyVibrateViewFragment;
+import me.promenade.pandora.fragment.TestFragment;
+import me.promenade.pandora.util.VibrateUtil;
+
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.res.ColorStateList;
@@ -177,7 +183,7 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 		mFragmentsList = new ArrayList<Fragment>();
 
 		Fragment f1 = TestFragment.newInstance("Hello 首页.");
-		Fragment f2 = TestFragment.newInstance("Hello 交谈.");
+		ChatFragment f2 = new ChatFragment();
 		MyVibrateViewFragment f3 = new MyVibrateViewFragment();
 		Fragment f4 = TestFragment.newInstance("Hello Ma");
 		Fragment f5 = TestFragment.newInstance("Hello 更多");

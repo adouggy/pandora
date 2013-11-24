@@ -1,11 +1,10 @@
-package me.promenade.pandora;
+package me.promenade.pandora.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader.TileMode;
 import android.util.AttributeSet;
@@ -28,7 +27,7 @@ public class MyVibrateView extends View {
 	private int yPadding = 0;
 	private LinearGradient lg = null;
 
-	private int[] data = { 0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0, 1, 2, 3 };
+	private int[] data = new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 	
 	public MyVibrateView(Context context) {
 		super(context);
@@ -39,11 +38,10 @@ public class MyVibrateView extends View {
 		super(context, attributeSet);
 		init(context);
 	}
-
-	private void init(
-			Context ctx) {
-		this.mContext = ctx;
-
+	
+	public void setData(int[] data){
+		this.data = data;
+		
 		// deal data
 		for (int i = 0; i < data.length; i++) {
 			if (data[i] > 5) {
@@ -54,6 +52,12 @@ public class MyVibrateView extends View {
 
 			data[i] = 5 - data[i];
 		}
+	}
+
+	private void init(
+			Context ctx) {
+		this.mContext = ctx;
+		
 	}
 
 	@Override

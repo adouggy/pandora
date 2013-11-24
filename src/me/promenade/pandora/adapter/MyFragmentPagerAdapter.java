@@ -1,4 +1,4 @@
-package me.promenade.pandora;
+package me.promenade.pandora.adapter;
 
 import java.util.ArrayList;
 

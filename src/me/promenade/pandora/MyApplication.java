@@ -1,5 +1,6 @@
 package me.promenade.pandora;
 
+import me.promenade.pandora.util.VibrateUtil;
 import android.app.Application;
 
 public class MyApplication extends Application {

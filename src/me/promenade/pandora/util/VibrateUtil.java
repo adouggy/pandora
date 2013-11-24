@@ -1,4 +1,4 @@
-package me.promenade.pandora;
+package me.promenade.pandora.util;
 
 import android.content.Context;
 import android.os.Vibrator;
