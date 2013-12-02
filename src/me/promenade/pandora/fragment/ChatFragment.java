@@ -2,10 +2,18 @@ package me.promenade.pandora.fragment;
 
 import java.util.ArrayList;
 
+import net.synergyinfosys.xmppclient.Constants;
+import net.synergyinfosys.xmppclient.NotificationService;
+import net.synergyinfosys.xmppclient.ServiceManager;
+
 import me.promenade.pandora.R;
 import me.promenade.pandora.adapter.ChatListAdapter;
 import me.promenade.pandora.bean.Chat;
 import me.promenade.pandora.bean.SendStatus;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +37,6 @@ public class ChatFragment extends SherlockFragment {
 				false);
 		mList = (ListView) view.findViewById(R.id.list_chat);
 		mList.setDivider(null);
-		
 
 		ArrayList<Chat> list = new ArrayList<Chat>();
 		Chat c1 = new Chat();
@@ -61,7 +68,7 @@ public class ChatFragment extends SherlockFragment {
 		c5.setMessage("正在转");
 		c5.setRemote(true);
 		c5.setSendStatus(SendStatus.SentReceived);
-		c5.setTimestamp(System.currentTimeMillis()+2000000);
+		c5.setTimestamp(System.currentTimeMillis() + 2000000);
 
 		list.add(c1);
 		list.add(c2);
@@ -74,11 +81,38 @@ public class ChatFragment extends SherlockFragment {
 
 		mList.setAdapter(mAdapter);
 
+		setupXmppPreference();
+		Intent intent = new Intent(getActivity(), NotificationService.class);
+		getActivity().startService(intent);
+
 		return view;
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+	}
+
+	private void setupXmppPreference() {
+		SharedPreferences sharedPrefs = getActivity().getSharedPreferences("client_preferences",
+				Context.MODE_PRIVATE);
+		Editor editor = sharedPrefs.edit();
+		editor.putString("username",
+				"ade");
+		editor.putString("password",
+				"ade");
+		editor.putString("XMPP_USERNAME",
+				"ade");
+		editor.putString("XMPP_PASSWORD",
+				"ade");
+		editor.putString("XMPP_HOST",
+				"www.promenade.me");
+		editor.putInt("XMPP_PORT",
+				5222);
+		editor.putString(Constants.CALLBACK_ACTIVITY_PACKAGE_NAME,
+				"me.promenade.pandora.fragment");
+		editor.putString(Constants.CALLBACK_ACTIVITY_CLASS_NAME,
+				this.getClass().getName());
+		editor.commit();
 	}
 }

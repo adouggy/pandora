@@ -25,6 +25,11 @@ public class ChatListAdapter extends BaseAdapter {
 		mFormatter = SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT);// SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT,
 																				// SimpleDateFormat.SHORT);
 	}
+	
+	public void addChat( Chat c ){
+		this.mList.add(c);
+		this.notifyDataSetChanged();
+	}
 
 	public void setData(
 			ArrayList<Chat> list) {
