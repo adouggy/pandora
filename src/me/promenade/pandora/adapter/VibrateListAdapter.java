@@ -4,14 +4,19 @@ import java.util.ArrayList;
 
 import me.promenade.pandora.R;
 import me.promenade.pandora.bean.Vibration;
+import me.promenade.pandora.util.VibrateUtil;
 import me.promenade.pandora.view.MyVibrateView;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 
 public class VibrateListAdapter extends BaseAdapter {
+	public static final String TAG = "VibrateListAdapter";
 
 	private ArrayList<Vibration> mList;
 	private static LayoutInflater mInflater = null;
@@ -19,8 +24,9 @@ public class VibrateListAdapter extends BaseAdapter {
 	public VibrateListAdapter(Context ctx) {
 		mInflater = LayoutInflater.from(ctx);
 	}
-	
-	public void setData(ArrayList<Vibration> list){
+
+	public void setData(
+			ArrayList<Vibration> list) {
 		this.mList = list;
 	}
 
@@ -53,18 +59,35 @@ public class VibrateListAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.item_vibrate_list,
 					null);
 			holder.vibrateView = (MyVibrateView) convertView.findViewById(R.id.vibrateview);
+			holder.play = (Button) convertView.findViewById(R.id.btn_play_v);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		
+
 		Vibration v = mList.get(position);
-		holder.vibrateView.setData( v.getPattern() );
+		holder.vibrateView.setData(v.getPattern());
+		holder.play.setTag(v);
+		holder.play.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(
+					View view) {
+				Vibration v = (Vibration) view.getTag();
+				int[] pattern = v.getPattern();
+				for (int p : pattern) {
+					Log.d(TAG,
+							p + "");
+				}
+				
+				VibrateUtil.INSTANCE.vibrate(pattern);
+			}
+		});
 
 		return convertView;
 	}
 
 	static final class ViewHolder {
 		MyVibrateView vibrateView;
+		Button play;
 	}
 }

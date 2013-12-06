@@ -14,7 +14,7 @@ import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class MyVibrateViewFragment extends SherlockFragment {
-	private static final String TAG = "MyVibrateViewFragment";
+//	private static final String TAG = "MyVibrateViewFragment";
 	private ListView mList = null;
 	private VibrateListAdapter mAdapter = null;
 
@@ -28,6 +28,19 @@ public class MyVibrateViewFragment extends SherlockFragment {
 				false);
 		mList = (ListView) view.findViewById(R.id.list_vibrate);
 
+		mAdapter = new VibrateListAdapter(this.getActivity());
+		mAdapter.setData(initData());
+		mList.setAdapter(mAdapter);
+
+		return view;
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+	}
+	
+	private ArrayList<Vibration> initData(){
 		ArrayList<Vibration> list = new ArrayList<Vibration>();
 		Vibration v1 = new Vibration();
 		Vibration v2 = new Vibration();
@@ -37,10 +50,10 @@ public class MyVibrateViewFragment extends SherlockFragment {
 		Vibration v6 = new Vibration();
 
 		v1.setPattern(new int[] { 0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0, 1, 2, 3 });
-		v2.setPattern(new int[] { 0, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3 });
-		v3.setPattern(new int[] { 0, 1, 2, 3, 4, 5, 0, 3, 2, 1, 0, 1, 2, 3 });
-		v4.setPattern(new int[] { 0, 1, 2, 3, 4, 0, 4, 3, 2, 1, 0, 8, 2, 3 });
-		v5.setPattern(new int[] { 0, 1, 2, 3, 0, 5, 4, 3, 2, 1, 7, 1, 2, 3 });
+		v2.setPattern(new int[] { 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3 });
+		v3.setPattern(new int[] { 2, 1, 2, 3, 4, 5, 0, 3, 2, 1, 0, 1, 2, 3 });
+		v4.setPattern(new int[] { 3, 1, 2, 3, 4, 0, 4, 3, 2, 1, 0, 8, 2, 3 });
+		v5.setPattern(new int[] { 4, 1, 2, 3, 0, 5, 4, 3, 2, 1, 7, 1, 2, 3 });
 		v6.setPattern(new int[] { 0, 1, 2, 0, 4, 5, 4, 3, 2, 6, 0, 1, 2, 3 });
 		list.add(v1);
 		list.add(v2);
@@ -48,17 +61,6 @@ public class MyVibrateViewFragment extends SherlockFragment {
 		list.add(v4);
 		list.add(v5);
 		list.add(v6);
-
-		mAdapter = new VibrateListAdapter(this.getActivity());
-		mAdapter.setData(list);
-
-		mList.setAdapter(mAdapter);
-
-		return view;
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
+		return list;
 	}
 }

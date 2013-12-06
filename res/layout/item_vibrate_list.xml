@@ -1,13 +1,21 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    >
+    android:layout_height="wrap_content" >
 
-    <me.promenade.pandora.view.MyVibrateView 
+    <me.promenade.pandora.view.MyVibrateView
         android:id="@+id/vibrateview"
+        android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_width="300dp"/>
-   
-</LinearLayout>
+        android:layout_toLeftOf="@+id/btn_play_v" />
+
+    <Button
+        android:id="@+id/btn_play_v"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/btn_play"
+        />
+
+</RelativeLayout>
