@@ -1,15 +1,57 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_vibrateview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/layout_vibrateview"
     android:background="@drawable/img_bground_splash" >
 
-    <ListView 
-       android:id="@+id/list_chat"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       ></ListView>
-    
-</LinearLayout>
+    <ListView
+        android:id="@+id/list_chat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/layout_chat" >
+    </ListView>
+
+    <RelativeLayout
+        android:id="@+id/layout_chat"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:orientation="horizontal"
+        android:weightSum="10" 
+        android:background="@drawable/bottom_bg"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="10dp">
+
+        <Button
+            android:layout_alignParentLeft="true"
+            android:id="@+id/btn_sendType"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/chat_btn_type"
+            />
+
+        <EditText
+            android:layout_toLeftOf="@+id/btn_send"
+            android:layout_toRightOf="@+id/btn_sendType"
+            android:id="@+id/edt_chat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="text"
+            android:background="@drawable/img_round_corner"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp" />
+
+        <Button
+            android:layout_alignParentRight="true"
+            android:id="@+id/btn_send"
+            android:background="@drawable/chat_btn_send"
+            android:text="@string/txt_send"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+             />
+    </RelativeLayout>
+
+</RelativeLayout>
