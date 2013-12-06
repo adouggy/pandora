@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import me.promenade.pandora.adapter.MyFragmentPagerAdapter;
-import me.promenade.pandora.fragment.ChatFragment;
+import me.promenade.pandora.fragment.FriendFragment;
 import me.promenade.pandora.fragment.MyVibrateViewFragment;
 import me.promenade.pandora.fragment.TestFragment;
 import me.promenade.pandora.util.VibrateUtil;
@@ -183,7 +183,7 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 		mFragmentsList = new ArrayList<Fragment>();
 
 		Fragment f1 = TestFragment.newInstance("Hello 首页.");
-		ChatFragment f2 = new ChatFragment();
+		FriendFragment f2 = new FriendFragment();
 		MyVibrateViewFragment f3 = new MyVibrateViewFragment();
 		Fragment f4 = TestFragment.newInstance("Hello Ma");
 		Fragment f5 = TestFragment.newInstance("Hello 更多");

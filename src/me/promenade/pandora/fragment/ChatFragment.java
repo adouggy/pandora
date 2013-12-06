@@ -30,7 +30,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -197,7 +196,7 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 								Base64.NO_WRAP | Base64.URL_SAFE));
 
 				HttpBean b = new HttpBean();
-				b.setUrl("http://192.168.0.133:28080/MyPush/resources/xmpp/push");
+				b.setUrl("http://www.promenade.me:28080/MyPush/resources/xmpp/push");
 				b.setJson(j);
 				b.setMethod(HttpMethod.POST);
 				HttpJob job = new HttpJob();
