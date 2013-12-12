@@ -1,10 +1,13 @@
 package me.promenade.pandora.adapter;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import me.promenade.pandora.HolderActivity;
 import me.promenade.pandora.R;
-import me.promenade.pandora.bean.Friend;
+import me.promenade.pandora.bean.Fantasy;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,29 +16,24 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class FriendListAdapter extends BaseAdapter {
+public class FantasyListAdapter extends BaseAdapter {
+	public static final String TAG = "FantasyListAdapter";
 
-	private ArrayList<Friend> mList;
+	private ArrayList<Fantasy> mList;
 	private static LayoutInflater mInflater = null;
-	private Context mContext = null;
+	 private Context mContext = null;
+	private DateFormat format = SimpleDateFormat.getDateTimeInstance();
 
-	public FriendListAdapter(Context ctx) {
+	public FantasyListAdapter(Context ctx) {
 		mInflater = LayoutInflater.from(ctx);
-		mContext = ctx;
-	}
-
-	public void addFriend(
-			Friend c) {
-		this.mList.add(c);
-		this.notifyDataSetChanged();
+		 mContext = ctx;
 	}
 
 	public void setData(
-			ArrayList<Friend> list) {
+			ArrayList<Fantasy> list) {
 		this.mList = list;
 	}
 
@@ -63,39 +61,44 @@ public class FriendListAdapter extends BaseAdapter {
 			ViewGroup parent) {
 		ViewHolder holder = null;
 
-		Friend f = mList.get(position);
+		Fantasy f = mList.get(position);
 
 		if (convertView == null) {
 			holder = new ViewHolder();
-			convertView = mInflater.inflate(R.layout.item_friend_list,
+			convertView = mInflater.inflate(R.layout.item_fantasy_list,
 					null);
-			holder.username = (TextView) convertView.findViewById(R.id.txt_friend_name);
-			holder.personImage = (ImageView) convertView.findViewById(R.id.img_friend_img);
-			holder.chat = (Button) convertView.findViewById(R.id.btn_friend_chat);
+			holder.fantasyLogo = (ImageView) convertView.findViewById(R.id.img_fantasy_logo);
+			holder.time = (TextView) convertView.findViewById(R.id.txt_fantasy_time);
+			holder.title = (TextView) convertView.findViewById(R.id.txt_fantasy_title);
+			holder.description = (TextView) convertView.findViewById(R.id.txt_fantasy_description);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		holder.username.setText(f.getUsername());
-		holder.chat.setOnClickListener(new OnClickListener() {
+		holder.time.setText(format.format(new Date(f.getTime())));
+		holder.title.setText(f.getTitle());
+		holder.description.setText(f.getDescription());
+
+		holder.fantasyLogo.setImageResource(f.getLogoId());
+		holder.fantasyLogo.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(
 					View v) {
 				Intent i = new Intent(mContext, HolderActivity.class);
 				Bundle b = new Bundle();
-				b.putInt("fragment", HolderActivity.FRAGMENT_CHAT);
+				b.putInt("fragment", HolderActivity.FRAGMENT_FANTASY);
 				i.putExtras(b);
-				mContext.startActivity(i);
+				mContext.startActivity( i );
 			}
 		});
-
 		return convertView;
 	}
 
 	static final class ViewHolder {
-		ImageView personImage;
-		TextView username;
-		Button chat;
+		ImageView fantasyLogo;
+		TextView time;
+		TextView title;
+		TextView description;
 	}
 }

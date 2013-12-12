@@ -35,7 +35,7 @@ import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class ChatFragment extends SherlockFragment implements OnClickListener {
-	private static final String TAG = "ChatFragment";
+	public static final String TAG = "ChatFragment";
 
 	public static final int MSG_RECEIVE = 1;
 	public static final int MSG_SEND = 2;

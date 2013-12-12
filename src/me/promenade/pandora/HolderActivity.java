@@ -1,20 +1,48 @@
 package me.promenade.pandora;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-
-import android.os.Bundle;
+import me.promenade.pandora.fragment.ChatFragment;
+import me.promenade.pandora.fragment.FantasyFragment;
 import android.annotation.TargetApi;
 import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class HolderActivity extends SherlockFragmentActivity {
 
+	public static final int FRAGMENT_FANTASY = 1;
+	public static final int FRAGMENT_CHAT = 2;
+	
 	@Override
 	protected void onCreate(
 			Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_holder);
-		// Show the Up button in the action bar.
 		setupActionBar();
+		
+		Bundle b = getIntent().getExtras();
+		int fId = b.getInt("fragment");
+		Fragment f = null;
+		switch( fId ){
+		case FRAGMENT_CHAT:
+			f = new ChatFragment();
+			break;
+		case FRAGMENT_FANTASY:
+			f = new FantasyFragment();
+			break;
+		}
+
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		fragmentTransaction.replace(R.id.fragment_holder,
+				f);
+
+		// ---add to the back stack---
+//		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();
 	}
 
 	/**
@@ -26,32 +54,5 @@ public class HolderActivity extends SherlockFragmentActivity {
 			getActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 	}
-
-//	@Override
-//	public boolean onCreateOptionsMenu(
-//			Menu menu) {
-//		// Inflate the menu; this adds items to the action bar if it is present.
-//		getMenuInflater().inflate(R.menu.holder,
-//				menu);
-//		return true;
-//	}
-
-//	@Override
-//	public boolean onOptionsItemSelected(
-//			MenuItem item) {
-//		switch (item.getItemId()) {
-//		case android.R.id.home:
-//			// This ID represents the Home or Up button. In the case of this
-//			// activity, the Up button is shown. Use NavUtils to allow users
-//			// to navigate up one level in the application structure. For
-//			// more details, see the Navigation pattern on Android Design:
-//			//
-//			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-//			//
-//			NavUtils.navigateUpFromSameTask(this);
-//			return true;
-//		}
-//		return super.onOptionsItemSelected(item);
-//	}
 
 }

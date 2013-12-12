@@ -1,5 +1,6 @@
 package me.promenade.pandora;
 
+import me.promenade.pandora.util.BluetoothUtil;
 import me.promenade.pandora.util.VibrateUtil;
 import me.promenade.pandora.util.XMPPUtil;
 import android.app.Application;
@@ -11,6 +12,7 @@ public class MyApplication extends Application {
 
 		VibrateUtil.INSTANCE.init(this);
 		XMPPUtil.INSTANCE.init(this);
+		BluetoothUtil.INSTANCE.init(this);
 		super.onCreate();
 	}
 
