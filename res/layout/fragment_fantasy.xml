@@ -2,10 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/img_bground_splash"
     android:orientation="vertical"
     android:weightSum="2" >
 
     <RelativeLayout
+        android:id="@+id/layout_fantasy_head"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" >
@@ -13,10 +15,11 @@
         <ImageView
             android:id="@+id/img_fantasy"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:contentDescription="@string/defaultDescription"
-            android:scaleType="fitXY"
-            android:src="@drawable/img_rain" />
+            android:src="@drawable/img_rain"
+            android:scaleType="matrix" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -31,34 +34,21 @@
                 android:layout_height="30dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/btn_fantasy_play"
                 android:contentDescription="@string/defaultDescription"
-                android:maxWidth="30dp"
-                android:background="@drawable/btn_fantasy_play" />
+                android:maxWidth="30dp" />
 
-            <!--
-                 <ProgressBar
-                android:id="@+id/pb_play"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:progressDrawable="@drawable/progress_bar_states"
-                android:layout_toLeftOf="@+id/txt_fantasy_time"
-                android:layout_toRightOf="@+id/btn_play_fan" />
-            -->
-
-            <ProgressBar
+            <SeekBar
                 android:id="@+id/pb_fantasy"
-                style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/txt_fantasy_time"
                 android:layout_toRightOf="@+id/btn_play_fantasy"
-                android:indeterminateOnly="false"
                 android:max="100"
-                android:progressDrawable="@drawable/progress_bar_states" >
-            </ProgressBar>
+                android:progressDrawable="@drawable/progress_bar_states"
+                android:thumb="@drawable/slider" />
 
             <TextView
                 android:id="@+id/txt_fantasy_time"
@@ -66,15 +56,169 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:text="@string/defaultDescription" />
         </RelativeLayout>
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/btn_fantasy_select"
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:weightSum="3" >
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:weightSum="4" >
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/pause"
+                android:contentDescription="@string/defaultDescription"
+                android:padding="5dp"
+                android:scaleType="fitCenter" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/pulse"
+                android:contentDescription="@string/defaultDescription"
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:text="@string/btn_1"
+                android:textColor="#ffffffaa" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/pulse"
+                android:contentDescription="@string/defaultDescription"
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:text="@string/btn_2"
+                android:textColor="#ffffffaa" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/pulse"
+                android:contentDescription="@string/defaultDescription"
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:text="@string/btn_3"
+                android:textColor="#ffffffaa" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:weightSum="4" >
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/pulse"
+                android:contentDescription="@string/defaultDescription"
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:text="@string/btn_4"
+                android:textColor="#ffffffaa" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/pulse"
+                android:contentDescription="@string/defaultDescription"
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:text="@string/btn_5"
+                android:textColor="#ffffffaa" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/pulse"
+                android:contentDescription="@string/defaultDescription"
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:text="@string/btn_6"
+                android:textColor="#ffffffaa" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/pulse"
+                android:contentDescription="@string/defaultDescription"
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:text="@string/btn_7"
+                android:textColor="#ffffffaa" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:weightSum="4" >
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/pulse"
+                android:contentDescription="@string/defaultDescription"
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:text="@string/btn_8"
+                android:textColor="#ffffffaa" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/pulse"
+                android:contentDescription="@string/defaultDescription"
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:text="@string/btn_9"
+                android:textColor="#ffffffaa" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/pulse"
+                android:contentDescription="@string/defaultDescription"
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:text="@string/btn_10"
+                android:textColor="#ffffffaa" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/pulse"
+                android:contentDescription="@string/defaultDescription"
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:text="@string/btn_11"
+                android:textColor="#ffffffaa" />
+        </TableRow>
+    </TableLayout>
 
 </LinearLayout>

@@ -11,28 +11,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class FantasyFragment extends SherlockFragment implements OnClickListener{;
+public class FantasyFragment extends SherlockFragment implements OnClickListener, OnSeekBarChangeListener {
 	public static final String TAG = "FantasyFragment";
-	
-	private static ProgressBar mPb = null;
-	private PlayButton mBtn = null;
-	
-	public static Handler mHandler = new Handler(){
+
+	private static SeekBar mPb = null;
+	private static PlayButton mBtn = null;
+	private static TextView mTime = null;
+
+	public static Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(
 				Message msg) {
 			Bundle b = msg.getData();
 			int p = b.getInt("progress");
-			Log.i( TAG, p + "" );
+			Log.i(TAG,
+					p + "");
 			mPb.setProgress(p);
 			
+			mTime.setText( p + "" );
+
 			super.handleMessage(msg);
 		}
-	}; 
+	};
 
 	@Override
 	public View onCreateView(
@@ -42,11 +48,14 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 		View view = inflater.inflate(R.layout.fragment_fantasy,
 				container,
 				false);
-		
-		mPb = (ProgressBar) view.findViewById( R.id.pb_fantasy );
-		mBtn = (PlayButton) view.findViewById( R.id.btn_play_fantasy );
+
+		mPb = (SeekBar) view.findViewById(R.id.pb_fantasy);
+		mBtn = (PlayButton) view.findViewById(R.id.btn_play_fantasy);
+		mTime = (TextView) view.findViewById(R.id.txt_fantasy_time);
 
 		mBtn.setOnClickListener(this);
+		
+		mPb.setOnSeekBarChangeListener(this);
 		return view;
 	}
 
@@ -58,19 +67,42 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 	@Override
 	public void onClick(
 			View v) {
-		switch( v.getId() ){
+		switch (v.getId()) {
 		case R.id.btn_play_fantasy:
-			if( mBtn.isPlaying() ){
-				Log.i( TAG, "stop.." );
+			if (mBtn.isPlaying()) {
+				Log.i(TAG,
+						"stop..");
 				mBtn.setPlaying(false);
-			}else{
-				Log.i( TAG, "start.." );
+			} else {
+				Log.i(TAG,
+						"start..");
 				mBtn.setPlaying(true);
 				PlayMusicJob j = new PlayMusicJob();
 				j.execute();
 			}
 			break;
 		}
+	}
+
+	@Override
+	public void onProgressChanged(
+			SeekBar seekBar,
+			int progress,
+			boolean fromUser) {
+		
+		mTime.setText( progress + "" );
+	}
+
+	@Override
+	public void onStartTrackingTouch(
+			SeekBar seekBar) {
+		
+	}
+
+	@Override
+	public void onStopTrackingTouch(
+			SeekBar seekBar) {
+		
 	}
 
 }

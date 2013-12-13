@@ -13,5 +13,16 @@
     <string name="txt_send">发送</string>
     <string name="txt_friend_chat">交谈</string>
     <string name="title_activity_holder">HolderActivity</string>
+    <string name="btn_1">1</string>
+    <string name="btn_2">2</string>
+    <string name="btn_3">3</string>
+    <string name="btn_4">4</string>
+    <string name="btn_5">5</string>
+    <string name="btn_6">6</string>
+    <string name="btn_7">7</string>
+    <string name="btn_8">8</string>
+    <string name="btn_9">9</string>
+    <string name="btn_10">10</string>
+    <string name="btn_11">11</string>
 
 </resources>
