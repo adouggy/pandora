@@ -18,37 +18,57 @@
             android:scaleType="fitXY"
             android:src="@drawable/img_rain" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
-            android:weightSum="10"
+            android:background="#88333355"
             android:gravity="center" >
 
-            <ImageView
-                android:id="@+id/btn_play_fan"
+            <me.promenade.pandora.view.PlayButton
+                android:id="@+id/btn_play_fantasy"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_weight="1"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
                 android:contentDescription="@string/defaultDescription"
                 android:maxWidth="30dp"
-                android:src="@drawable/btn_fantasy_play" />
+                android:background="@drawable/btn_fantasy_play" />
 
-            <ProgressBar
+            <!--
+                 <ProgressBar
                 android:id="@+id/pb_play"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="6" />
+                android:layout_centerVertical="true"
+                android:progressDrawable="@drawable/progress_bar_states"
+                android:layout_toLeftOf="@+id/txt_fantasy_time"
+                android:layout_toRightOf="@+id/btn_play_fan" />
+            -->
+
+            <ProgressBar
+                android:id="@+id/pb_fantasy"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/txt_fantasy_time"
+                android:layout_toRightOf="@+id/btn_play_fantasy"
+                android:indeterminateOnly="false"
+                android:max="100"
+                android:progressDrawable="@drawable/progress_bar_states" >
+            </ProgressBar>
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:text="xxx" 
-                android:gravity="center"/>
-        </LinearLayout>
+                android:id="@+id/txt_fantasy_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/defaultDescription" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <Button
