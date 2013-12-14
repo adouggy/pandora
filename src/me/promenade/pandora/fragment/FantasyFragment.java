@@ -2,6 +2,7 @@ package me.promenade.pandora.fragment;
 
 import me.promenade.pandora.R;
 import me.promenade.pandora.asynjob.PlayMusicJob;
+import me.promenade.pandora.bean.Fantasy;
 import me.promenade.pandora.view.PlayButton;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -23,18 +25,40 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 	private static SeekBar mPb = null;
 	private static PlayButton mBtn = null;
 	private static TextView mTime = null;
+	private static ImageView mImage= null;
+	
+	private Fantasy mFantasy = null;
+	
+	public static final int WHAT_POSITION_REFRESH = 1;
+	public static final int WHAT_DURATION_REFRESH = 2;
+	
+	public void setFantasy( Fantasy f ){
+		this.mFantasy = f;
+	}
 
 	public static Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(
 				Message msg) {
-			Bundle b = msg.getData();
-			int p = b.getInt("progress");
-			Log.i(TAG,
-					p + "");
-			mPb.setProgress(p);
+			switch (msg.what) {
+			case WHAT_POSITION_REFRESH:
+				Bundle b = msg.getData();
+				int p = b.getInt("progress");
+				Log.i(TAG,
+						p + "");
+				mPb.setProgress(p);
+				
+				break;
+			case WHAT_DURATION_REFRESH:
+				Bundle bundle = msg.getData();
+				int duration = bundle.getInt("duration");
+				mTime.setText(duration + " sec");
+				
+				break;
+			default:
+				break;
+			}
 			
-			mTime.setText( p + "" );
 
 			super.handleMessage(msg);
 		}
@@ -52,13 +76,19 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 		mPb = (SeekBar) view.findViewById(R.id.pb_fantasy);
 		mBtn = (PlayButton) view.findViewById(R.id.btn_play_fantasy);
 		mTime = (TextView) view.findViewById(R.id.txt_fantasy_time);
+		mImage = (ImageView) view.findViewById(R.id.img_fantasy);
+		
+		if( mFantasy != null ){
+			Log.i(TAG, mFantasy.getLogoId() + "<--");
+			mImage.setImageResource(mFantasy.getLogoId());
+		}
 
 		mBtn.setOnClickListener(this);
 		
 		mPb.setOnSeekBarChangeListener(this);
 		return view;
 	}
-
+	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
@@ -78,7 +108,7 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 						"start..");
 				mBtn.setPlaying(true);
 				PlayMusicJob j = new PlayMusicJob();
-				j.execute();
+				j.execute(mFantasy.getMusicId());
 			}
 			break;
 		}
@@ -90,7 +120,7 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 			int progress,
 			boolean fromUser) {
 		
-		mTime.setText( progress + "" );
+//		mTime.setText( progress + "" );
 	}
 
 	@Override

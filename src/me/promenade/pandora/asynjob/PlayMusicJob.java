@@ -1,6 +1,7 @@
 package me.promenade.pandora.asynjob;
 
 import me.promenade.pandora.fragment.FantasyFragment;
+import me.promenade.pandora.util.MusicUtil;
 
 import org.apache.http.HttpResponse;
 
@@ -19,6 +20,18 @@ public class PlayMusicJob extends AsyncTask<Integer, Integer, HttpResponse> {
 				"retriving...");
 		if (param == null)
 			return null;
+		
+		int musicId = param[0];
+		
+		MusicUtil.INSTANCE.setId(musicId).play();
+		
+		int duration = MusicUtil.INSTANCE.getTime();
+		Message msg = new Message();
+		msg.what = FantasyFragment.WHAT_DURATION_REFRESH;
+		Bundle b = new Bundle();
+		b.putInt("duration", duration);
+		msg.setData(b);
+		FantasyFragment.mHandler.sendMessage(msg);
 
 		for (int i = 0; i <= 100; i++) {
 
@@ -38,6 +51,7 @@ public class PlayMusicJob extends AsyncTask<Integer, Integer, HttpResponse> {
 			Integer... values) {
 		Log.i( TAG, values[0] + "" );
 		Message msg = new Message();
+		msg.what = FantasyFragment.WHAT_POSITION_REFRESH;
 		Bundle b = new Bundle();
 		b.putInt("progress", values[0]);
 		msg.setData(b);

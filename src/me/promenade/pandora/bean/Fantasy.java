@@ -9,6 +9,8 @@ public class Fantasy {
 	private String description;
 	
 	private int logoId;
+	
+	private int musicId;
 
 	public long getTime() {
 		return time;
@@ -44,6 +46,15 @@ public class Fantasy {
 	public void setLogoId(
 			int logoId) {
 		this.logoId = logoId;
+	}
+
+	public int getMusicId() {
+		return musicId;
+	}
+
+	public void setMusicId(
+			int musicId) {
+		this.musicId = musicId;
 	}
 	
 	

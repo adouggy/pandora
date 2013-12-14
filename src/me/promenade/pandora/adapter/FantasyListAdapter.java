@@ -5,15 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import me.promenade.pandora.HolderActivity;
 import me.promenade.pandora.R;
 import me.promenade.pandora.bean.Fantasy;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -24,12 +20,12 @@ public class FantasyListAdapter extends BaseAdapter {
 
 	private ArrayList<Fantasy> mList;
 	private static LayoutInflater mInflater = null;
-	 private Context mContext = null;
+	private Context mContext = null;
 	private DateFormat format = SimpleDateFormat.getDateTimeInstance();
 
 	public FantasyListAdapter(Context ctx) {
 		mInflater = LayoutInflater.from(ctx);
-		 mContext = ctx;
+		mContext = ctx;
 	}
 
 	public void setData(
@@ -81,17 +77,6 @@ public class FantasyListAdapter extends BaseAdapter {
 		holder.description.setText(f.getDescription());
 
 		holder.fantasyLogo.setImageResource(f.getLogoId());
-		holder.fantasyLogo.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(
-					View v) {
-				Intent i = new Intent(mContext, HolderActivity.class);
-				Bundle b = new Bundle();
-				b.putInt("fragment", HolderActivity.FRAGMENT_FANTASY);
-				i.putExtras(b);
-				mContext.startActivity( i );
-			}
-		});
 		return convertView;
 	}
 

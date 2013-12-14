@@ -18,7 +18,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:contentDescription="@string/defaultDescription"
-            android:src="@drawable/img_rain"
             android:scaleType="matrix" />
 
         <RelativeLayout

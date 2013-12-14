@@ -1,7 +1,9 @@
 package me.promenade.pandora;
 
+import me.promenade.pandora.bean.Fantasy;
 import me.promenade.pandora.fragment.ChatFragment;
 import me.promenade.pandora.fragment.FantasyFragment;
+import me.promenade.pandora.fragment.FantasyListFragment;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,7 +33,11 @@ public class HolderActivity extends SherlockFragmentActivity {
 			f = new ChatFragment();
 			break;
 		case FRAGMENT_FANTASY:
+			int fantasyIndex = b.getInt("position");
+			Fantasy fantasy = FantasyListFragment.mFantasyList.get(fantasyIndex);
+			
 			f = new FantasyFragment();
+			((FantasyFragment) f).setFantasy( fantasy );
 			break;
 		}
 
