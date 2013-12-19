@@ -7,7 +7,7 @@ import me.promenade.pandora.adapter.MyFragmentPagerAdapter;
 import me.promenade.pandora.fragment.FantasyListFragment;
 import me.promenade.pandora.fragment.FriendFragment;
 import me.promenade.pandora.fragment.MassagerFragment;
-import me.promenade.pandora.fragment.MyVibrateViewFragment;
+import me.promenade.pandora.fragment.VibrateViewListFragment;
 import me.promenade.pandora.fragment.TestFragment;
 import me.promenade.pandora.util.VibrateUtil;
 
@@ -186,7 +186,7 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 
 		FantasyListFragment f1 = new FantasyListFragment();
 		FriendFragment f2 = new FriendFragment();
-		MyVibrateViewFragment f3 = new MyVibrateViewFragment();
+		VibrateViewListFragment f3 = new VibrateViewListFragment();
 		MassagerFragment f4 = new MassagerFragment();
 		Fragment f5 = TestFragment.newInstance("Hello 更多");
 

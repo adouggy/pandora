@@ -26,22 +26,31 @@ public class PlayMusicJob extends AsyncTask<Integer, Integer, HttpResponse> {
 		MusicUtil.INSTANCE.setId(musicId).play();
 		
 		int duration = MusicUtil.INSTANCE.getTime();
-		Message msg = new Message();
-		msg.what = FantasyFragment.WHAT_DURATION_REFRESH;
-		Bundle b = new Bundle();
-		b.putInt("duration", duration);
-		msg.setData(b);
-		FantasyFragment.mHandler.sendMessage(msg);
+		int durationSec = duration/1000;
+		
+		for (int i = 0; i <= durationSec; i++) {
 
-		for (int i = 0; i <= 100; i++) {
-
+			if( isCancelled() ){
+				break;
+			}
+			
+			Message msg = new Message();
+			msg.what = FantasyFragment.WHAT_DURATION_REFRESH;
+			Bundle b = new Bundle();
+			b.putInt("duration", duration/1000);
+			b.putString("time", i + "/" + durationSec);
+			msg.setData(b);
+			FantasyFragment.mHandler.sendMessage(msg);
+			
 			publishProgress(i);			
 			try {
-				Thread.sleep(300);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+		
+		MusicUtil.INSTANCE.setId(musicId).stop();
 
 		return null;
 	}

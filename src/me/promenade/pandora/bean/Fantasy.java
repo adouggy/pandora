@@ -10,6 +10,8 @@ public class Fantasy {
 	
 	private int logoId;
 	
+	private int imageId;
+	
 	private int musicId;
 
 	public long getTime() {
@@ -56,7 +58,13 @@ public class Fantasy {
 			int musicId) {
 		this.musicId = musicId;
 	}
-	
-	
 
+	public int getImageId() {
+		return imageId;
+	}
+
+	public void setImageId(
+			int imageId) {
+		this.imageId = imageId;
+	}
 }

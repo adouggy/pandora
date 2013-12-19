@@ -1,9 +1,12 @@
 package me.promenade.pandora;
 
 import me.promenade.pandora.bean.Fantasy;
+import me.promenade.pandora.bean.Vibration;
 import me.promenade.pandora.fragment.ChatFragment;
 import me.promenade.pandora.fragment.FantasyFragment;
 import me.promenade.pandora.fragment.FantasyListFragment;
+import me.promenade.pandora.fragment.VibrateFragment;
+import me.promenade.pandora.fragment.VibrateViewListFragment;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +20,7 @@ public class HolderActivity extends SherlockFragmentActivity {
 
 	public static final int FRAGMENT_FANTASY = 1;
 	public static final int FRAGMENT_CHAT = 2;
+	public static final int FRAGMENT_VIBRATE = 3;
 	
 	@Override
 	protected void onCreate(
@@ -38,6 +42,13 @@ public class HolderActivity extends SherlockFragmentActivity {
 			
 			f = new FantasyFragment();
 			((FantasyFragment) f).setFantasy( fantasy );
+			break;
+		case FRAGMENT_VIBRATE:
+			int vibrateIndex = b.getInt("position");
+			Vibration v = VibrateViewListFragment.mVibrationList.get(vibrateIndex);
+			
+			f = new VibrateFragment();
+			((VibrateFragment) f).setVibration(v);
 			break;
 		}
 

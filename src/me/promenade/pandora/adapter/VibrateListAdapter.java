@@ -67,19 +67,17 @@ public class VibrateListAdapter extends BaseAdapter {
 
 		Vibration v = mList.get(position);
 		holder.vibrateView.setData(v.getPattern());
-		holder.play.setTag(v);
+		holder.play.setTag(holder.vibrateView);
+		
 		holder.play.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(
 					View view) {
-				Vibration v = (Vibration) view.getTag();
-				int[] pattern = v.getPattern();
-				for (int p : pattern) {
-					Log.d(TAG,
-							p + "");
-				}
+				MyVibrateView vView = (MyVibrateView) view.getTag();
 				
-				VibrateUtil.INSTANCE.vibrate(pattern);
+				int[] pattern = vView.getData();
+				
+				VibrateUtil.INSTANCE.vibrate(pattern, vView);
 			}
 		});
 

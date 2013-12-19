@@ -49,6 +49,8 @@ public class MassagerFragment extends SherlockFragment implements OnClickListene
 
 		mInput = (EditText) view.findViewById(R.id.edt_bluetooth_input);
 		
+		mInput.setText("abcdefabcdef");
+		
 		mBtnSend = (Button) view.findViewById(R.id.btn_bluetooth_send);
 		mBtnSend.setOnClickListener(this);
 		

@@ -3,6 +3,7 @@ package me.promenade.pandora.fragment;
 import me.promenade.pandora.R;
 import me.promenade.pandora.asynjob.PlayMusicJob;
 import me.promenade.pandora.bean.Fantasy;
+import me.promenade.pandora.util.MusicUtil;
 import me.promenade.pandora.view.PlayButton;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,6 +33,8 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 	public static final int WHAT_POSITION_REFRESH = 1;
 	public static final int WHAT_DURATION_REFRESH = 2;
 	
+	private PlayMusicJob mPlayJob = null;
+	
 	public void setFantasy( Fantasy f ){
 		this.mFantasy = f;
 	}
@@ -51,15 +54,14 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 				break;
 			case WHAT_DURATION_REFRESH:
 				Bundle bundle = msg.getData();
-				int duration = bundle.getInt("duration");
-				mTime.setText(duration + " sec");
+//				int duration = bundle.getInt("duration");
+				String time = bundle.getString("time");
+				mTime.setText(time);
 				
 				break;
 			default:
 				break;
 			}
-			
-
 			super.handleMessage(msg);
 		}
 	};
@@ -80,7 +82,7 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 		
 		if( mFantasy != null ){
 			Log.i(TAG, mFantasy.getLogoId() + "<--");
-			mImage.setImageResource(mFantasy.getLogoId());
+			mImage.setImageResource(mFantasy.getImageId());
 		}
 
 		mBtn.setOnClickListener(this);
@@ -92,6 +94,10 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		
+		if( mPlayJob != null ){
+			mPlayJob.cancel(true);
+		}
 	}
 
 	@Override
@@ -103,12 +109,14 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 				Log.i(TAG,
 						"stop..");
 				mBtn.setPlaying(false);
+				mPlayJob.cancel(true);
 			} else {
 				Log.i(TAG,
 						"start..");
 				mBtn.setPlaying(true);
-				PlayMusicJob j = new PlayMusicJob();
-				j.execute(mFantasy.getMusicId());
+				
+				mPlayJob = new PlayMusicJob();
+				mPlayJob.execute(mFantasy.getMusicId());
 			}
 			break;
 		}

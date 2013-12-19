@@ -114,7 +114,7 @@ public enum MusicUtil {
 	}
 	
 	public int getTime() {
-		return mMediaPlayer.getDuration()/1000;
+		return mMediaPlayer.getDuration();
 	}
 	
 	public int getCurrentPosition(){

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class FantasyListAdapter extends BaseAdapter {
@@ -22,10 +23,16 @@ public class FantasyListAdapter extends BaseAdapter {
 	private static LayoutInflater mInflater = null;
 	private Context mContext = null;
 	private DateFormat format = SimpleDateFormat.getDateTimeInstance();
+	
+	private static int color1 = -1;
+	private static int color2 = -1;
 
 	public FantasyListAdapter(Context ctx) {
 		mInflater = LayoutInflater.from(ctx);
 		mContext = ctx;
+		
+		color1 = mContext.getResources().getColor( R.color.dodgerblue_trans );
+		color2 = mContext.getResources().getColor( R.color.midnightblue_trans );
 	}
 
 	public void setData(
@@ -67,6 +74,7 @@ public class FantasyListAdapter extends BaseAdapter {
 			holder.time = (TextView) convertView.findViewById(R.id.txt_fantasy_time);
 			holder.title = (TextView) convertView.findViewById(R.id.txt_fantasy_title);
 			holder.description = (TextView) convertView.findViewById(R.id.txt_fantasy_description);
+			holder.layout = (RelativeLayout) convertView.findViewById(R.id.layout_item_fantasy_list);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -75,8 +83,12 @@ public class FantasyListAdapter extends BaseAdapter {
 		holder.time.setText(format.format(new Date(f.getTime())));
 		holder.title.setText(f.getTitle());
 		holder.description.setText(f.getDescription());
-
 		holder.fantasyLogo.setImageResource(f.getLogoId());
+		if( position%2 == 0 ){
+			holder.layout.setBackgroundColor( color1 );
+		}else{
+			holder.layout.setBackgroundColor( color2 );
+		}
 		return convertView;
 	}
 
@@ -85,5 +97,6 @@ public class FantasyListAdapter extends BaseAdapter {
 		TextView time;
 		TextView title;
 		TextView description;
+		RelativeLayout layout;
 	}
 }
