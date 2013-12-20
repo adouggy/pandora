@@ -104,7 +104,7 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 
 		mList.setAdapter(mAdapter);
 
-		setupXmppPreference();
+//		setupXmppPreference();
 		Intent intent = new Intent(getActivity(), NotificationService.class);
 		getActivity().startService(intent);
 
@@ -157,28 +157,28 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 		return list;
 	}
 
-	private void setupXmppPreference() {
-		SharedPreferences sharedPrefs = getActivity().getSharedPreferences("client_preferences",
-				Context.MODE_PRIVATE);
-		Editor editor = sharedPrefs.edit();
-		editor.putString("username",
-				"ade");
-		editor.putString("password",
-				"ade");
-		editor.putString("XMPP_USERNAME",
-				"ade");
-		editor.putString("XMPP_PASSWORD",
-				"ade");
-		editor.putString("XMPP_HOST",
-				"192.168.0.133");
-		editor.putInt("XMPP_PORT",
-				5222);
-		editor.putString(Constants.CALLBACK_ACTIVITY_PACKAGE_NAME,
-				"me.promenade.pandora.fragment");
-		editor.putString(Constants.CALLBACK_ACTIVITY_CLASS_NAME,
-				this.getClass().getName());
-		editor.commit();
-	}
+//	private void setupXmppPreference() {
+//		SharedPreferences sharedPrefs = getActivity().getSharedPreferences("client_preferences",
+//				Context.MODE_PRIVATE);
+//		Editor editor = sharedPrefs.edit();
+//		editor.putString("username",
+//				"ade");
+//		editor.putString("password",
+//				"ade");
+//		editor.putString("XMPP_USERNAME",
+//				"ade");
+//		editor.putString("XMPP_PASSWORD",
+//				"ade");
+//		editor.putString("XMPP_HOST",
+//				"192.168.0.133");
+//		editor.putInt("XMPP_PORT",
+//				5222);
+//		editor.putString(Constants.CALLBACK_ACTIVITY_PACKAGE_NAME,
+//				"me.promenade.pandora.fragment");
+//		editor.putString(Constants.CALLBACK_ACTIVITY_CLASS_NAME,
+//				this.getClass().getName());
+//		editor.commit();
+//	}
 
 	@Override
 	public void onClick(
@@ -196,7 +196,7 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 								Base64.NO_WRAP | Base64.URL_SAFE));
 
 				HttpBean b = new HttpBean();
-				b.setUrl("http://www.promenade.me:28080/MyPush/resources/xmpp/push");
+				b.setUrl("http://173.255.242.145:28080/MyPush/resources/xmpp/push");
 				b.setJson(j);
 				b.setMethod(HttpMethod.POST);
 				HttpJob job = new HttpJob();

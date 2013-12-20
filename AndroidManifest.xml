@@ -49,7 +49,6 @@
                 <action android:name="org.androidpn.client.SHOW_NOTIFICATION" />
             </intent-filter>
         </receiver>
-        
         <receiver android:name="me.promenade.pandora.receiver.BluetoothReceiver" >
             <intent-filter>
                 <action android:name="android.bluetooth.device.action.FOUND" />
@@ -59,7 +58,8 @@
         <activity
             android:name="me.promenade.pandora.HolderActivity"
             android:label="@string/title_activity_holder"
-            android:parentActivityName="me.promenade.pandora.StubActivity" >
+            android:parentActivityName="me.promenade.pandora.StubActivity"
+            android:theme="@style/MySherlockTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="me.promenade.pandora.StubActivity" />

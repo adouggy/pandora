@@ -50,7 +50,7 @@ public enum XMPPUtil {
 		editor.putString("XMPP_PASSWORD",
 				"ade");
 		editor.putString("XMPP_HOST",
-				"www.promenade.me");
+				"173.255.242.145");
 		editor.putInt("XMPP_PORT",
 				5222);
 		editor.putString(Constants.CALLBACK_ACTIVITY_PACKAGE_NAME,

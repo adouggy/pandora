@@ -21,4 +21,6 @@
         <item name="actionBarSize">60dp</item>
         <item name="android:actionBarSize">60dp</item> 
     </style>
+    
+    <style name="MySherlockTheme" parent="Theme.Sherlock.Light"></style>
 </resources>
