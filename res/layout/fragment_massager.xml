@@ -5,34 +5,47 @@
     android:layout_height="match_parent"
     android:background="@drawable/img_bground_splash" >
 
-    <ListView
-        android:id="@+id/list_massager"
+    <VideoView
+        android:id="@+id/videoView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </ListView>
+        android:layout_height="300dp" />
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/layout_massaer_search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" 
-        android:orientation="vertical">
+        android:layout_height="100dp"
+        android:layout_below="@+id/videoView"
+        android:layout_marginTop="10dp"
+         >
 
-        <Button
-            android:id="@+id/btn_massager_search"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="search" />
+        <ImageView
+            android:id="@+id/img_bluetooth"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:contentDescription="@string/defaultDescription"
+            android:gravity="center"
+            android:src="@drawable/icon_bluetooth_disabled" />
 
-        <EditText
-            android:id="@+id/edt_bluetooth_input"
-            android:layout_width="match_parent"
-            android:layout_height="60dp" />
+        <TextView
+            android:id="@+id/txt_bluetooth_name"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_toRightOf="@+id/img_bluetooth"
+            android:gravity="center_vertical"
+            android:text="@string/txt_bluetooth_name_no"
+            android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/btn_bluetooth_send"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="send" />
-    </LinearLayout>
+        <TextView
+            android:id="@+id/txt_bluetooth_search_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_below="@+id/txt_bluetooth_name"
+            android:layout_toRightOf="@+id/img_bluetooth"
+            android:gravity="center_vertical"
+            android:text="@string/txt_bluetooth_search_hint"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
 </RelativeLayout>

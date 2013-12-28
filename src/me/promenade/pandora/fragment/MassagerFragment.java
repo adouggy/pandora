@@ -1,30 +1,61 @@
 package me.promenade.pandora.fragment;
 
-import java.util.ArrayList;
-
 import me.promenade.pandora.R;
-import me.promenade.pandora.adapter.BluetoothListAdapter;
-import me.promenade.pandora.bean.Bluetooth;
 import me.promenade.pandora.util.BluetoothUtil;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnPreparedListener;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class MassagerFragment extends SherlockFragment implements OnClickListener {
-	// private static final String TAG = "MessagerFragment";
+	public static final String TAG = "MessagerFragment";
 
-	private static ListView mList = null;
-	private static BluetoothListAdapter mAdapter = null;
-	private Button mBtn = null;
-	private EditText mInput = null;
-	private Button mBtnSend = null;
+	private VideoView mVideo = null;
+	private Uri mUri = null;
+
+	private RelativeLayout mSearchLayout = null;
+	private static TextView mName = null;
+	private static TextView mSearch = null;
+	private static ImageView mImg = null;
+
+	public static final int MSG_FOUND = 0;
+	public static final int MSG_DONE = 1;
+	public static final int MSG_DISCONNECTED = 2;
+
+	public static Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(
+				Message msg) {
+			switch (msg.what) {
+			case MSG_FOUND:
+				mName.setText(R.string.txt_bluetooth_name_yes);
+				mImg.setImageResource(R.drawable.icon_bluetooth);
+				break;
+			case MSG_DONE:
+				mSearch.setText(R.string.txt_bluetooth_search_hint);
+				break;
+			case MSG_DISCONNECTED:
+				mName.setText(R.string.txt_bluetooth_name_no);
+				mImg.setImageResource(R.drawable.icon_bluetooth_disabled);
+				break;
+			}
+
+			super.handleMessage(msg);
+		}
+
+	};
 
 	@Override
 	public View onCreateView(
@@ -35,24 +66,53 @@ public class MassagerFragment extends SherlockFragment implements OnClickListene
 		View view = inflater.inflate(R.layout.fragment_massager,
 				container,
 				false);
-
-		mList = (ListView) view.findViewById(R.id.list_massager);
-		mList.setDivider(null);
-		mAdapter = new BluetoothListAdapter(this.getActivity());
-		mAdapter.setData(new ArrayList<Bluetooth>());
-		mList.setAdapter(mAdapter);
-
-		mBtn = (Button) view.findViewById(R.id.btn_massager_search);
-		mBtn.setOnClickListener(this);
-
-		mInput = (EditText) view.findViewById(R.id.edt_bluetooth_input);
 		
-		mInput.setText("abcdefabcdef");
-		
-		mBtnSend = (Button) view.findViewById(R.id.btn_bluetooth_send);
-		mBtnSend.setOnClickListener(this);
-		
+		mUri = Uri.parse("android.resource://" + getActivity().getPackageName() + "/" + R.raw.pandora);
+
+		mVideo = (VideoView) view.findViewById(R.id.videoView);
+		mVideo.setVideoURI(mUri);
+		mVideo.setOnPreparedListener(new OnPreparedListener() {
+			@Override
+			public void onPrepared(
+					MediaPlayer mp) {
+				mp.start();
+				mp.setLooping(true);
+			}
+		});
+
+		mSearchLayout = (RelativeLayout) view.findViewById(R.id.layout_massaer_search);
+		mSearchLayout.setOnClickListener(this);
+
+		mName = (TextView) view.findViewById(R.id.txt_bluetooth_name);
+		mSearch = (TextView) view.findViewById(R.id.txt_bluetooth_search_hint);
+
+		mImg = (ImageView) view.findViewById(R.id.img_bluetooth);
+
 		return view;
+	}
+
+	@Override
+	public void onStart() {
+		mVideo.start();
+		super.onStart();
+	}
+
+	@Override
+	public void onResume() {
+		mVideo.start();
+		super.onResume();
+	}
+
+	@Override
+	public void onPause() {
+		mVideo.suspend();
+		super.onPause();
+	}
+
+	@Override
+	public void onStop() {
+		mVideo.suspend();
+		super.onStop();
 	}
 
 	@Override
@@ -60,23 +120,14 @@ public class MassagerFragment extends SherlockFragment implements OnClickListene
 		super.onDestroy();
 	}
 
-	public static void addDevice(
-			Bluetooth b) {
-		mAdapter.addData(b);
-	}
-
 	@Override
 	public void onClick(
 			View v) {
 		switch (v.getId()) {
-		case R.id.btn_massager_search:
+		case R.id.layout_massaer_search:
 			BluetoothUtil.INSTANCE.startSearch();
+			mSearch.setText(R.string.txt_bluetooth_search_hint_ongoing);
 			break;
-			
-		case R.id.btn_bluetooth_send:
-			String text = mInput.getText().toString();
-			byte[] bytes = text.getBytes();
-			BluetoothUtil.INSTANCE.sendMessage( bytes );
 		}
 	}
 

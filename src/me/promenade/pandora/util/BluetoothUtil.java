@@ -3,9 +3,6 @@ package me.promenade.pandora.util;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Set;
 
 import me.promenade.pandora.asynjob.BluetoothSearchJob;
 import me.promenade.pandora.asynjob.ConnectedThread;
@@ -65,13 +62,15 @@ public enum BluetoothUtil {
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			mContext.startActivity(intent);
 		}
+		
+		BluetoothAdapter.getDefaultAdapter().startDiscovery(); 
 
 		// if( BluetoothUtil.isBLE() ){
 		// BluetoothSearchJob j = new BluetoothSearchJob();
 		// j.execute(BluetoothSearchJob.TYPE_BLE);
 		// }else{
-		BluetoothSearchJob j2 = new BluetoothSearchJob();
-		j2.execute(BluetoothSearchJob.TYPE_3_0);
+//		BluetoothSearchJob j2 = new BluetoothSearchJob();
+//		j2.execute(BluetoothSearchJob.TYPE_3_0);
 		// }
 
 	}
@@ -132,7 +131,7 @@ public enum BluetoothUtil {
 		mConnectedThread.start();
 	}
 	
-	public void sendMessage( byte[] msg ){
+	public void sendMessage( byte[] msg , long interval){
 		Log.i( TAG, "sendMessage" );
 		if( mConnectedThread != null ){
 			for( byte b : msg ){
@@ -140,7 +139,7 @@ public enum BluetoothUtil {
 				
 				mConnectedThread.write(new byte[]{ b });
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(interval);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

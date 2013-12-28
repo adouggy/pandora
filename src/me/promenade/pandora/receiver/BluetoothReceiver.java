@@ -9,10 +9,10 @@ import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Message;
 import android.util.Log;
 
 public class BluetoothReceiver extends BroadcastReceiver {
-
 	public static final String TAG = "BluetoothReceiver";
 
 	private static HashMap<String, Long> mBLEMap = new HashMap<String, Long>();
@@ -28,22 +28,26 @@ public class BluetoothReceiver extends BroadcastReceiver {
 		if ("android.bluetooth.device.action.FOUND".equals(str)) {
 
 			BluetoothDevice device = paramAnonymousIntent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-
-			Bluetooth b = new Bluetooth();
-			b.setName(device.getName() + "(" + device.getAddress() + ")");
-			MassagerFragment.addDevice(b);
-
-			Log.i(TAG,
-					"找到:" + (device.getName() == null ? "无名设备" : device.getName()));
+			
+			Log.i( TAG, "name:" + device.getName() + ", mac:" + device.getAddress());
 
 			if( device.getName() != null && device.getName().contains("HC") ){
 				BluetoothUtil.INSTANCE.setDevice(device);
+				Bluetooth b = new Bluetooth();
+				b.setName(device.getName() + "(" + device.getAddress() + ")");
+				
+				Message msg = MassagerFragment.mHandler.obtainMessage();
+				msg.what = MassagerFragment.MSG_DONE;
+				msg.sendToTarget();
 			}
-			
 		}
 		if ("android.bluetooth.adapter.action.DISCOVERY_FINISHED".equals(str)) {
 			Log.i(TAG,
 					"discovery finished");
+			
+			Message msg = MassagerFragment.mHandler.obtainMessage();
+			msg.what = MassagerFragment.MSG_DONE;
+			msg.sendToTarget();
 		}
 	}
 	
