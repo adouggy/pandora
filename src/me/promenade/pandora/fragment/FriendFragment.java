@@ -14,7 +14,7 @@ import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class FriendFragment extends SherlockFragment {
-//	private static final String TAG = "FriendFragment";
+	public static final String TAG = "FriendFragment";
 
 	private static ListView mList = null;
 	private static FriendListAdapter mAdapter = null;

@@ -13,6 +13,8 @@ import me.promenade.pandora.util.VibrateUtil;
 
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.graphics.Shader.TileMode;
@@ -37,12 +39,15 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 	private TextView[] mTxtList;
 
 	private int currIndex = 0;
+	private Context mContext;
 
 	@Override
 	protected void onCreate(
 			Bundle savedInstanceState) {
 		setTheme(R.style.Theme_Styled);
 		super.onCreate(savedInstanceState);
+		
+		mContext = this.getApplicationContext();
 
 		setContentView(R.layout.activity_stub);
 
@@ -236,6 +241,18 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 			case 1:
 				makeTabSelected(1);
 				getSupportActionBar().setTitle(R.string.txt_tab2);
+				
+				boolean isLogin = false;
+				
+				if( !isLogin ){
+					Intent i = new Intent(mContext, HolderActivity.class);
+					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					Bundle b = new Bundle();
+					b.putInt("fragment", HolderActivity.FRAGMENT_LOGIN);
+					i.putExtras(b);
+					mContext.startActivity( i );
+				}
+				
 				break;
 			case 2:
 				makeTabSelected(2);

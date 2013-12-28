@@ -2,12 +2,6 @@ package me.promenade.pandora.fragment;
 
 import java.util.ArrayList;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import net.synergyinfosys.xmppclient.Constants;
-import net.synergyinfosys.xmppclient.NotificationService;
-
 import me.promenade.pandora.R;
 import me.promenade.pandora.adapter.ChatListAdapter;
 import me.promenade.pandora.asynjob.HttpJob;
@@ -16,10 +10,12 @@ import me.promenade.pandora.bean.HttpBean;
 import me.promenade.pandora.bean.HttpMethod;
 import me.promenade.pandora.bean.MessageType;
 import me.promenade.pandora.bean.SendStatus;
-import android.content.Context;
+import net.synergyinfosys.xmppclient.NotificationService;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;

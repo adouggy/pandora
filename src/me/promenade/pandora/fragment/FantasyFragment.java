@@ -3,7 +3,6 @@ package me.promenade.pandora.fragment;
 import me.promenade.pandora.R;
 import me.promenade.pandora.asynjob.PlayMusicJob;
 import me.promenade.pandora.bean.Fantasy;
-import me.promenade.pandora.util.MusicUtil;
 import me.promenade.pandora.view.PlayButton;
 import android.os.Bundle;
 import android.os.Handler;

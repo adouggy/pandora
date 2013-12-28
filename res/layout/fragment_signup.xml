@@ -1,0 +1,126 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_vibrateview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img_bground_splash" >
+
+    <TextView
+        android:id="@+id/txt_signup_logo"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:text="@string/txt_login_logo"
+        android:textColor="@color/lightslategray"
+        android:textSize="30sp" />
+
+    <LinearLayout
+        android:id="@+id/layout_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_signup_logo"
+        android:background="@drawable/img_round_corner"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/edt_signup_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:hint="@string/edt_signup_nickname_hint"
+            android:inputType="text"
+            android:padding="5dp"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            android:contentDescription="@string/defaultDescription" />
+
+        <EditText
+            android:id="@+id/edt_signup_password"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:hint="@string/edt_signup_password_hint"
+            android:inputType="textPassword"
+            android:padding="5dp"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            android:contentDescription="@string/defaultDescription" />
+
+        <EditText
+            android:id="@+id/edt_signup_email"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:hint="@string/edt_signup_email_hint"
+            android:inputType="textEmailAddress"
+            android:padding="5dp"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            android:contentDescription="@string/defaultDescription" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/txt_signup_birthday_hint"
+                android:textSize="20sp" />
+
+            <DatePicker
+                android:id="@+id/dp_signup"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:background="@null"
+                android:endYear="2013"
+                android:startYear="1960" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            android:contentDescription="@string/defaultDescription" />
+
+        <RadioGroup
+            android:id="@+id/rg_gender"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/radio_signup_male"
+                android:text="@string/radio_gender_male" />
+
+            <RadioButton
+                android:id="@+id/radio_signup_female"
+                android:text="@string/radio_gender_female" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_signup_submit"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/layout_signup"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/btn_jeans"
+        android:text="@string/btn_submit"
+        android:textSize="25sp" />
+
+</RelativeLayout>

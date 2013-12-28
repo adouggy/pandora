@@ -1,13 +1,11 @@
 package me.promenade.pandora.fragment;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import me.promenade.pandora.R;
 import me.promenade.pandora.adapter.BluetoothListAdapter;
 import me.promenade.pandora.bean.Bluetooth;
 import me.promenade.pandora.util.BluetoothUtil;
-import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
