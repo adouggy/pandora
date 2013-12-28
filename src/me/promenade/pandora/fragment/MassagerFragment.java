@@ -42,6 +42,7 @@ public class MassagerFragment extends SherlockFragment implements OnClickListene
 			case MSG_FOUND:
 				mName.setText(R.string.txt_bluetooth_name_yes);
 				mImg.setImageResource(R.drawable.icon_bluetooth);
+				mSearch.setText(R.string.txt_bluetooth_search_hint);
 				break;
 			case MSG_DONE:
 				mSearch.setText(R.string.txt_bluetooth_search_hint);
@@ -93,26 +94,36 @@ public class MassagerFragment extends SherlockFragment implements OnClickListene
 
 	@Override
 	public void onStart() {
-		mVideo.start();
+		startVideo();
 		super.onStart();
 	}
 
 	@Override
 	public void onResume() {
-		mVideo.start();
+		startVideo();
 		super.onResume();
 	}
 
 	@Override
 	public void onPause() {
-		mVideo.suspend();
+		stopVideo();
 		super.onPause();
 	}
 
 	@Override
 	public void onStop() {
-		mVideo.suspend();
+		stopVideo();
 		super.onStop();
+	}
+	
+	private void startVideo(){
+		mVideo.start();
+		mVideo.setVisibility(View.VISIBLE);
+	}
+	
+	private void stopVideo(){
+		mVideo.suspend();
+		mVideo.setVisibility(View.INVISIBLE);
 	}
 
 	@Override

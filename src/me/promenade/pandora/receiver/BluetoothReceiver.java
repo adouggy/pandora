@@ -33,21 +33,30 @@ public class BluetoothReceiver extends BroadcastReceiver {
 
 			if( device.getName() != null && device.getName().contains("HC") ){
 				BluetoothUtil.INSTANCE.setDevice(device);
-				Bluetooth b = new Bluetooth();
-				b.setName(device.getName() + "(" + device.getAddress() + ")");
 				
-				Message msg = MassagerFragment.mHandler.obtainMessage();
-				msg.what = MassagerFragment.MSG_DONE;
-				msg.sendToTarget();
+//				Bluetooth b = new Bluetooth();
+//				b.setName(device.getName() + "(" + device.getAddress() + ")");
+				
+//				Message msg = MassagerFragment.mHandler.obtainMessage();
+//				msg.what = MassagerFragment.MSG_DONE;
+//				msg.sendToTarget();
+				Message msg = new Message();
+				msg.what = MassagerFragment.MSG_FOUND;
+				MassagerFragment.mHandler.sendMessage(msg);
+				
+				
 			}
 		}
 		if ("android.bluetooth.adapter.action.DISCOVERY_FINISHED".equals(str)) {
 			Log.i(TAG,
 					"discovery finished");
 			
-			Message msg = MassagerFragment.mHandler.obtainMessage();
+//			Message msg = MassagerFragment.mHandler.obtainMessage();
+//			msg.what = MassagerFragment.MSG_DONE;
+//			msg.sendToTarget();
+			Message msg = new Message();
 			msg.what = MassagerFragment.MSG_DONE;
-			msg.sendToTarget();
+			MassagerFragment.mHandler.sendMessage(msg);
 		}
 	}
 	

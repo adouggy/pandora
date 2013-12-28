@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import me.promenade.pandora.R;
 import me.promenade.pandora.bean.Vibration;
+import me.promenade.pandora.util.BluetoothUtil;
 import me.promenade.pandora.util.VibrateUtil;
 import me.promenade.pandora.view.MyVibrateView;
 import android.content.Context;
@@ -68,16 +69,45 @@ public class VibrateListAdapter extends BaseAdapter {
 		Vibration v = mList.get(position);
 		holder.vibrateView.setData(v.getPattern());
 		holder.play.setTag(holder.vibrateView);
-		
+
 		holder.play.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(
 					View view) {
 				MyVibrateView vView = (MyVibrateView) view.getTag();
-				
+
 				int[] pattern = vView.getData();
+
+				// VibrateUtil.INSTANCE.vibrate(pattern, vView);
+
+				byte[] bArr = new byte[pattern.length+1];
+				int i = 0;
+				for (int p : pattern) {
+					if (p == 0) {
+						bArr[i] = 't';
+					} else if (p == 1) {
+						bArr[i] = 'a';
+					} else if (p == 2) {
+						bArr[i] = 'b';
+					} else if (p == 3) {
+						bArr[i] = 'c';
+					} else if (p == 4) {
+						bArr[i] = 'd';
+					} else if (p == 5) {
+						bArr[i] = 'e';
+					} else if (p == 6) {
+						bArr[i] = 'f';
+					}
+					Log.i(TAG,
+							bArr[i] + "");
+
+					i++;
+				}
 				
-				VibrateUtil.INSTANCE.vibrate(pattern, vView);
+				bArr[i] = 't';
+
+				BluetoothUtil.INSTANCE.sendMessage(bArr,
+						500);
 			}
 		});
 

@@ -1,65 +1,74 @@
 package me.promenade.pandora.asynjob;
 
 import java.io.IOException;
-import java.util.UUID;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
-import android.bluetooth.BluetoothAdapter;
+import me.promenade.pandora.util.BluetoothUtil;
+
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
-import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.util.Log;
 
 public class BluetoothConnectJob extends AsyncTask<BluetoothDevice, Integer, String> {
 
 	public static final String TAG = "BluetoothConnectJob";
-
-	private BluetoothSocket mmSocket;
-	private BluetoothDevice mmDevice;
+	private BluetoothSocket btSocket = null;
 
 	@Override
 	protected String doInBackground(
 			BluetoothDevice... param) {
-		Log.d(TAG,
-				"retriving...");
 		if (param == null)
 			return null;
-
+		
 		BluetoothDevice device = param[0];
 
-		// Use a temporary object that is later assigned to mmSocket,
-		// because mmSocket is final
-		BluetoothSocket tmp = null;
-		mmDevice = device;
-
-		// Get a BluetoothSocket to connect with the given BluetoothDevice
+		Method m = null;
+		
+		Log.i(TAG,
+				"get createRfcommSocket method");
 		try {
-			// MY_UUID is the app's UUID string, also used by the server code
-			tmp = device.createRfcommSocketToServiceRecord(UUID.fromString("blah.."));
+			m = device.getClass().getMethod("createRfcommSocket",
+					new Class[] { int.class });
+		} catch (SecurityException e1) {
+			e1.printStackTrace();
+		} catch (NoSuchMethodException e1) {
+			e1.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+
+		Log.i(TAG,
+				"get socket");
+		try {
+			btSocket = (BluetoothSocket) m.invoke(device,
+					Integer.valueOf(1));
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+
+		Log.i(TAG,
+				"connect");
+		try {
+			if (btSocket != null)
+				btSocket.connect();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		mmSocket = tmp;
 
-		// Cancel discovery because it will slow down the connection
-		BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
-
-		try {
-			// Connect the device through the socket. This will block
-			// until it succeeds or throws an exception
-			mmSocket.connect();
-		} catch (IOException connectException) {
-			// Unable to connect; close the socket and get out
-			try {
-				mmSocket.close();
-			} catch (IOException closeException) {
-			}
+		if (btSocket == null) {
+			Log.i(TAG,
+					"not connected");
 		}
-
-		// Do work to manage the connection (in a separate thread)
-//		manageConnectedSocket(mmSocket);
-
+		Log.i(TAG,
+				"connected");
+		
+		
 		return "";
 	}
 
@@ -67,5 +76,7 @@ public class BluetoothConnectJob extends AsyncTask<BluetoothDevice, Integer, Str
 	protected void onPostExecute(
 			String result) {
 		super.onPostExecute(result);
+		BluetoothUtil.INSTANCE.mConnectedThread = new ConnectedThread( btSocket );
+		BluetoothUtil.INSTANCE.mConnectedThread.start();
 	}
 }
