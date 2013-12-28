@@ -78,36 +78,40 @@ public class VibrateListAdapter extends BaseAdapter {
 
 				int[] pattern = vView.getData();
 
-				// VibrateUtil.INSTANCE.vibrate(pattern, vView);
+				if (BluetoothUtil.INSTANCE.isConntected()) {
+					byte[] bArr = new byte[pattern.length + 1];
+					int i = 0;
+					for (int p : pattern) {
+						if (p == 0) {
+							bArr[i] = 't';
+						} else if (p == 1) {
+							bArr[i] = 'a';
+						} else if (p == 2) {
+							bArr[i] = 'b';
+						} else if (p == 3) {
+							bArr[i] = 'c';
+						} else if (p == 4) {
+							bArr[i] = 'd';
+						} else if (p == 5) {
+							bArr[i] = 'e';
+						} else if (p == 6) {
+							bArr[i] = 'f';
+						}
+						Log.i(TAG,
+								bArr[i] + "");
 
-				byte[] bArr = new byte[pattern.length+1];
-				int i = 0;
-				for (int p : pattern) {
-					if (p == 0) {
-						bArr[i] = 't';
-					} else if (p == 1) {
-						bArr[i] = 'a';
-					} else if (p == 2) {
-						bArr[i] = 'b';
-					} else if (p == 3) {
-						bArr[i] = 'c';
-					} else if (p == 4) {
-						bArr[i] = 'd';
-					} else if (p == 5) {
-						bArr[i] = 'e';
-					} else if (p == 6) {
-						bArr[i] = 'f';
+						i++;
 					}
-					Log.i(TAG,
-							bArr[i] + "");
 
-					i++;
+					bArr[i] = 't';
+
+					BluetoothUtil.INSTANCE.sendMessage(bArr,
+							500);
+				} else {
+					VibrateUtil.INSTANCE.vibrate(pattern,
+							vView);
 				}
-				
-				bArr[i] = 't';
 
-				BluetoothUtil.INSTANCE.sendMessage(bArr,
-						500);
 			}
 		});
 

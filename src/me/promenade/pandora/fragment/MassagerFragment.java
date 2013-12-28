@@ -5,6 +5,7 @@ import me.promenade.pandora.util.BluetoothUtil;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -67,19 +68,21 @@ public class MassagerFragment extends SherlockFragment implements OnClickListene
 		View view = inflater.inflate(R.layout.fragment_massager,
 				container,
 				false);
-		
+
 		mUri = Uri.parse("android.resource://" + getActivity().getPackageName() + "/" + R.raw.pandora);
 
 		mVideo = (VideoView) view.findViewById(R.id.videoView);
-		mVideo.setVideoURI(mUri);
-		mVideo.setOnPreparedListener(new OnPreparedListener() {
-			@Override
-			public void onPrepared(
-					MediaPlayer mp) {
-				mp.start();
-				mp.setLooping(true);
-			}
-		});
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			mVideo.setVideoURI(mUri);
+			mVideo.setOnPreparedListener(new OnPreparedListener() {
+				@Override
+				public void onPrepared(
+						MediaPlayer mp) {
+					mp.setLooping(true);
+					startVideo();
+				}
+			});
+		}
 
 		mSearchLayout = (RelativeLayout) view.findViewById(R.id.layout_massaer_search);
 		mSearchLayout.setOnClickListener(this);
@@ -115,15 +118,19 @@ public class MassagerFragment extends SherlockFragment implements OnClickListene
 		stopVideo();
 		super.onStop();
 	}
-	
-	private void startVideo(){
-		mVideo.start();
-		mVideo.setVisibility(View.VISIBLE);
+
+	private void startVideo() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			mVideo.start();
+			mVideo.setVisibility(View.VISIBLE);
+		}
 	}
-	
-	private void stopVideo(){
-		mVideo.suspend();
-		mVideo.setVisibility(View.INVISIBLE);
+
+	private void stopVideo() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			mVideo.suspend();
+			mVideo.setVisibility(View.INVISIBLE);
+		}
 	}
 
 	@Override

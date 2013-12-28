@@ -78,8 +78,13 @@ public enum BluetoothUtil {
 		
 		BluetoothConnectJob job = new BluetoothConnectJob();
 		job.execute(device);
-		
-		
+	}
+	
+	public boolean isConntected(){
+		if( mConnectedThread != null ){
+			return true;
+		}
+		return false;
 	}
 	
 	public void sendMessage( byte[] msg , long interval){
