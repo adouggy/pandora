@@ -2,7 +2,11 @@ package me.promenade.pandora.fragment;
 
 import me.promenade.pandora.R;
 import me.promenade.pandora.asynjob.PlayMusicJob;
+import me.promenade.pandora.asynjob.VibrateAllJob;
+import me.promenade.pandora.asynjob.VibrateJob;
 import me.promenade.pandora.bean.Fantasy;
+import me.promenade.pandora.bean.RunningBean;
+import me.promenade.pandora.util.MusicUtil;
 import me.promenade.pandora.view.PlayButton;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -26,13 +31,21 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 	private static PlayButton mBtn = null;
 	private static TextView mTime = null;
 	private static ImageView mImage= null;
+	private static TextView mCurrentVibration = null;
+	private static Button[] mButtonList = new Button[12];
 	
 	private Fantasy mFantasy = null;
 	
 	public static final int WHAT_POSITION_REFRESH = 1;
 	public static final int WHAT_DURATION_REFRESH = 2;
+	public static final int WHAT_FINISH = 3;
+	public static final int WHAT_START_V = 4;
+	public static final int WHAT_STOP_V = 5;
 	
 	private PlayMusicJob mPlayJob = null;
+	private VibrateAllJob mVibrateALlJob = null;
+	
+	private static int currentProgress = 0;
 	
 	public void setFantasy( Fantasy f ){
 		this.mFantasy = f;
@@ -46,6 +59,7 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 			case WHAT_POSITION_REFRESH:
 				Bundle b = msg.getData();
 				int p = b.getInt("progress");
+				currentProgress = p;
 				Log.i(TAG,
 						p + "");
 				mPb.setProgress(p);
@@ -53,10 +67,25 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 				break;
 			case WHAT_DURATION_REFRESH:
 				Bundle bundle = msg.getData();
-//				int duration = bundle.getInt("duration");
+				int duration = bundle.getInt("duration");
 				String time = bundle.getString("time");
 				mTime.setText(time);
-				
+				mPb.setMax(duration);
+				break;
+			case WHAT_FINISH:
+				currentProgress = 0;
+				mPb.setProgress(0);
+				MusicUtil.INSTANCE.stop();
+				mBtn.setPlaying(false);
+				break;
+			case WHAT_START_V:
+				mCurrentVibration.setVisibility(View.VISIBLE);
+				String currentV = msg.getData().getString("currentV");
+				Log.i(TAG, currentV);
+				mCurrentVibration.setText(currentV);
+				break;
+			case WHAT_STOP_V:
+				mCurrentVibration.setVisibility(View.INVISIBLE);
 				break;
 			default:
 				break;
@@ -78,9 +107,27 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 		mBtn = (PlayButton) view.findViewById(R.id.btn_play_fantasy);
 		mTime = (TextView) view.findViewById(R.id.txt_fantasy_time);
 		mImage = (ImageView) view.findViewById(R.id.img_fantasy);
+		mCurrentVibration = (TextView) view.findViewById(R.id.txt_current_v);
+		mCurrentVibration.setVisibility(View.INVISIBLE);
+
+		mButtonList[0] = (Button) view.findViewById(R.id.btn_0);
+		mButtonList[1] = (Button) view.findViewById(R.id.btn_1);
+		mButtonList[2] = (Button) view.findViewById(R.id.btn_2);
+		mButtonList[3] = (Button) view.findViewById(R.id.btn_3);
+		mButtonList[4] = (Button) view.findViewById(R.id.btn_4);
+		mButtonList[5] = (Button) view.findViewById(R.id.btn_5);
+		mButtonList[6] = (Button) view.findViewById(R.id.btn_6);
+		mButtonList[7] = (Button) view.findViewById(R.id.btn_7);
+		mButtonList[8] = (Button) view.findViewById(R.id.btn_8);
+		mButtonList[9] = (Button) view.findViewById(R.id.btn_9);
+		mButtonList[10] = (Button) view.findViewById(R.id.btn_10);
+		mButtonList[11] = (Button) view.findViewById(R.id.btn_11);
+		
+		for( int i=0; i<mButtonList.length; i++ ){
+			mButtonList[i].setOnClickListener(this);
+		}
 		
 		if( mFantasy != null ){
-			Log.i(TAG, mFantasy.getLogoId() + "<--");
 			mImage.setImageResource(mFantasy.getImageId());
 		}
 
@@ -91,12 +138,34 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 	}
 	
 	@Override
+	public void onStart() {
+		currentProgress = 0;
+		super.onStart();
+	}
+	
+	@Override
+	public void onStop() {
+		if( mPlayJob != null ){
+			mPlayJob.cancel(true);
+		}
+		if( mVibrateALlJob != null ){
+			mVibrateALlJob.cancel(true);
+		}
+		MusicUtil.INSTANCE.stop();
+		super.onStop();
+	}
+	
+	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		
 		if( mPlayJob != null ){
 			mPlayJob.cancel(true);
 		}
+		if( mVibrateALlJob != null ){
+			mVibrateALlJob.cancel(true);
+		}
+		MusicUtil.INSTANCE.stop();
 	}
 
 	@Override
@@ -109,14 +178,42 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 						"stop..");
 				mBtn.setPlaying(false);
 				mPlayJob.cancel(true);
+				mVibrateALlJob.cancel(true);
 			} else {
 				Log.i(TAG,
 						"start..");
 				mBtn.setPlaying(true);
 				
 				mPlayJob = new PlayMusicJob();
-				mPlayJob.execute(mFantasy.getMusicId());
+				mPlayJob.execute(mFantasy.getMusicId(), currentProgress);
+				
+				mVibrateALlJob = new VibrateAllJob();
+				mVibrateALlJob.execute(0);
 			}
+			break;
+			
+		case R.id.btn_0:
+			if( mVibrateALlJob != null )
+				mVibrateALlJob.cancel(true);
+			break;
+		case R.id.btn_1:
+		case R.id.btn_2:
+		case R.id.btn_3:
+		case R.id.btn_4:
+		case R.id.btn_5:
+		case R.id.btn_6:
+		case R.id.btn_7:
+		case R.id.btn_8:
+		case R.id.btn_9:
+		case R.id.btn_10:
+		case R.id.btn_11:
+			int index = Integer.parseInt( ((TextView)v).getText().toString() );
+			if( mVibrateALlJob != null )
+				mVibrateALlJob.cancel(true);
+			mCurrentVibration.setVisibility(View.VISIBLE);
+			mCurrentVibration.setText(RunningBean.INSTANCE.getVibration().get(index-1).getTitle());
+			VibrateJob j = new VibrateJob();
+			j.execute(index-1);
 			break;
 		}
 	}

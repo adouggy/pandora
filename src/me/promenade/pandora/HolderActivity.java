@@ -10,6 +10,7 @@ import me.promenade.pandora.fragment.SignupFragment;
 import me.promenade.pandora.fragment.VibrateFragment;
 import me.promenade.pandora.fragment.VibrateViewListFragment;
 import android.annotation.TargetApi;
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -35,13 +36,13 @@ public class HolderActivity extends SherlockFragmentActivity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 		setContentView(R.layout.activity_holder);
 //		setupActionBar();
 		
 		Bundle b = getIntent().getExtras();
 		int fId = b.getInt("fragment");
-
-
 
 		Fragment f = null;
 		switch (fId) {

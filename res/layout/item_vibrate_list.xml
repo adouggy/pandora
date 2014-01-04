@@ -1,23 +1,56 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="10"
+    android:layout_gravity="center_vertical" >
 
-    <me.promenade.pandora.view.MyVibrateView
-        android:id="@+id/vibrateview"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_toLeftOf="@+id/btn_play_v"
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_weight="7" >
+
+        <TextView
+            android:id="@+id/txt_vibrate_index"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:textSize="18sp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/txt_vibrate_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/txt_vibrate_index"
+            android:textSize="18sp"
+            android:textColor="@color/black" />
+
+        <me.promenade.pandora.view.MyVibrateView
+            android:id="@+id/vibrateview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignLeft="@+id/txt_vibrate_title"
+            android:layout_below="@+id/txt_vibrate_title"
+            android:focusable="false" />
+    </RelativeLayout>
+    
+    <TextView 
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+
+    <ImageView
+        android:id="@+id/img_play_v"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_weight="2"
+        android:src="@drawable/btn_play"
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/defaultDescription"
         android:focusable="false" />
 
-    <Button
-        android:id="@+id/btn_play_v"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/btn_play"
-        android:focusable="false"
-        />
-
-</RelativeLayout>
+</LinearLayout>

@@ -16,7 +16,7 @@ public enum MusicUtil {
 	private Context mContext = null;
 
 	private MediaPlayer mMediaPlayer = null;
-	
+
 	private byte[] mBytes = null;
 
 	MusicUtil() {
@@ -33,11 +33,11 @@ public enum MusicUtil {
 		InputStream inStream = this.mContext.getResources().openRawResource(id);
 
 		try {
-			mBytes =  convertStreamToByteArray(inStream);
+			mBytes = convertStreamToByteArray(inStream);
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally{
-			if( inStream != null ){
+		} finally {
+			if (inStream != null) {
 				try {
 					inStream.close();
 				} catch (IOException e) {
@@ -66,7 +66,7 @@ public enum MusicUtil {
 									// function
 	}
 
-	public void play() {
+	public void play(int position) {
 		FileInputStream fis = null;
 		try {
 			// create temp file that will hold byte array
@@ -95,6 +95,7 @@ public enum MusicUtil {
 
 			mMediaPlayer.prepare();
 			mMediaPlayer.start();
+			mMediaPlayer.seekTo(position*1000);
 		} catch (IOException ex) {
 			// String s = ex.toString();
 			ex.printStackTrace();
@@ -112,15 +113,16 @@ public enum MusicUtil {
 		if (mMediaPlayer != null)
 			mMediaPlayer.stop();
 	}
-	
+
 	public int getTime() {
 		return mMediaPlayer.getDuration();
 	}
-	
-	public int getCurrentPosition(){
+
+	public int getCurrentPosition() {
 		return mMediaPlayer.getCurrentPosition();
 	}
-	
-	public void setPosition(int pos){
+
+	public void setPosition(
+			int pos) {
 	}
 }

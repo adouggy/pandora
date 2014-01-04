@@ -1,9 +1,6 @@
 package me.promenade.pandora.util;
 
-import me.promenade.pandora.view.MyVibrateView;
 import android.content.Context;
-import android.os.Bundle;
-import android.os.Message;
 import android.os.Vibrator;
 import android.util.Log;
 
@@ -74,8 +71,7 @@ public enum VibrateUtil {
 	}
 
 	public void vibrate(
-			int[] pattern,
-			final MyVibrateView v) {
+			int[] pattern) {
 		// long[] finalPattern = new long[TIMES * PIECE_COUNT];
 		int index = 0;
 
@@ -104,8 +100,8 @@ public enum VibrateUtil {
 			
 			Log.i(TAG, "-->" + index);
 			
-			v.setCurrentColumn(index);
-			v.postInvalidate();
+//			v.setCurrentColumn(index);
+//			v.postInvalidate();
 			
 			index++;
 			long currentTime = System.currentTimeMillis();

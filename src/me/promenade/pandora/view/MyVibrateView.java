@@ -9,7 +9,6 @@ import android.graphics.RectF;
 import android.graphics.Shader.TileMode;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -198,7 +197,8 @@ public class MyVibrateView extends View {
 			p.setStyle(Paint.Style.FILL_AND_STROKE);
 		} else {
 			p.setShader(null);
-			p.setStyle(Paint.Style.STROKE);
+			p.setColor(Color.WHITE);
+			p.setStyle(Paint.Style.FILL_AND_STROKE);
 		}
 
 		RectF rect = new RectF(x + xPadding, y + yPadding, x + squareWidth, y + squareHeight);

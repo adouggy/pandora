@@ -3,18 +3,17 @@ package me.promenade.pandora.adapter;
 import java.util.ArrayList;
 
 import me.promenade.pandora.R;
+import me.promenade.pandora.asynjob.VibrateJob;
 import me.promenade.pandora.bean.Vibration;
-import me.promenade.pandora.util.BluetoothUtil;
-import me.promenade.pandora.util.VibrateUtil;
 import me.promenade.pandora.view.MyVibrateView;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class VibrateListAdapter extends BaseAdapter {
 	public static final String TAG = "VibrateListAdapter";
@@ -60,7 +59,9 @@ public class VibrateListAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.item_vibrate_list,
 					null);
 			holder.vibrateView = (MyVibrateView) convertView.findViewById(R.id.vibrateview);
-			holder.play = (Button) convertView.findViewById(R.id.btn_play_v);
+			holder.play = (ImageView) convertView.findViewById(R.id.img_play_v);
+			holder.index = (TextView) convertView.findViewById(R.id.txt_vibrate_index);
+			holder.title = (TextView) convertView.findViewById(R.id.txt_vibrate_title);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -68,49 +69,16 @@ public class VibrateListAdapter extends BaseAdapter {
 
 		Vibration v = mList.get(position);
 		holder.vibrateView.setData(v.getPattern());
-		holder.play.setTag(holder.vibrateView);
+		holder.play.setTag(v.getIndex()-1);
+		holder.index.setText(v.getIndex() + "");
+		holder.title.setText(v.getTitle());
 
 		holder.play.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(
 					View view) {
-				MyVibrateView vView = (MyVibrateView) view.getTag();
-
-				int[] pattern = vView.getData();
-
-				if (BluetoothUtil.INSTANCE.isConntected()) {
-					byte[] bArr = new byte[pattern.length + 1];
-					int i = 0;
-					for (int p : pattern) {
-						if (p == 0) {
-							bArr[i] = 't';
-						} else if (p == 1) {
-							bArr[i] = 'a';
-						} else if (p == 2) {
-							bArr[i] = 'b';
-						} else if (p == 3) {
-							bArr[i] = 'c';
-						} else if (p == 4) {
-							bArr[i] = 'd';
-						} else if (p == 5) {
-							bArr[i] = 'e';
-						} else if (p == 6) {
-							bArr[i] = 'f';
-						}
-						Log.i(TAG,
-								bArr[i] + "");
-
-						i++;
-					}
-
-					bArr[i] = 't';
-
-					BluetoothUtil.INSTANCE.sendMessage(bArr,
-							500);
-				} else {
-					VibrateUtil.INSTANCE.vibrate(pattern,
-							vView);
-				}
+				VibrateJob j = new VibrateJob();
+				j.execute((Integer)view.getTag());
 
 			}
 		});
@@ -119,7 +87,9 @@ public class VibrateListAdapter extends BaseAdapter {
 	}
 
 	static final class ViewHolder {
+		TextView index;
+		TextView title;
 		MyVibrateView vibrateView;
-		Button play;
+		ImageView play;
 	}
 }

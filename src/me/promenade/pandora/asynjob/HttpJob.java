@@ -1,8 +1,6 @@
 package me.promenade.pandora.asynjob;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import me.promenade.pandora.bean.HttpBean;
 import me.promenade.pandora.bean.HttpMethod;

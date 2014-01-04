@@ -20,6 +20,18 @@
             android:contentDescription="@string/defaultDescription"
             android:scaleType="matrix" />
 
+        <TextView
+            android:id="@+id/txt_current_v"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="60dp"
+            android:background="#88abcdab"
+            android:padding="8dp"
+            android:textColor="@color/violet"
+            android:textSize="15sp" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -46,18 +58,24 @@
                 android:layout_toLeftOf="@+id/txt_fantasy_time"
                 android:layout_toRightOf="@+id/btn_play_fantasy"
                 android:max="100"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:progressDrawable="@drawable/progress_bar_states"
                 android:thumb="@drawable/slider" />
 
             <TextView
                 android:id="@+id/txt_fantasy_time"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
+                android:ellipsize="end"
                 android:gravity="center"
-                android:text="@string/defaultDescription" />
+                android:maxWidth="40dp"
+                android:minWidth="40dp"
+                android:singleLine="true"
+                android:text="@string/txt_time" />
         </RelativeLayout>
     </RelativeLayout>
 
@@ -75,6 +93,7 @@
             android:weightSum="4" >
 
             <Button
+                android:id="@+id/btn_0"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -84,6 +103,7 @@
                 android:scaleType="fitCenter" />
 
             <Button
+                android:id="@+id/btn_1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -95,6 +115,7 @@
                 android:textColor="#ffffffaa" />
 
             <Button
+                android:id="@+id/btn_2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -106,6 +127,7 @@
                 android:textColor="#ffffffaa" />
 
             <Button
+                android:id="@+id/btn_3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -124,6 +146,7 @@
             android:weightSum="4" >
 
             <Button
+                android:id="@+id/btn_4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -135,6 +158,7 @@
                 android:textColor="#ffffffaa" />
 
             <Button
+                android:id="@+id/btn_5"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -146,6 +170,7 @@
                 android:textColor="#ffffffaa" />
 
             <Button
+                android:id="@+id/btn_6"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -157,6 +182,7 @@
                 android:textColor="#ffffffaa" />
 
             <Button
+                android:id="@+id/btn_7"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -175,6 +201,7 @@
             android:weightSum="4" >
 
             <Button
+                android:id="@+id/btn_8"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -186,6 +213,7 @@
                 android:textColor="#ffffffaa" />
 
             <Button
+                android:id="@+id/btn_9"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -197,6 +225,7 @@
                 android:textColor="#ffffffaa" />
 
             <Button
+                android:id="@+id/btn_10"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -208,6 +237,7 @@
                 android:textColor="#ffffffaa" />
 
             <Button
+                android:id="@+id/btn_11"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

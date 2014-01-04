@@ -3,32 +3,32 @@ package me.promenade.pandora.asynjob;
 import me.promenade.pandora.fragment.FantasyFragment;
 import me.promenade.pandora.util.MusicUtil;
 
-import org.apache.http.HttpResponse;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
 
-public class PlayMusicJob extends AsyncTask<Integer, Integer, HttpResponse> {
+public class PlayMusicJob extends AsyncTask<Integer, Integer, String> {
 	public static final String TAG = "PlayMusicJob";
 
 	@Override
-	protected HttpResponse doInBackground(
+	protected String doInBackground(
 			Integer... param) {
 		Log.d(TAG,
 				"retriving...");
-		if (param == null)
+		if (param == null || param.length != 2)
 			return null;
 		
 		int musicId = param[0];
+		int currentProgress = param[1];
 		
-		MusicUtil.INSTANCE.setId(musicId).play();
+		
+			MusicUtil.INSTANCE.setId(musicId).play(currentProgress);
 		
 		int duration = MusicUtil.INSTANCE.getTime();
 		int durationSec = duration/1000;
 		
-		for (int i = 0; i <= durationSec; i++) {
+		for (int i = currentProgress; i <= durationSec; i++) {
 
 			if( isCancelled() ){
 				break;
@@ -52,7 +52,7 @@ public class PlayMusicJob extends AsyncTask<Integer, Integer, HttpResponse> {
 		
 		MusicUtil.INSTANCE.setId(musicId).stop();
 
-		return null;
+		return "";
 	}
 
 	@Override
@@ -71,8 +71,11 @@ public class PlayMusicJob extends AsyncTask<Integer, Integer, HttpResponse> {
 
 	@Override
 	protected void onPostExecute(
-			HttpResponse result) {
-
+			String result) {
+		Message msg = FantasyFragment.mHandler.obtainMessage();
+		msg.what = FantasyFragment.WHAT_FINISH;
+		msg.sendToTarget();
+		
 		super.onPostExecute(result);
 	}
 }

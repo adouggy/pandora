@@ -15,6 +15,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.graphics.Shader.TileMode;
@@ -46,6 +47,7 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 			Bundle savedInstanceState) {
 		setTheme(R.style.Theme_Styled);
 		super.onCreate(savedInstanceState);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
 		mContext = this.getApplicationContext();
 
