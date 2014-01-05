@@ -1,9 +1,13 @@
 package me.promenade.pandora.asynjob;
 
 import me.promenade.pandora.bean.RunningBean;
+import me.promenade.pandora.bean.Vibration;
+import me.promenade.pandora.fragment.FantasyFragment;
 import me.promenade.pandora.util.BluetoothUtil;
 import me.promenade.pandora.util.VibrateUtil;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Message;
 
 public class VibrateJob extends AsyncTask<Integer, Integer, String> {
 
@@ -14,15 +18,24 @@ public class VibrateJob extends AsyncTask<Integer, Integer, String> {
 			return null;
 		}
 		
-//		MyVibrateView vView = (MyVibrateView) view.getTag();
 		int patternIndex = param[0];
-
-		int[] pattern = RunningBean.INSTANCE.getVibration().get(patternIndex).getPattern();
+		Vibration v = RunningBean.INSTANCE.getVibration().get(patternIndex);
+		int[] pattern = v.getPattern();
+		
+		Message msg = FantasyFragment.mHandler.obtainMessage();
+		msg.what = FantasyFragment.WHAT_START_V;
+		Bundle b = new Bundle();
+		b.putString("currentV", v.getTitle());
+		msg.setData(b);
+		msg.sendToTarget();
 
 		if (BluetoothUtil.INSTANCE.isConntected()) {
 			byte[] bArr = new byte[pattern.length + 1];
 			int i = 0;
 			for (int p : pattern) {
+				if( isCancelled() )
+					return "";
+				
 				if (p == 0) {
 					bArr[i] = 't';
 				} else if (p == 1) {
@@ -45,12 +58,41 @@ public class VibrateJob extends AsyncTask<Integer, Integer, String> {
 			bArr[i] = 't';
 
 			BluetoothUtil.INSTANCE.sendMessage(bArr,
-					500);
+					VibrateUtil.INTERVAL);
 		} else {
-			VibrateUtil.INSTANCE.vibrate(pattern);
+			for (int level : pattern) {
+				if( isCancelled() )
+					return "";
+				
+				long startTime = System.currentTimeMillis();
+				
+				long[] singlePattern = VibrateUtil.INSTANCE.v(level);
+
+				VibrateUtil.INSTANCE.getViberator().vibrate(singlePattern,-1);
+				
+				long currentTime = System.currentTimeMillis();
+				while (currentTime - startTime < VibrateUtil.INTERVAL) {
+					try {
+						Thread.sleep(VibrateUtil.INTERVAL - (currentTime - startTime));
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					currentTime = System.currentTimeMillis();
+				}
+			}
 		}
 		
 		return null;
+	}
+	
+	@Override
+	protected void onPostExecute(
+			String result) {
+		Message msg = FantasyFragment.mHandler.obtainMessage();
+		msg.what = FantasyFragment.WHAT_STOP_V;
+		msg.sendToTarget();
+		
+		super.onPostExecute(result);
 	}
 
 }

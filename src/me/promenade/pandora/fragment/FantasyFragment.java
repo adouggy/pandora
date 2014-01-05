@@ -16,6 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -24,30 +26,32 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class FantasyFragment extends SherlockFragment implements OnClickListener, OnSeekBarChangeListener {
+public class FantasyFragment extends SherlockFragment implements OnClickListener, OnSeekBarChangeListener, OnGlobalLayoutListener {
 	public static final String TAG = "FantasyFragment";
 
 	private static SeekBar mPb = null;
 	private static PlayButton mBtn = null;
 	private static TextView mTime = null;
-	private static ImageView mImage= null;
+	private static ImageView mImage = null;
 	private static TextView mCurrentVibration = null;
 	private static Button[] mButtonList = new Button[12];
-	
+
 	private Fantasy mFantasy = null;
-	
+
 	public static final int WHAT_POSITION_REFRESH = 1;
 	public static final int WHAT_DURATION_REFRESH = 2;
 	public static final int WHAT_FINISH = 3;
 	public static final int WHAT_START_V = 4;
 	public static final int WHAT_STOP_V = 5;
-	
+
 	private PlayMusicJob mPlayJob = null;
 	private VibrateAllJob mVibrateALlJob = null;
-	
+	private VibrateJob mVibrateJob = null;
+
 	private static int currentProgress = 0;
-	
-	public void setFantasy( Fantasy f ){
+
+	public void setFantasy(
+			Fantasy f) {
 		this.mFantasy = f;
 	}
 
@@ -63,7 +67,7 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 				Log.i(TAG,
 						p + "");
 				mPb.setProgress(p);
-				
+
 				break;
 			case WHAT_DURATION_REFRESH:
 				Bundle bundle = msg.getData();
@@ -81,7 +85,8 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 			case WHAT_START_V:
 				mCurrentVibration.setVisibility(View.VISIBLE);
 				String currentV = msg.getData().getString("currentV");
-				Log.i(TAG, currentV);
+				Log.i(TAG,
+						currentV);
 				mCurrentVibration.setText(currentV);
 				break;
 			case WHAT_STOP_V:
@@ -122,50 +127,55 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 		mButtonList[9] = (Button) view.findViewById(R.id.btn_9);
 		mButtonList[10] = (Button) view.findViewById(R.id.btn_10);
 		mButtonList[11] = (Button) view.findViewById(R.id.btn_11);
-		
-		for( int i=0; i<mButtonList.length; i++ ){
+
+		for (int i = 0; i < mButtonList.length; i++) {
 			mButtonList[i].setOnClickListener(this);
+
+			mButtonList[i].getViewTreeObserver().addOnGlobalLayoutListener(this);
 		}
-		
-		if( mFantasy != null ){
+
+		if (mFantasy != null) {
 			mImage.setImageResource(mFantasy.getImageId());
 		}
 
 		mBtn.setOnClickListener(this);
-		
+
 		mPb.setOnSeekBarChangeListener(this);
 		return view;
 	}
-	
+
+	private void stopAll() {
+		mBtn.setPlaying(false);
+
+		if (mPlayJob != null) {
+			mPlayJob.cancel(true);
+		}
+		if (mVibrateALlJob != null) {
+			mVibrateALlJob.cancel(true);
+		}
+		if (mVibrateJob != null) {
+			mVibrateJob.cancel(true);
+		}
+
+		MusicUtil.INSTANCE.stop();
+	}
+
 	@Override
 	public void onStart() {
 		currentProgress = 0;
 		super.onStart();
 	}
-	
+
 	@Override
 	public void onStop() {
-		if( mPlayJob != null ){
-			mPlayJob.cancel(true);
-		}
-		if( mVibrateALlJob != null ){
-			mVibrateALlJob.cancel(true);
-		}
-		MusicUtil.INSTANCE.stop();
+		stopAll();
 		super.onStop();
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		
-		if( mPlayJob != null ){
-			mPlayJob.cancel(true);
-		}
-		if( mVibrateALlJob != null ){
-			mVibrateALlJob.cancel(true);
-		}
-		MusicUtil.INSTANCE.stop();
+		stopAll();
 	}
 
 	@Override
@@ -176,25 +186,26 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 			if (mBtn.isPlaying()) {
 				Log.i(TAG,
 						"stop..");
-				mBtn.setPlaying(false);
-				mPlayJob.cancel(true);
-				mVibrateALlJob.cancel(true);
+				stopAll();
 			} else {
 				Log.i(TAG,
 						"start..");
 				mBtn.setPlaying(true);
-				
+
 				mPlayJob = new PlayMusicJob();
-				mPlayJob.execute(mFantasy.getMusicId(), currentProgress);
-				
+				mPlayJob.execute(mFantasy.getMusicId(),
+						currentProgress);
+
 				mVibrateALlJob = new VibrateAllJob();
 				mVibrateALlJob.execute(0);
 			}
 			break;
-			
+
 		case R.id.btn_0:
-			if( mVibrateALlJob != null )
+			if (mVibrateALlJob != null)
 				mVibrateALlJob.cancel(true);
+			if (mVibrateJob != null)
+				mVibrateJob.cancel(true);
 			break;
 		case R.id.btn_1:
 		case R.id.btn_2:
@@ -207,13 +218,13 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 		case R.id.btn_9:
 		case R.id.btn_10:
 		case R.id.btn_11:
-			int index = Integer.parseInt( ((TextView)v).getText().toString() );
-			if( mVibrateALlJob != null )
+			int index = Integer.parseInt(((TextView) v).getText().toString());
+			if (mVibrateALlJob != null)
 				mVibrateALlJob.cancel(true);
 			mCurrentVibration.setVisibility(View.VISIBLE);
-			mCurrentVibration.setText(RunningBean.INSTANCE.getVibration().get(index-1).getTitle());
-			VibrateJob j = new VibrateJob();
-			j.execute(index-1);
+			mCurrentVibration.setText(RunningBean.INSTANCE.getVibration().get(index - 1).getTitle());
+			mVibrateJob = new VibrateJob();
+			mVibrateJob.execute(index - 1);
 			break;
 		}
 	}
@@ -223,20 +234,32 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 			SeekBar seekBar,
 			int progress,
 			boolean fromUser) {
-		
-//		mTime.setText( progress + "" );
+
+		// mTime.setText( progress + "" );
 	}
 
 	@Override
 	public void onStartTrackingTouch(
 			SeekBar seekBar) {
-		
+
 	}
 
 	@Override
 	public void onStopTrackingTouch(
 			SeekBar seekBar) {
-		
+
+	}
+
+	@Override
+	public void onGlobalLayout() {
+		int width = mButtonList[0].getWidth();
+		int height = mButtonList[0].getHeight();
+		Log.i(TAG, width + "," + height);
+		LayoutParams lp = mButtonList[0].getLayoutParams();
+		lp.height =width;
+        for( Button b : mButtonList ){
+        	b.setLayoutParams(lp);
+        }
 	}
 
 }

@@ -31,6 +31,10 @@ public enum VibrateUtil {
 		// Vibrate for 300 milliseconds
 		mVibrator.vibrate(300);
 	}
+	
+	public Vibrator getViberator(){
+		return this.mVibrator;
+	}
 
 	/**
 	 * 0~5 比如等级为3时，我们3/6的时间震动，剩下时间不震动 同理，等级为4， 我们4/6的时间震动，2/6的时间不震动
