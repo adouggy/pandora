@@ -17,6 +17,7 @@ public class VibrateAllJob extends AsyncTask<Integer, Integer, String> {
 	@Override
 	protected String doInBackground(
 			Integer... param) {
+		Log.i(TAG, "VibrateAllJob..do in background");
 		if (param == null || param.length != 1) {
 			return null;
 		}
@@ -38,7 +39,8 @@ public class VibrateAllJob extends AsyncTask<Integer, Integer, String> {
 			msg.sendToTarget();
 
 			VibrateJob j = new VibrateJob();
-			j.execute(i);
+			j.execute(i, VibrateJob.WITH_UI);
+//			j.executeOnExecutor(Executors.newSingleThreadExecutor(), i);
 
 			try {
 				Thread.sleep(VibrateUtil.TOTAL_DURATION);

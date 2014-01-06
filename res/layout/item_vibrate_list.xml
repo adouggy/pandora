@@ -1,10 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_v_list"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
     android:orientation="horizontal"
-    android:weightSum="10"
-    android:layout_gravity="center_vertical" >
+    android:weightSum="10" >
 
     <RelativeLayout
         android:layout_width="0dp"
@@ -17,16 +18,16 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:textSize="18sp"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/txt_vibrate_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/txt_vibrate_index"
-            android:textSize="18sp"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
         <me.promenade.pandora.view.MyVibrateView
             android:id="@+id/vibrateview"
@@ -36,11 +37,11 @@
             android:layout_below="@+id/txt_vibrate_title"
             android:focusable="false" />
     </RelativeLayout>
-    
-    <TextView 
+
+    <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
     <ImageView
         android:id="@+id/img_play_v"
@@ -48,9 +49,9 @@
         android:layout_height="30dp"
         android:layout_gravity="center"
         android:layout_weight="2"
-        android:src="@drawable/btn_play"
-        android:scaleType="fitCenter"
         android:contentDescription="@string/defaultDescription"
-        android:focusable="false" />
+        android:focusable="false"
+        android:scaleType="fitCenter"
+        android:src="@drawable/btn_play" />
 
 </LinearLayout>

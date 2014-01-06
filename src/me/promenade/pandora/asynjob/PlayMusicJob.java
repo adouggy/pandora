@@ -18,38 +18,39 @@ public class PlayMusicJob extends AsyncTask<Integer, Integer, String> {
 				"retriving...");
 		if (param == null || param.length != 2)
 			return null;
-		
+
 		int musicId = param[0];
 		int currentProgress = param[1];
-		
-		
-			MusicUtil.INSTANCE.setId(musicId).play(currentProgress);
-		
+
+		MusicUtil.INSTANCE.setId(musicId).play(currentProgress);
+
 		int duration = MusicUtil.INSTANCE.getTime();
-		int durationSec = duration/1000;
-		
+		int durationSec = duration / 1000;
+
 		for (int i = currentProgress; i <= durationSec; i++) {
 
-			if( isCancelled() ){
+			if (isCancelled()) {
 				break;
 			}
-			
+
 			Message msg = new Message();
 			msg.what = FantasyFragment.WHAT_DURATION_REFRESH;
 			Bundle b = new Bundle();
-			b.putInt("duration", duration/1000);
-			b.putString("time", i + "/" + durationSec);
+			b.putInt("duration",
+					duration / 1000);
+			b.putString("time",
+					i + "/" + durationSec);
 			msg.setData(b);
 			FantasyFragment.mHandler.sendMessage(msg);
-			
-			publishProgress(i);			
+
+			publishProgress(i);
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		MusicUtil.INSTANCE.setId(musicId).stop();
 
 		return "";
@@ -58,14 +59,16 @@ public class PlayMusicJob extends AsyncTask<Integer, Integer, String> {
 	@Override
 	protected void onProgressUpdate(
 			Integer... values) {
-		Log.i( TAG, values[0] + "" );
+		Log.i(TAG,
+				values[0] + "");
 		Message msg = new Message();
 		msg.what = FantasyFragment.WHAT_POSITION_REFRESH;
 		Bundle b = new Bundle();
-		b.putInt("progress", values[0]);
+		b.putInt("progress",
+				values[0]);
 		msg.setData(b);
 		FantasyFragment.mHandler.sendMessage(msg);
-		
+
 		super.onProgressUpdate(values);
 	}
 
@@ -75,7 +78,7 @@ public class PlayMusicJob extends AsyncTask<Integer, Integer, String> {
 		Message msg = FantasyFragment.mHandler.obtainMessage();
 		msg.what = FantasyFragment.WHAT_FINISH;
 		msg.sendToTarget();
-		
+
 		super.onPostExecute(result);
 	}
 }

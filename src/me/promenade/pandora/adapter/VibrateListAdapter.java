@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class VibrateListAdapter extends BaseAdapter {
@@ -20,9 +21,12 @@ public class VibrateListAdapter extends BaseAdapter {
 
 	private ArrayList<Vibration> mList;
 	private static LayoutInflater mInflater = null;
+	int color1, color2;
 
 	public VibrateListAdapter(Context ctx) {
 		mInflater = LayoutInflater.from(ctx);
+		color1 = ctx.getResources().getColor( R.color.dodgerblue_trans );
+		color2 = ctx.getResources().getColor( R.color.midnightblue_trans );
 	}
 
 	public void setData(
@@ -62,6 +66,7 @@ public class VibrateListAdapter extends BaseAdapter {
 			holder.play = (ImageView) convertView.findViewById(R.id.img_play_v);
 			holder.index = (TextView) convertView.findViewById(R.id.txt_vibrate_index);
 			holder.title = (TextView) convertView.findViewById(R.id.txt_vibrate_title);
+			holder.layout = (LinearLayout) convertView.findViewById(R.id.layout_v_list);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -72,13 +77,19 @@ public class VibrateListAdapter extends BaseAdapter {
 		holder.play.setTag(v.getIndex()-1);
 		holder.index.setText(v.getIndex() + "");
 		holder.title.setText(v.getTitle());
+		
+		if( position%2 == 0 ){
+			holder.layout.setBackgroundColor( color1 );
+		}else{
+			holder.layout.setBackgroundColor( color2 );
+		}
 
 		holder.play.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(
 					View view) {
 				VibrateJob j = new VibrateJob();
-				j.execute((Integer)view.getTag());
+				j.execute((Integer)view.getTag(), VibrateJob.WITHOUT_UI);
 
 			}
 		});
@@ -87,6 +98,7 @@ public class VibrateListAdapter extends BaseAdapter {
 	}
 
 	static final class ViewHolder {
+		LinearLayout layout;
 		TextView index;
 		TextView title;
 		MyVibrateView vibrateView;

@@ -1,5 +1,7 @@
 package me.promenade.pandora.fragment;
 
+import java.util.concurrent.Executors;
+
 import me.promenade.pandora.R;
 import me.promenade.pandora.asynjob.PlayMusicJob;
 import me.promenade.pandora.asynjob.VibrateAllJob;
@@ -8,6 +10,7 @@ import me.promenade.pandora.bean.Fantasy;
 import me.promenade.pandora.bean.RunningBean;
 import me.promenade.pandora.util.MusicUtil;
 import me.promenade.pandora.view.PlayButton;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -28,7 +31,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 
 public class FantasyFragment extends SherlockFragment implements OnClickListener, OnSeekBarChangeListener, OnGlobalLayoutListener {
 	public static final String TAG = "FantasyFragment";
-
+	
 	private static SeekBar mPb = null;
 	private static PlayButton mBtn = null;
 	private static TextView mTime = null;
@@ -49,6 +52,8 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 	private VibrateJob mVibrateJob = null;
 
 	private static int currentProgress = 0;
+	
+	public static boolean isPrepared = false;
 
 	public void setFantasy(
 			Fantasy f) {
@@ -163,12 +168,14 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 	@Override
 	public void onStart() {
 		currentProgress = 0;
+		isPrepared = true;
 		super.onStart();
 	}
 
 	@Override
 	public void onStop() {
 		stopAll();
+		isPrepared = false;
 		super.onStop();
 	}
 
@@ -192,12 +199,20 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 						"start..");
 				mBtn.setPlaying(true);
 
-				mPlayJob = new PlayMusicJob();
-				mPlayJob.execute(mFantasy.getMusicId(),
-						currentProgress);
-
 				mVibrateALlJob = new VibrateAllJob();
-				mVibrateALlJob.execute(0);
+				mPlayJob = new PlayMusicJob();
+
+				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+					mVibrateALlJob.execute(0);
+					mPlayJob.execute(mFantasy.getMusicId(),
+							currentProgress);
+				} else {
+					mVibrateALlJob.executeOnExecutor(Executors.newCachedThreadPool(),
+							0);// .execute(0);
+					mPlayJob.executeOnExecutor(Executors.newCachedThreadPool(),
+							mFantasy.getMusicId(),
+							currentProgress);// .execute(mFantasy.getMusicId(),currentProgress);
+				}
 			}
 			break;
 
@@ -224,7 +239,7 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 			mCurrentVibration.setVisibility(View.VISIBLE);
 			mCurrentVibration.setText(RunningBean.INSTANCE.getVibration().get(index - 1).getTitle());
 			mVibrateJob = new VibrateJob();
-			mVibrateJob.execute(index - 1);
+			mVibrateJob.execute(index - 1, VibrateJob.WITH_UI);
 			break;
 		}
 	}
@@ -234,8 +249,6 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 			SeekBar seekBar,
 			int progress,
 			boolean fromUser) {
-
-		// mTime.setText( progress + "" );
 	}
 
 	@Override
@@ -253,13 +266,11 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 	@Override
 	public void onGlobalLayout() {
 		int width = mButtonList[0].getWidth();
-		int height = mButtonList[0].getHeight();
-		Log.i(TAG, width + "," + height);
 		LayoutParams lp = mButtonList[0].getLayoutParams();
-		lp.height =width;
-        for( Button b : mButtonList ){
-        	b.setLayoutParams(lp);
-        }
+		lp.height = width;
+		for (Button b : mButtonList) {
+			b.setLayoutParams(lp);
+		}
 	}
 
 }
