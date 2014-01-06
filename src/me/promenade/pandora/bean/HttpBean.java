@@ -10,6 +10,8 @@ public class HttpBean {
 	private List<NameValuePair> param= null;
 	private JSONObject json = null;
 	private HttpMethod method = null;
+	private int type = -1;
+	
 	public String getUrl() {
 		return url;
 	}
@@ -38,7 +40,13 @@ public class HttpBean {
 			HttpMethod method) {
 		this.method = method;
 	}
-	
+	public int getType() {
+		return type;
+	}
+	public void setType(
+			int type) {
+		this.type = type;
+	}
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

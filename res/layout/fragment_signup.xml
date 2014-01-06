@@ -9,6 +9,8 @@
         android:id="@+id/txt_signup_logo"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_above="@+id/layout_signup"
+        android:layout_margin="20dp"
         android:gravity="center"
         android:text="@string/txt_login_logo"
         android:textColor="@color/lightslategray"
@@ -18,7 +20,8 @@
         android:id="@+id/layout_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txt_signup_logo"
+        android:layout_centerInParent="true"
+        android:layout_margin="20dp"
         android:background="@drawable/img_round_corner"
         android:orientation="vertical" >
 
@@ -119,6 +122,7 @@
         android:layout_height="40dp"
         android:layout_below="@+id/layout_signup"
         android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
         android:background="@drawable/btn_jeans"
         android:text="@string/btn_submit"
         android:textSize="25sp" />

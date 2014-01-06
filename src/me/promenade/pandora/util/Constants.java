@@ -6,4 +6,7 @@ public class Constants {
 	public static final String CALLBACK_URL = "http://" + XMPP_HOST + ":28080/MyPush/resources/xmpp/callback";
 	public static final String LOGIN_URL = "http://" + XMPP_HOST + ":28080/MyPush/resources/xmpp/confirm";
 	public static final String REGISTER_URL = "http://" + XMPP_HOST + ":28080/MyPush/resources/xmpp/register";
+	
+	public static final String SP_IS_LOGIN = "isLogin";
+	public static final String SP_USER_ID = "userId";
 }

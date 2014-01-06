@@ -7,14 +7,12 @@ import me.promenade.pandora.adapter.MyFragmentPagerAdapter;
 import me.promenade.pandora.fragment.FantasyListFragment;
 import me.promenade.pandora.fragment.FriendFragment;
 import me.promenade.pandora.fragment.MassagerFragment;
-import me.promenade.pandora.fragment.VibrateViewListFragment;
 import me.promenade.pandora.fragment.TestFragment;
+import me.promenade.pandora.fragment.VibrateViewListFragment;
 import me.promenade.pandora.util.VibrateUtil;
 
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
@@ -40,7 +38,6 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 	private TextView[] mTxtList;
 
 	private int currIndex = 0;
-	private Context mContext;
 
 	@Override
 	protected void onCreate(
@@ -49,8 +46,6 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 		super.onCreate(savedInstanceState);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
-		mContext = this.getApplicationContext();
-
 		setContentView(R.layout.activity_stub);
 
 		initActionBar();
@@ -244,16 +239,16 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 				makeTabSelected(1);
 				getSupportActionBar().setTitle(R.string.txt_tab2);
 				
-				boolean isLogin = false;
-				
-				if( !isLogin ){
-					Intent i = new Intent(mContext, HolderActivity.class);
-					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					Bundle b = new Bundle();
-					b.putInt("fragment", HolderActivity.FRAGMENT_LOGIN);
-					i.putExtras(b);
-					mContext.startActivity( i );
-				}
+//				boolean isLogin = SharedPreferenceUtil.INSTANCE.getData("isLogin").length()==0?false:true;
+//				
+//				if( !isLogin ){
+//					Intent i = new Intent(mContext, HolderActivity.class);
+//					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//					Bundle b = new Bundle();
+//					b.putInt("fragment", HolderActivity.FRAGMENT_LOGIN);
+//					i.putExtras(b);
+//					mContext.startActivity( i );
+//				}
 				
 				break;
 			case 2:

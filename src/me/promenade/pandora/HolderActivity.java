@@ -13,6 +13,7 @@ import android.annotation.TargetApi;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -27,11 +28,29 @@ public class HolderActivity extends SherlockFragmentActivity {
 	public static final int FRAGMENT_VIBRATE = 3;
 	public static final int FRAGMENT_LOGIN = 4;
 	public static final int FRAGMENT_SIGNUP = 5;
+	
+	public static final int WHAT_FINISH = 1;
+	
+	private static HolderActivity me;
+	
+	public static Handler mHandler = new Handler() {
+		public void handleMessage(
+				android.os.Message msg) {
+			switch (msg.what) {
+			case WHAT_FINISH:
+				me.finish();
+				break;
+			default:
+				break;
+			}
+		};
+	};
 
 	@Override
 	protected void onCreate(
 			Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		me = this;
 //		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 //		getSupportActionBar().setDisplayShowTitleEnabled(false);
 		getSupportActionBar().hide();

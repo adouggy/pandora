@@ -107,8 +107,9 @@ public class SignupFragment extends SherlockFragment implements OnClickListener 
 			bean.setJson(j);
 			bean.setMethod(HttpMethod.POST);
 			bean.setUrl(Constants.REGISTER_URL);
-			
+			bean.setType(HttpJob.TYPE_REGISTER);
 			HttpJob job = new HttpJob();
+			job.setContext(getActivity());
 			job.execute( bean );
 		
 			break;
