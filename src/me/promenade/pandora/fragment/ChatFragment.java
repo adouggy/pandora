@@ -10,6 +10,8 @@ import me.promenade.pandora.bean.HttpBean;
 import me.promenade.pandora.bean.HttpMethod;
 import me.promenade.pandora.bean.MessageType;
 import me.promenade.pandora.bean.SendStatus;
+import me.promenade.pandora.util.Constants;
+import me.promenade.pandora.util.SharedPreferenceUtil;
 import net.synergyinfosys.xmppclient.NotificationService;
 
 import org.json.JSONException;
@@ -20,6 +22,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,6 +44,9 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 	private Button mBtnSend = null;
 	private Button mBtnType = null;
 	private EditText mEdtText = null;
+	
+	private String myName = null;
+	private String friendName = null;
 
 	public static Handler mHandler = new Handler() {
 		@Override
@@ -53,7 +59,6 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 
 			Chat c = new Chat();
 			c.setMessage(message);
-
 			c.setTimestamp(System.currentTimeMillis());
 			c.setMessageType(MessageType.Message);
 
@@ -85,6 +90,10 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 		View view = inflater.inflate(R.layout.fragment_chat,
 				container,
 				false);
+		
+		friendName = getActivity().getIntent().getExtras().getString("friend");
+		myName = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_USER_NAME);
+		Log.i( TAG, friendName + "<->" + myName );
 
 		mList = (ListView) view.findViewById(R.id.list_chat);
 		mList.setDivider(null);
@@ -101,10 +110,6 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 
 		mList.setAdapter(mAdapter);
 
-		// setupXmppPreference();
-		Intent intent = new Intent(getActivity(), NotificationService.class);
-		getActivity().startService(intent);
-
 		return view;
 	}
 
@@ -112,71 +117,6 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 	public void onDestroy() {
 		super.onDestroy();
 	}
-
-	// private ArrayList<Chat> initChat() {
-	// ArrayList<Chat> list = new ArrayList<Chat>();
-	// Chat c1 = new Chat();
-	// Chat c2 = new Chat();
-	// Chat c3 = new Chat();
-	// Chat c4 = new Chat();
-	// Chat c5 = new Chat();
-	//
-	// c1.setMessage("blah");
-	// c1.setRemote(true);
-	// c1.setSendStatus(SendStatus.Sent);
-	// c1.setTimestamp(System.currentTimeMillis());
-	//
-	// c2.setMessage("blah b;aj.///");
-	// c2.setSendStatus(SendStatus.SentFailed);
-	// c2.setRemote(false);
-	// c2.setTimestamp(System.currentTimeMillis());
-	//
-	// c3.setMessage("中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文");
-	// c3.setRemote(true);
-	// c3.setSendStatus(SendStatus.Sent);
-	// c3.setTimestamp(System.currentTimeMillis());
-	//
-	// c4.setMessage("长，很长很航。长，很长很航。长，很长很航。长，很长很航。长，很长很航。长，很长很航。长，很长很航。长，很长很航。长，很长很航。长，很长很航。长，很长很航。长，很长很航。长，很长很航。长，很长很航。长，很长很航。长，很长很航。");
-	// c4.setSendStatus(SendStatus.Sent);
-	// c4.setRemote(false);
-	// c4.setTimestamp(System.currentTimeMillis());
-	//
-	// c5.setMessage("正在转");
-	// c5.setRemote(true);
-	// c5.setSendStatus(SendStatus.SentReceived);
-	// c5.setTimestamp(System.currentTimeMillis() + 2000000);
-	//
-	// list.add(c1);
-	// list.add(c2);
-	// list.add(c3);
-	// list.add(c4);
-	// list.add(c5);
-	// return list;
-	// }
-
-	// private void setupXmppPreference() {
-	// SharedPreferences sharedPrefs =
-	// getActivity().getSharedPreferences("client_preferences",
-	// Context.MODE_PRIVATE);
-	// Editor editor = sharedPrefs.edit();
-	// editor.putString("username",
-	// "ade");
-	// editor.putString("password",
-	// "ade");
-	// editor.putString("XMPP_USERNAME",
-	// "ade");
-	// editor.putString("XMPP_PASSWORD",
-	// "ade");
-	// editor.putString("XMPP_HOST",
-	// "192.168.0.133");
-	// editor.putInt("XMPP_PORT",
-	// 5222);
-	// editor.putString(Constants.CALLBACK_ACTIVITY_PACKAGE_NAME,
-	// "me.promenade.pandora.fragment");
-	// editor.putString(Constants.CALLBACK_ACTIVITY_CLASS_NAME,
-	// this.getClass().getName());
-	// editor.commit();
-	// }
 
 	@Override
 	public void onClick(
@@ -188,7 +128,7 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 			JSONObject j = new JSONObject();
 			try {
 				j.put("devId",
-						"ade");
+						friendName);
 				j.put("data",
 						Base64.encodeToString(text.getBytes(),
 								Base64.NO_WRAP | Base64.URL_SAFE));
@@ -202,7 +142,7 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 
 				Bundle bundle = new Bundle();
 				bundle.putString("username",
-						"me");
+						myName);
 				bundle.putString("message",
 						text);
 

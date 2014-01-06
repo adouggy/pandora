@@ -89,6 +89,13 @@ public class HttpJob extends AsyncTask<HttpBean, Integer, String> {
 								"true");
 						SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_ID,
 								j.getString("id"));
+						Log.i(TAG, "setting username:" + mHttpBean.getJson().getString("username"));
+						SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_NAME,
+								mHttpBean.getJson().getString("username"));
+						SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_PASSWORD,
+								mHttpBean.getJson().getString("password"));
+						
+						XMPPUtil.INSTANCE.init(mContext);
 
 						Toast.makeText(mContext,
 								"登录成功",
@@ -110,7 +117,7 @@ public class HttpJob extends AsyncTask<HttpBean, Integer, String> {
 								"true");
 						SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_ID,
 								j.getString("id"));
-
+						
 						Toast.makeText(mContext,
 								"注册成功",
 								Toast.LENGTH_SHORT).show();

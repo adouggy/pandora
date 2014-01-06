@@ -9,5 +9,7 @@ public class Constants {
 	
 	public static final String SP_IS_LOGIN = "isLogin";
 	public static final String SP_USER_ID = "userId";
+	public static final String SP_USER_NAME = "userName";
+	public static final String SP_USER_PASSWORD = "userPassword";
 	public static final String SP_FRIEND = "friend";
 }

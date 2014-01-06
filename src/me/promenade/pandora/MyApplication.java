@@ -11,12 +11,12 @@ public class MyApplication extends Application {
 
 	@Override
 	public void onCreate() {
+		SharedPreferenceUtil.INSTANCE.init(this);
 
 		VibrateUtil.INSTANCE.init(this);
 		XMPPUtil.INSTANCE.init(this);
 		BluetoothUtil.INSTANCE.init(this);
 		MusicUtil.INSTANCE.init(this);
-		SharedPreferenceUtil.INSTANCE.init(this);
 		super.onCreate();
 	}
 

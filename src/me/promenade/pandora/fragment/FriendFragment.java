@@ -6,6 +6,7 @@ import me.promenade.pandora.adapter.FriendListAdapter;
 import me.promenade.pandora.bean.RunningBean;
 import me.promenade.pandora.util.Constants;
 import me.promenade.pandora.util.SharedPreferenceUtil;
+import me.promenade.pandora.util.XMPPUtil;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
@@ -30,17 +30,17 @@ public class FriendFragment extends SherlockFragment implements OnClickListener 
 
 	private static ListView mList = null;
 	private static FriendListAdapter mAdapter = null;
-	
+
 	private static Button mAddButton = null;
-	
+
 	private static FriendFragment me = null;
 
 	public static final int WHAT_REFRESH_MENU = 1;
-	
-	
-	public static Handler mHandler = new Handler(){
-		public void handleMessage(android.os.Message msg) {
-			switch( msg.what ){
+
+	public static Handler mHandler = new Handler() {
+		public void handleMessage(
+				android.os.Message msg) {
+			switch (msg.what) {
 			case WHAT_REFRESH_MENU:
 				me.getActivity().supportInvalidateOptionsMenu();
 				break;
@@ -63,12 +63,12 @@ public class FriendFragment extends SherlockFragment implements OnClickListener 
 		mList.setDivider(null);
 
 		mAdapter = new FriendListAdapter(this.getActivity());
-		mAdapter.setData( RunningBean.INSTANCE.getFriend() );
+		mAdapter.setData(RunningBean.INSTANCE.getFriend());
 
 		mList.setAdapter(mAdapter);
-		
+
 		mAddButton = (Button) view.findViewById(R.id.btn_add_friend);
-		
+
 		mAddButton.setOnClickListener(this);
 
 		return view;
@@ -102,9 +102,9 @@ public class FriendFragment extends SherlockFragment implements OnClickListener 
 	@Override
 	public boolean onOptionsItemSelected(
 			MenuItem item) {
-//		Toast.makeText(getActivity(),
-//				item.getTitle().toString(),
-//				Toast.LENGTH_SHORT).show();
+		// Toast.makeText(getActivity(),
+		// item.getTitle().toString(),
+		// Toast.LENGTH_SHORT).show();
 
 		if (item.getTitle().toString().contains("注销")) {
 			SharedPreferenceUtil.INSTANCE.setData(Constants.SP_IS_LOGIN,
@@ -112,6 +112,7 @@ public class FriendFragment extends SherlockFragment implements OnClickListener 
 			SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_ID,
 					"");
 			getActivity().supportInvalidateOptionsMenu();
+			XMPPUtil.INSTANCE.stop();
 		} else if (item.getTitle().toString().compareTo("登录") == 0) {
 			Intent i = new Intent(getActivity(), HolderActivity.class);
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -137,26 +138,29 @@ public class FriendFragment extends SherlockFragment implements OnClickListener 
 	@Override
 	public void onClick(
 			View v) {
-		switch( v.getId() ){
+		switch (v.getId()) {
 		case R.id.btn_add_friend:
 			AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
-		    b.setTitle("请输入好友昵称");
-		    final EditText input = new EditText(getActivity());
-		    b.setView(input);
-		    b.setPositiveButton("确定", new DialogInterface.OnClickListener()
-		    {
-		        @Override
-		        public void onClick(DialogInterface dialog, int whichButton)
-		        {
-		           String name = input.getText().toString();
-		           SharedPreferenceUtil.INSTANCE.setData(Constants.SP_FRIEND, name);
-		           RunningBean.INSTANCE.reloadFriend();
-		           mAdapter.setData(RunningBean.INSTANCE.getFriend());
-		           mAdapter.notifyDataSetInvalidated();
-		        }
-		    });
-		    b.setNegativeButton("取消", null);
-		    b.create().show();
+			b.setTitle("请输入好友昵称");
+			final EditText input = new EditText(getActivity());
+			b.setView(input);
+			b.setPositiveButton("确定",
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(
+								DialogInterface dialog,
+								int whichButton) {
+							String name = input.getText().toString();
+							SharedPreferenceUtil.INSTANCE.setData(Constants.SP_FRIEND,
+									name);
+							RunningBean.INSTANCE.reloadFriend();
+							mAdapter.setData(RunningBean.INSTANCE.getFriend());
+							mAdapter.notifyDataSetInvalidated();
+						}
+					});
+			b.setNegativeButton("取消",
+					null);
+			b.create().show();
 			break;
 		}
 	}

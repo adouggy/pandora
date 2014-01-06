@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import me.promenade.pandora.HolderActivity;
 import me.promenade.pandora.R;
 import me.promenade.pandora.bean.Friend;
+import me.promenade.pandora.util.Constants;
+import me.promenade.pandora.util.SharedPreferenceUtil;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class FriendListAdapter extends BaseAdapter {
 
@@ -78,15 +81,21 @@ public class FriendListAdapter extends BaseAdapter {
 		}
 
 		holder.username.setText(f.getUsername());
+		holder.chat.setTag(f.getUsername());
 		holder.chat.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(
 					View v) {
-				Intent i = new Intent(mContext, HolderActivity.class);
-				Bundle b = new Bundle();
-				b.putInt("fragment", HolderActivity.FRAGMENT_CHAT);
-				i.putExtras(b);
-				mContext.startActivity(i);
+				if( SharedPreferenceUtil.INSTANCE.getData(Constants.SP_IS_LOGIN).length() != 0 ){
+					Intent i = new Intent(mContext, HolderActivity.class);
+					Bundle b = new Bundle();
+					b.putInt("fragment", HolderActivity.FRAGMENT_CHAT);
+					b.putString("friend", (String)v.getTag());
+					i.putExtras(b);
+					mContext.startActivity(i);
+				}else{
+					Toast.makeText(mContext, "请先登录", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 

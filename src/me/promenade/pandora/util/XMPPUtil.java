@@ -18,10 +18,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 
 public enum XMPPUtil {
 	INSTANCE;
 
+	public static final String TAG = "XMPPUtil";
+	
 	HttpClient httpclient = null;
 	Context mContext = null;
 
@@ -31,26 +34,40 @@ public enum XMPPUtil {
 
 	public void init(
 			Context ctx) {
+		Log.i(TAG, "init...");
 		this.mContext = ctx;
-		setupXmppPreference();
-		Intent intent = new Intent(mContext, NotificationService.class);
-		mContext.startService(intent);
+		String key = me.promenade.pandora.util.Constants.SP_IS_LOGIN;
+		if (SharedPreferenceUtil.INSTANCE.getData(key).length() != 0) {
+			setupXmppPreference(SharedPreferenceUtil.INSTANCE.getData(me.promenade.pandora.util.Constants.SP_USER_NAME),
+					SharedPreferenceUtil.INSTANCE.getData(me.promenade.pandora.util.Constants.SP_USER_PASSWORD));
+			Intent intent = new Intent(mContext, NotificationService.class);
+			mContext.startService(intent);
+		}
 	}
 
-	private void setupXmppPreference() {
+	public void stop() {
+		Intent intent = new Intent(mContext, NotificationService.class);
+		mContext.stopService(intent);
+	}
+
+	private void setupXmppPreference(
+			String username,
+			String password) {
+		Log.i(TAG, username);
+		Log.i(TAG, password);
 		SharedPreferences sharedPrefs = mContext.getSharedPreferences("client_preferences",
 				Context.MODE_PRIVATE);
 		Editor editor = sharedPrefs.edit();
 		editor.putString("username",
-				"ade");
+				username);
 		editor.putString("password",
-				"ade");
+				password);
 		editor.putString("XMPP_USERNAME",
-				"ade");
+				username);
 		editor.putString("XMPP_PASSWORD",
-				"ade");
+				password);
 		editor.putString("XMPP_HOST",
-				"173.255.242.145");
+				me.promenade.pandora.util.Constants.XMPP_HOST);
 		editor.putInt("XMPP_PORT",
 				5222);
 		editor.putString(Constants.CALLBACK_ACTIVITY_PACKAGE_NAME,
