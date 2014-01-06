@@ -45,4 +45,7 @@
     <string name="txt_bluetooth_search_hint_ongoing">正在搜索...</string>
     
     <string name="txt_time">时间</string>
+    
+    <string name="txt_add_friend_hint">输入您朋友的昵称，开启亲密的分享</string>
+    <string name="txt_add_friend_button">添加伙伴</string>
 </resources>

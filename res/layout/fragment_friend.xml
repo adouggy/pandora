@@ -8,9 +8,31 @@
     <ListView
         android:id="@+id/list_friend"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
-       >
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" >
     </ListView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list_friend"
+        android:layout_margin="10dp"
+        android:background="@drawable/img_round_corner"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_gravity="center"
+            android:id="@+id/txt_add_friend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_add_friend_hint" />
+
+        <Button
+            android:layout_gravity="center"
+            android:id="@+id/btn_add_friend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_add_friend_button" />
+    </LinearLayout>
 
 </RelativeLayout>

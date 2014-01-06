@@ -30,7 +30,7 @@ public class SignupFragment extends SherlockFragment implements OnClickListener 
 	private EditText mEmail = null;
 	private DatePicker mBirthday = null;
 	private RadioButton mMale = null;
-	private RadioButton mFemale = null;
+//	private RadioButton mFemale = null;
 	private Button mSubmit = null;
 
 	@Override
@@ -49,7 +49,7 @@ public class SignupFragment extends SherlockFragment implements OnClickListener 
 		mBirthday = (DatePicker) view.findViewById(R.id.dp_signup);
 		
 		mMale = (RadioButton) view.findViewById(R.id.radio_signup_male);
-		mFemale = (RadioButton) view.findViewById(R.id.radio_signup_female);
+//		mFemale = (RadioButton) view.findViewById(R.id.radio_signup_female);
 		
 		mSubmit = (Button) view.findViewById(R.id.btn_signup_submit);
 		

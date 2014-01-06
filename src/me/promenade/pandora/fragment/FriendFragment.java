@@ -1,35 +1,43 @@
 package me.promenade.pandora.fragment;
 
-import java.util.ArrayList;
-
 import me.promenade.pandora.HolderActivity;
 import me.promenade.pandora.R;
 import me.promenade.pandora.adapter.FriendListAdapter;
-import me.promenade.pandora.bean.Friend;
+import me.promenade.pandora.bean.RunningBean;
 import me.promenade.pandora.util.Constants;
 import me.promenade.pandora.util.SharedPreferenceUtil;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class FriendFragment extends SherlockFragment {
+public class FriendFragment extends SherlockFragment implements OnClickListener {
 	public static final String TAG = "FriendFragment";
 
 	private static ListView mList = null;
 	private static FriendListAdapter mAdapter = null;
 	
+	private static Button mAddButton = null;
+	
 	private static FriendFragment me = null;
 
 	public static final int WHAT_REFRESH_MENU = 1;
+	
+	
 	public static Handler mHandler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
 			switch( msg.what ){
@@ -55,9 +63,13 @@ public class FriendFragment extends SherlockFragment {
 		mList.setDivider(null);
 
 		mAdapter = new FriendListAdapter(this.getActivity());
-		mAdapter.setData(initFriend());
+		mAdapter.setData( RunningBean.INSTANCE.getFriend() );
 
 		mList.setAdapter(mAdapter);
+		
+		mAddButton = (Button) view.findViewById(R.id.btn_add_friend);
+		
+		mAddButton.setOnClickListener(this);
 
 		return view;
 	}
@@ -65,21 +77,6 @@ public class FriendFragment extends SherlockFragment {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-	}
-
-	private ArrayList<Friend> initFriend() {
-		ArrayList<Friend> list = new ArrayList<Friend>();
-
-		Friend f = new Friend();
-		f.setUsername("ade");
-
-		Friend f2 = new Friend();
-		f2.setUsername("test");
-
-		list.add(f);
-		list.add(f2);
-
-		return list;
 	}
 
 	@Override
@@ -135,5 +132,32 @@ public class FriendFragment extends SherlockFragment {
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onClick(
+			View v) {
+		switch( v.getId() ){
+		case R.id.btn_add_friend:
+			AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
+		    b.setTitle("请输入好友昵称");
+		    final EditText input = new EditText(getActivity());
+		    b.setView(input);
+		    b.setPositiveButton("确定", new DialogInterface.OnClickListener()
+		    {
+		        @Override
+		        public void onClick(DialogInterface dialog, int whichButton)
+		        {
+		           String name = input.getText().toString();
+		           SharedPreferenceUtil.INSTANCE.setData(Constants.SP_FRIEND, name);
+		           RunningBean.INSTANCE.reloadFriend();
+		           mAdapter.setData(RunningBean.INSTANCE.getFriend());
+		           mAdapter.notifyDataSetInvalidated();
+		        }
+		    });
+		    b.setNegativeButton("取消", null);
+		    b.create().show();
+			break;
+		}
 	}
 }

@@ -3,14 +3,24 @@ package me.promenade.pandora.bean;
 import java.util.ArrayList;
 
 import me.promenade.pandora.R;
+import me.promenade.pandora.util.Constants;
+import me.promenade.pandora.util.SharedPreferenceUtil;
 
 public enum RunningBean {
 	INSTANCE;
 	
 	private ArrayList<Vibration> vData = null;
 	private ArrayList<Fantasy> vFantasy = null;
+	private ArrayList<Friend> vFriend = null;
 	
 	RunningBean(){
+	}
+	
+	public ArrayList<Friend> getFriend(){
+		if( vFriend == null )
+			vFriend = initFriend();
+		
+		return vFriend;
 	}
 	
 	public ArrayList<Vibration> getVibration(){
@@ -25,6 +35,23 @@ public enum RunningBean {
 			vFantasy = initFantasy();
 		
 		return vFantasy;
+	}
+	
+	public void reloadFriend(){
+		vFriend = initFriend();
+	}
+	
+	private ArrayList<Friend> initFriend() {
+		ArrayList<Friend> list = new ArrayList<Friend>();
+		
+		String friendName = SharedPreferenceUtil.INSTANCE.getData( Constants.SP_FRIEND );
+		if( friendName.length() != 0 ){
+			Friend f = new Friend();
+			f.setUsername(friendName);
+			list.add(f);
+		}
+
+		return list;
 	}
 	
 	private ArrayList<Vibration> initVibrateData() {
