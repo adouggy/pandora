@@ -12,12 +12,10 @@ import me.promenade.pandora.bean.MessageType;
 import me.promenade.pandora.bean.SendStatus;
 import me.promenade.pandora.util.Constants;
 import me.promenade.pandora.util.SharedPreferenceUtil;
-import net.synergyinfosys.xmppclient.NotificationService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;

@@ -23,14 +23,21 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        
         <activity
-            android:name="me.promenade.pandora.StubActivity"
+            android:name="me.promenade.pandora.SplashActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="me.promenade.pandora.StubActivity"
+            android:label="@string/app_name" >
+           
         </activity>
 
         <service
@@ -64,6 +71,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="me.promenade.pandora.StubActivity" />
         </activity>
+        
     </application>
 
 </manifest>
