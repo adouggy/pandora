@@ -1,6 +1,7 @@
 package me.promenade.pandora.fragment;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,13 +83,13 @@ public class SignupFragment extends SherlockFragment implements OnClickListener 
 			int year = this.mBirthday.getYear();
 			int month = this.mBirthday.getMonth();
 			int day = this.mBirthday.getDayOfMonth();
-			String birthday = day + "/" + month + "/" + year;
+			long birthday = new GregorianCalendar(year, month, day).getTimeInMillis();
 			
-			String gender = "";
+			String gender = "0";
 			if( mMale.isChecked() ){
-				gender = "male";
+				gender = "1";
 			}else{
-				gender = "female";
+				gender = "0";
 			}
 			
 			JSONObject j = new JSONObject();

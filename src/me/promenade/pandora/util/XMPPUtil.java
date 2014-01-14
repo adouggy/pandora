@@ -10,6 +10,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -96,6 +97,20 @@ public enum XMPPUtil {
 				httppost.setEntity(new UrlEncodedFormEntity(b.getParam()));
 			}
 			HttpResponse response = httpclient.execute(httppost);
+			return response;
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public HttpResponse get(
+			String url) {
+		HttpGet get = new HttpGet(url);
+		try {
+			HttpResponse response = httpclient.execute(get);
 			return response;
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();

@@ -8,7 +8,6 @@ import me.promenade.pandora.fragment.FantasyListFragment;
 import me.promenade.pandora.fragment.FriendFragment;
 import me.promenade.pandora.fragment.MassagerFragment;
 import me.promenade.pandora.fragment.MoreFragment;
-import me.promenade.pandora.fragment.TestFragment;
 import me.promenade.pandora.fragment.VibrateViewListFragment;
 import me.promenade.pandora.util.VibrateUtil;
 

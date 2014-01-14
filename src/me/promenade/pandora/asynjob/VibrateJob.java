@@ -40,35 +40,44 @@ public class VibrateJob extends AsyncTask<Integer, Integer, String> {
 		}
 
 		if (BluetoothUtil.INSTANCE.isConntected()) {
-			byte[] bArr = new byte[pattern.length + 1];
-			int i = 0;
-			for (int p : pattern) {
-				if (isCancelled())
-					return "";
-
-				if (p == 0) {
-					bArr[i] = 't';
-				} else if (p == 1) {
-					bArr[i] = 'a';
-				} else if (p == 2) {
-					bArr[i] = 'b';
-				} else if (p == 3) {
-					bArr[i] = 'c';
-				} else if (p == 4) {
-					bArr[i] = 'd';
-				} else if (p == 5) {
-					bArr[i] = 'e';
-				} else if (p == 6) {
-					bArr[i] = 'f';
-				}
-
-				i++;
+//			byte[] bArr = new byte[pattern.length + 1];
+//			int i = 0;
+//			for (int p : pattern) {
+//				if (isCancelled())
+//					return "";
+//
+//				if (p == 0) {
+//					bArr[i] = 't';
+//				} else if (p == 1) {
+//					bArr[i] = 'a';
+//				} else if (p == 2) {
+//					bArr[i] = 'b';
+//				} else if (p == 3) {
+//					bArr[i] = 'c';
+//				} else if (p == 4) {
+//					bArr[i] = 'd';
+//				} else if (p == 5) {
+//					bArr[i] = 'e';
+//				} else if (p == 6) {
+//					bArr[i] = 'f';
+//				}
+//
+//				i++;
+//			}
+//
+//			bArr[i] = 't';
+//
+//			BluetoothUtil.INSTANCE.sendMessage(bArr,
+//					VibrateUtil.INTERVAL);
+			
+			byte[] bArr = new byte[2 + 14];
+			bArr[0] = 'b';
+			bArr[1] = 'd'; // sinle, x for loop
+			int i=2;
+			for( int p : pattern ){
+				bArr[i++] = (byte)p;
 			}
-
-			bArr[i] = 't';
-
-			BluetoothUtil.INSTANCE.sendMessage(bArr,
-					VibrateUtil.INTERVAL);
+			BluetoothUtil.INSTANCE.sendMessage(bArr);
 		} else {
 			for (int level : pattern) {
 				if (isCancelled())

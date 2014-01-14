@@ -3,7 +3,7 @@
     android:id="@+id/layout_vibrateview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/img_bground_splash" >
+    android:background="@drawable/login_bg" >
 
     <TextView
         android:id="@+id/txt_login_logo"

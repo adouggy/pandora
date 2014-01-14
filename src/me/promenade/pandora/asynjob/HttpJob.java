@@ -52,7 +52,9 @@ public class HttpJob extends AsyncTask<HttpBean, Integer, String> {
 			Log.i(TAG,
 					"Start to post->" + mHttpBean.toString());
 			HttpResponse res = XMPPUtil.INSTANCE.post(this.mHttpBean);
-
+			if( res == null )
+				return null;
+			
 			try {
 				String response = EntityUtils.toString(res.getEntity());
 
