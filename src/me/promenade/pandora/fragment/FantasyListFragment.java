@@ -17,36 +17,39 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 
 public class FantasyListFragment extends SherlockFragment implements OnItemClickListener, OnItemLongClickListener {
 	public static final String TAG = "FantasyListFragment";
 
 	private static ListView mList = null;
-	private static FantasyListAdapter mAdapter = null;
-
-	public static ArrayList<Fantasy> mFantasyList = null;
+	public static FantasyListAdapter mAdapter = null;
 
 	@Override
 	public View onCreateView(
 			LayoutInflater inflater,
 			ViewGroup container,
 			Bundle savedInstanceState) {
-
-		mFantasyList = RunningBean.INSTANCE.getFantasy();
-
+		@SuppressWarnings("unchecked")
+		ArrayList<Fantasy> list = (ArrayList<Fantasy>) RunningBean.INSTANCE.getFantasy().clone();
 		View view = inflater.inflate(R.layout.fragment_fantasy_list,
 				container,
 				false);
+		setHasOptionsMenu(true);
+
 		mList = (ListView) view.findViewById(R.id.list_home);
 		mList.setDivider(null);
 
 		mAdapter = new FantasyListAdapter(this.getActivity());
-		mAdapter.setData(mFantasyList);
+		mAdapter.setData(list);
 
 		mList.setAdapter(mAdapter);
 
@@ -61,7 +64,53 @@ public class FantasyListFragment extends SherlockFragment implements OnItemClick
 		super.onDestroy();
 	}
 
-	protected void dialog() {
+	@Override
+	public void onCreateOptionsMenu(
+			Menu menu,
+			MenuInflater inflater) {
+		MenuItem actionItem = menu.add("新建");
+		actionItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		super.onCreateOptionsMenu(menu,
+				inflater);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(
+			MenuItem item) {
+		final String[] arr = new String[] { "机场", "海滩", "呼吸", "露营", "公园", "细雨", "瀑布", "森林" };
+		new AlertDialog.Builder(getActivity()).setTitle("选择幻想").setSingleChoiceItems(arr,
+				0,
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(
+							DialogInterface di,
+							int index) {
+						String title = RunningBean.INSTANCE.getFantasy().get(index).getTitle();
+						boolean exists = false;
+						for (int i = 0; i < mAdapter.getCount(); i++) {
+							if (((Fantasy) mAdapter.getItem(i)).getTitle().compareTo(title) == 0) {
+								exists = true;
+								break;
+							}
+						}
+//
+						if (exists) {
+							Toast.makeText(getActivity(),
+									arr[index] + "已存在",
+									Toast.LENGTH_SHORT).show();
+						} else {
+							mAdapter.addData(index, (Fantasy)RunningBean.INSTANCE.getFantasy().get(index));
+							di.dismiss();
+						}
+					}
+				}).setNegativeButton("取消",
+				null).show();
+
+		return super.onOptionsItemSelected(item);
+	}
+
+	protected void delDialog(
+			final int position) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setMessage("确认删除吗？");
 
@@ -74,6 +123,8 @@ public class FantasyListFragment extends SherlockFragment implements OnItemClick
 					public void onClick(
 							DialogInterface dialog,
 							int which) {
+
+						mAdapter.delData(position);
 						dialog.dismiss();
 
 					}
@@ -98,8 +149,8 @@ public class FantasyListFragment extends SherlockFragment implements OnItemClick
 			AdapterView<?> arg0,
 			View arg1,
 			int arg2,
-			long arg3) {
-		dialog();
+			long position) {
+		delDialog((int) position);
 		return false;
 	}
 
@@ -109,11 +160,12 @@ public class FantasyListFragment extends SherlockFragment implements OnItemClick
 			View arg1,
 			int position,
 			long id) {
-		
-		int realPosition=(int)id;
-		
-		Log.i( TAG, realPosition + "<--" );
-		
+
+		int realPosition = (int) id;
+
+		Log.i(TAG,
+				realPosition + "<--");
+
 		Intent i = new Intent(getActivity(), HolderActivity.class);
 		Bundle b = new Bundle();
 		b.putInt("fragment",

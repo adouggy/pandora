@@ -91,7 +91,7 @@ public class HolderActivity extends SherlockFragmentActivity {
 			break;
 		case FRAGMENT_FANTASY:
 			int fantasyIndex = b.getInt("position");
-			Fantasy fantasy = FantasyListFragment.mFantasyList.get(fantasyIndex);
+			Fantasy fantasy = (Fantasy)FantasyListFragment.mAdapter.getItem(fantasyIndex);
 
 			f = new FantasyFragment();
 			((FantasyFragment) f).setFantasy(fantasy);

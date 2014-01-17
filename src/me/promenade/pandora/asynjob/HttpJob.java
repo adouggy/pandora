@@ -30,6 +30,7 @@ public class HttpJob extends AsyncTask<HttpBean, Integer, String> {
 	public static final int TYPE_LOGIN = 1;
 	public static final int TYPE_REGISTER = 2;
 	public static final int TYPE_GET_USER = 3;
+	public static final int TYPE_UPDATE = 4;
 
 	private Context mContext = null;
 
@@ -137,6 +138,8 @@ public class HttpJob extends AsyncTask<HttpBean, Integer, String> {
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
+			} else if ( mHttpBean.getType() == TYPE_UPDATE ){
+				
 			}
 		}
 

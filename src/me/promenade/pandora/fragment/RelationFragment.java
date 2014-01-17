@@ -1,17 +1,9 @@
 package me.promenade.pandora.fragment;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import me.promenade.pandora.R;
 import me.promenade.pandora.asynjob.GetPhotoJob;
-import me.promenade.pandora.asynjob.HttpJob;
-import me.promenade.pandora.bean.HttpBean;
-import me.promenade.pandora.bean.HttpMethod;
 import me.promenade.pandora.bean.Profile;
-import me.promenade.pandora.util.Constants;
 import me.promenade.pandora.util.ImageUtil;
-import me.promenade.pandora.util.SharedPreferenceUtil;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -19,21 +11,18 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class ProfileFragment extends SherlockFragment implements OnClickListener {
-	public static final String TAG = "ProfileFragment";
+public class RelationFragment extends SherlockFragment implements OnClickListener {
+	public static final String TAG = "RelationFragment";
 
 	private static TextView mNick;
 	private static ImageView mGender;
@@ -111,30 +100,7 @@ public class ProfileFragment extends SherlockFragment implements OnClickListener
 			View v) {
 		switch (v.getId()) {
 		case R.id.layout_profile_nick:
-			if( !Boolean.parseBoolean( SharedPreferenceUtil.INSTANCE.getData(Constants.SP_IS_LOGIN) ) ){
-				Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
-				break;
-			}
-			
-			final EditText input = new EditText(getActivity());
-			
 
-			new AlertDialog.Builder(getActivity())
-		    .setTitle("输入昵称")
-		    .setMessage("昵称")
-		    .setView(input)
-		    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-		        public void onClick(DialogInterface dialog, int whichButton) {
-		            Editable value = input.getText(); 
-		            String nickname = value.toString();
-		            updateNickname( nickname );
-		            mNick.setText(nickname);
-		        }
-		    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-		        public void onClick(DialogInterface dialog, int whichButton) {
-		        }
-		    }).show();
-			
 			break;
 		case R.id.layout_profile_gender:
 			Dialog alertDialog = new AlertDialog.Builder(getActivity()).setTitle("性别").setMessage("请选择性别").setIcon(R.drawable.ic_launcher).setPositiveButton("男",
@@ -144,7 +110,6 @@ public class ProfileFragment extends SherlockFragment implements OnClickListener
 						public void onClick(
 								DialogInterface arg0,
 								int arg1) {
-							updateGender(true);
 							mProfile.setMale(true);
 							refreshProfile(mProfile);
 						}
@@ -156,7 +121,6 @@ public class ProfileFragment extends SherlockFragment implements OnClickListener
 						public void onClick(
 								DialogInterface dialog,
 								int which) {
-							updateGender(false);
 							mProfile.setMale(false);
 							refreshProfile(mProfile);
 
@@ -175,56 +139,6 @@ public class ProfileFragment extends SherlockFragment implements OnClickListener
 		case R.id.layout_profile_relation:
 			break;
 		}
-	}
-	
-	private void updateNickname(String nickname){
-		int userId = Integer.parseInt( SharedPreferenceUtil.INSTANCE.getData(Constants.SP_USER_ID) );
-		String password = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_USER_PASSWORD);
-		String username = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_USER_NAME);
-		
-		JSONObject json = new JSONObject();
-		try {
-			json.put("username", username);
-			json.put("password", password);
-			json.put("name", nickname);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		
-		HttpBean h = new HttpBean();
-		h.setJson(json);
-		h.setMethod(HttpMethod.POST);
-		h.setUrl(Constants.UPDATE_URL + "/" + userId);
-		h.setType(HttpJob.TYPE_UPDATE);
-
-		HttpJob job = new HttpJob();
-		job.setContext(getActivity());
-		job.execute(h);
-	}
-	
-	private void updateGender(boolean isMale){
-		int userId = Integer.parseInt( SharedPreferenceUtil.INSTANCE.getData(Constants.SP_USER_ID) );
-		String password = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_USER_PASSWORD);
-		String username = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_USER_NAME);
-		
-		JSONObject json = new JSONObject();
-		try {
-			json.put("username", username);
-			json.put("password", password);
-			json.put("gender", isMale?"1":"0");
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		
-		HttpBean h = new HttpBean();
-		h.setJson(json);
-		h.setMethod(HttpMethod.POST);
-		h.setUrl(Constants.UPDATE_URL + "/" + userId);
-		h.setType(HttpJob.TYPE_UPDATE);
-
-		HttpJob job = new HttpJob();
-		job.setContext(getActivity());
-		job.execute(h);
 	}
 
 }

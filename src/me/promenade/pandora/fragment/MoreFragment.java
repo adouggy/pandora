@@ -91,6 +91,7 @@ public class MoreFragment extends SherlockFragment implements OnItemClickListene
 			if( position == 0 ){
 				Intent i = new Intent( getActivity(), HolderActivity.class );
 				i.putExtra("fragment", HolderActivity.FRAGMENT_PROFILE);
+				i.putExtra("title", "我的账户");
 				getActivity().startActivity(i);
 			}
 			break;

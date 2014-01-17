@@ -38,6 +38,18 @@ public class FantasyListAdapter extends BaseAdapter {
 	public void setData(
 			ArrayList<Fantasy> list) {
 		this.mList = list;
+		this.notifyDataSetChanged();
+	}
+	
+	public void addData(int index, Fantasy f){
+		this.mList.add(index, f);
+		this.notifyDataSetChanged();
+	}
+	
+	public void delData(int index){
+		this.mList.remove(index);
+		this.notifyDataSetChanged();
+		
 	}
 
 	@Override

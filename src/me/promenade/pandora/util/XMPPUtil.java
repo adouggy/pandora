@@ -1,12 +1,14 @@
 package me.promenade.pandora.util;
 
 import java.io.IOException;
+
 import me.promenade.pandora.bean.HttpBean;
 import me.promenade.pandora.bean.HttpMethod;
 import net.synergyinfosys.xmppclient.Constants;
 import net.synergyinfosys.xmppclient.NotificationService;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -14,6 +16,10 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.params.HttpProtocolParams;
+import org.apache.http.protocol.HTTP;
 
 import android.content.Context;
 import android.content.Intent;
@@ -30,7 +36,12 @@ public enum XMPPUtil {
 	Context mContext = null;
 
 	XMPPUtil() {
-		httpclient = new DefaultHttpClient();
+		HttpParams params = new BasicHttpParams();
+		HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
+		HttpProtocolParams.setContentCharset(params, "utf-8");
+		params.setBooleanParameter("http.protocol.expect-continue", false);
+		
+		httpclient = new DefaultHttpClient(params);
 	}
 
 	public void init(
@@ -86,12 +97,14 @@ public enum XMPPUtil {
 		HttpPost httppost = new HttpPost(b.getUrl());
 		try {
 			if (b.getJson() != null) {
-				httppost.setEntity(new StringEntity(b.getJson().toString()));
-
+				StringEntity entity = new StringEntity( b.getJson().toString(), HTTP.UTF_8 );
+				
 				httppost.setHeader("Accept",
 						"application/json");
-				httppost.setHeader("Content-type",
-						"application/json");
+				httppost.setHeader("Content-Type",
+						"application/json; charset=utf-8");
+				
+				httppost.setEntity(entity);
 
 			} else if (b.getParam() != null) {
 				httppost.setEntity(new UrlEncodedFormEntity(b.getParam()));
