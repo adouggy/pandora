@@ -44,10 +44,11 @@
     <string name="txt_add_friend_hint">输入您朋友的昵称，开启亲密的分享</string>
     <string name="txt_add_friend_button">添加伙伴</string>
     <string name="title_activity_splash">SplashActivity</string>
-    
     <string name="txt_profile_nickname">昵称</string>
     <string name="txt_profile_gender">性别</string>
     <string name="txt_profile_photo">头像</string>
     <string name="txt_profile_relation">关系</string>
+    <string name="title_activity_relation">我的关系</string>
 
+    <string name="btn_un_relation">解除关系</string>
 </resources>

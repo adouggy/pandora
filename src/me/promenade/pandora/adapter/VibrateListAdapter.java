@@ -74,6 +74,7 @@ public class VibrateListAdapter extends BaseAdapter {
 
 		Vibration v = mList.get(position);
 		holder.vibrateView.setData(v.getPattern());
+		holder.vibrateView.setVibrateKey( "vibrate" + position );
 		holder.play.setTag(v.getIndex()-1);
 		holder.index.setText(v.getIndex() + "");
 		holder.title.setText(v.getTitle());

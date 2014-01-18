@@ -2,7 +2,7 @@ package me.promenade.pandora.asynjob;
 
 import java.io.IOException;
 
-import me.promenade.pandora.fragment.ProfileFragment;
+import me.promenade.pandora.RelationActivity;
 import me.promenade.pandora.util.Constants;
 import me.promenade.pandora.util.XMPPUtil;
 
@@ -19,8 +19,10 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
-public class GetPhotoJob extends AsyncTask<Integer, Integer, String> {
-	public static final String TAG = "GetPhotoJob";
+public class GetPhotoJobForRelation extends AsyncTask<Integer, Integer, String> {
+	public static final String TAG = "GetPhotoJobForRelation";
+	
+	private boolean isMalePhoto = false;
 	
 	private Context mContext = null;
 
@@ -34,11 +36,21 @@ public class GetPhotoJob extends AsyncTask<Integer, Integer, String> {
 			Integer... param) {
 		Log.d(TAG,
 				"retriving...");
-		if (param == null)
+		if (param == null || param.length != 2)
 			return null;
 
 		int userId = param[0];
-
+		int isMale = param[1];
+		if( isMale == 1 ){
+			isMalePhoto = true;
+		}else{
+			isMalePhoto = false;
+		}
+		
+		if( userId <=0 ){
+			return null;
+		}
+		
 		HttpResponse res = XMPPUtil.INSTANCE.get(Constants.GET_PHOTO_URL + "/" + userId);
 		if (res == null)
 			return null;
@@ -78,11 +90,12 @@ public class GetPhotoJob extends AsyncTask<Integer, Integer, String> {
 				Log.i(TAG,
 						j.toString());
 
-				Message msg = ProfileFragment.mHandler.obtainMessage();
+				Message msg = RelationActivity.mHandler.obtainMessage(RelationActivity.WHAT_REFRESH_PHOTO);
 				Bundle b = new Bundle();
 				try {
 					b.putString("photo",
 							j.getString("photo"));
+					b.putBoolean("isMale", isMalePhoto);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}

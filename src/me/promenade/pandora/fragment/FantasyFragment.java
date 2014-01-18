@@ -1,4 +1,4 @@
-package me.promenade.pandora.fragment;
+package me.promenade.pandora.fragment;	
 
 import java.util.concurrent.Executors;
 
@@ -199,16 +199,16 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 						"start..");
 				mBtn.setPlaying(true);
 
-				mVibrateALlJob = new VibrateAllJob();
+//				mVibrateALlJob = new VibrateAllJob();
 				mPlayJob = new PlayMusicJob();
 
 				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-					mVibrateALlJob.execute(0);
+//					mVibrateALlJob.execute(0);
 					mPlayJob.execute(mFantasy.getMusicId(),
 							currentProgress);
 				} else {
-					mVibrateALlJob.executeOnExecutor(Executors.newCachedThreadPool(),
-							0);// .execute(0);
+//					mVibrateALlJob.executeOnExecutor(Executors.newCachedThreadPool(),
+//							0);// .execute(0);
 					mPlayJob.executeOnExecutor(Executors.newCachedThreadPool(),
 							mFantasy.getMusicId(),
 							currentProgress);// .execute(mFantasy.getMusicId(),currentProgress);

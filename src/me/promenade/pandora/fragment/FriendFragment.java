@@ -1,11 +1,14 @@
 package me.promenade.pandora.fragment;
 
+import java.util.ArrayList;
+
 import me.promenade.pandora.HolderActivity;
 import me.promenade.pandora.R;
 import me.promenade.pandora.adapter.FriendListAdapter;
+import me.promenade.pandora.asynjob.AddPartnerJob;
+import me.promenade.pandora.bean.Friend;
 import me.promenade.pandora.bean.RunningBean;
-import me.promenade.pandora.util.Constants;
-import me.promenade.pandora.util.SharedPreferenceUtil;
+import me.promenade.pandora.util.NameUtil;
 import me.promenade.pandora.util.XMPPUtil;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -19,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
@@ -36,6 +40,7 @@ public class FriendFragment extends SherlockFragment implements OnClickListener 
 	private static FriendFragment me = null;
 
 	public static final int WHAT_REFRESH_MENU = 1;
+	public static final int WHAT_REFRESH_FRIEND = 2;
 
 	public static Handler mHandler = new Handler() {
 		public void handleMessage(
@@ -43,6 +48,14 @@ public class FriendFragment extends SherlockFragment implements OnClickListener 
 			switch (msg.what) {
 			case WHAT_REFRESH_MENU:
 				me.getActivity().supportInvalidateOptionsMenu();
+				break;
+			case WHAT_REFRESH_FRIEND:
+				String partnerName = RunningBean.INSTANCE.getPartnerName();
+				Friend f = new Friend();
+				f.setUsername(partnerName);
+				ArrayList<Friend> list = new ArrayList<Friend>();
+				list.add(f);
+				mAdapter.setData(list);
 				break;
 			}
 		};
@@ -63,13 +76,23 @@ public class FriendFragment extends SherlockFragment implements OnClickListener 
 		mList.setDivider(null);
 
 		mAdapter = new FriendListAdapter(this.getActivity());
-		mAdapter.setData(RunningBean.INSTANCE.getFriend());
-
 		mList.setAdapter(mAdapter);
 
 		mAddButton = (Button) view.findViewById(R.id.btn_add_friend);
 
 		mAddButton.setOnClickListener(this);
+
+		int userId = RunningBean.INSTANCE.getUserId();
+		if( userId != -1 ){
+			//already login
+			
+			String partnerName = RunningBean.INSTANCE.getPartnerName();
+			Friend f = new Friend();
+			f.setUsername(partnerName);
+			ArrayList<Friend> list = new ArrayList<Friend>();
+			list.add(f);
+			mAdapter.setData(list);
+		}
 
 		return view;
 	}
@@ -84,7 +107,7 @@ public class FriendFragment extends SherlockFragment implements OnClickListener 
 			Menu menu,
 			MenuInflater inflater) {
 
-		if (SharedPreferenceUtil.INSTANCE.getData("isLogin").length() == 0) {
+		if (RunningBean.INSTANCE.getUserId() == -1) {
 			MenuItem actionItem = menu.add("登录");
 			actionItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
@@ -107,10 +130,8 @@ public class FriendFragment extends SherlockFragment implements OnClickListener 
 		// Toast.LENGTH_SHORT).show();
 
 		if (item.getTitle().toString().contains("注销")) {
-			SharedPreferenceUtil.INSTANCE.setData(Constants.SP_IS_LOGIN,
-					"");
-			SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_ID,
-					"");
+			RunningBean.INSTANCE.logout();
+			mAdapter.setData(new ArrayList<Friend>());
 			getActivity().supportInvalidateOptionsMenu();
 			XMPPUtil.INSTANCE.stop();
 		} else if (item.getTitle().toString().compareTo("登录") == 0) {
@@ -140,6 +161,11 @@ public class FriendFragment extends SherlockFragment implements OnClickListener 
 			View v) {
 		switch (v.getId()) {
 		case R.id.btn_add_friend:
+			if( RunningBean.INSTANCE.getPartnerId() > 0 ){
+				Toast.makeText(getActivity(), "您已有了伴侣", Toast.LENGTH_SHORT).show();
+				break;
+			}
+			
 			AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
 			b.setTitle("请输入好友昵称");
 			final EditText input = new EditText(getActivity());
@@ -150,12 +176,19 @@ public class FriendFragment extends SherlockFragment implements OnClickListener 
 						public void onClick(
 								DialogInterface dialog,
 								int whichButton) {
-							String name = input.getText().toString();
-							SharedPreferenceUtil.INSTANCE.setData(Constants.SP_FRIEND,
-									name);
-							RunningBean.INSTANCE.reloadFriend();
-							mAdapter.setData(RunningBean.INSTANCE.getFriend());
-							mAdapter.notifyDataSetInvalidated();
+							String partnerName = NameUtil.INSTANCE.parseName( input.getText().toString() );
+							String myName = RunningBean.INSTANCE.getUserName();
+
+							AddPartnerJob job = new AddPartnerJob();
+							job.setContext(getActivity());
+							job.execute(myName,
+									partnerName);
+
+							// SharedPreferenceUtil.INSTANCE.setData(Constants.SP_FRIEND,
+							// name);
+							// RunningBean.INSTANCE.reloadFriend();
+							// mAdapter.setData(RunningBean.INSTANCE.getFriend());
+							// mAdapter.notifyDataSetInvalidated();
 						}
 					});
 			b.setNegativeButton("取消",

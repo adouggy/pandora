@@ -23,7 +23,6 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        
         <activity
             android:name="me.promenade.pandora.SplashActivity"
             android:label="@string/app_name" >
@@ -33,11 +32,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity
             android:name="me.promenade.pandora.StubActivity"
             android:label="@string/app_name" >
-           
         </activity>
 
         <service
@@ -71,7 +68,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="me.promenade.pandora.StubActivity" />
         </activity>
-        
+        <activity
+            android:name="me.promenade.pandora.RelationActivity"
+            android:label="@string/title_activity_relation" >
+        </activity>
     </application>
 
 </manifest>

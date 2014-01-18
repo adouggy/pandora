@@ -2,8 +2,8 @@ package me.promenade.pandora.asynjob;
 
 import java.io.IOException;
 
-import me.promenade.pandora.fragment.ProfileFragment;
 import me.promenade.pandora.util.Constants;
+import me.promenade.pandora.util.SharedPreferenceUtil;
 import me.promenade.pandora.util.XMPPUtil;
 
 import org.apache.http.HttpResponse;
@@ -14,15 +14,15 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
-public class GetPhotoJob extends AsyncTask<Integer, Integer, String> {
-	public static final String TAG = "GetPhotoJob";
-	
+public class RemovePartnerJob extends AsyncTask<JSONObject, Integer, String> {
+	public static final String TAG = "RemovePartnerJob";
+
 	private Context mContext = null;
+
+	private JSONObject json;
 
 	public void setContext(
 			Context ctx) {
@@ -31,15 +31,23 @@ public class GetPhotoJob extends AsyncTask<Integer, Integer, String> {
 
 	@Override
 	protected String doInBackground(
-			Integer... param) {
+			JSONObject... param) {
 		Log.d(TAG,
 				"retriving...");
-		if (param == null)
+		if (param == null || param.length != 1)
 			return null;
 
-		int userId = param[0];
+		json = param[0];
+		
+		String userId = "-1";
+		try {
+			userId = json.getString("userId");
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+		String url = Constants.UPDATE_USER_URL + "/" + userId;
 
-		HttpResponse res = XMPPUtil.INSTANCE.get(Constants.GET_PHOTO_URL + "/" + userId);
+		HttpResponse res = XMPPUtil.INSTANCE.post(url, json);
 		if (res == null)
 			return null;
 
@@ -68,9 +76,11 @@ public class GetPhotoJob extends AsyncTask<Integer, Integer, String> {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			
-			if( j == null ){
-				Toast.makeText(mContext, "网络错误", Toast.LENGTH_SHORT).show();
+
+			if (j == null) {
+				Toast.makeText(mContext,
+						"网络错误",
+						Toast.LENGTH_SHORT).show();
 				return;
 			}
 
@@ -78,16 +88,20 @@ public class GetPhotoJob extends AsyncTask<Integer, Integer, String> {
 				Log.i(TAG,
 						j.toString());
 
-				Message msg = ProfileFragment.mHandler.obtainMessage();
-				Bundle b = new Bundle();
+				String statusStr = null;
 				try {
-					b.putString("photo",
-							j.getString("photo"));
-				} catch (JSONException e) {
-					e.printStackTrace();
+					statusStr = j.getString("status");
+				} catch (JSONException e1) {
+					e1.printStackTrace();
 				}
-				msg.setData(b);
-				msg.sendToTarget();
+				if (statusStr != null && statusStr.compareTo("ok") == 0) {
+					Toast.makeText(mContext, "伙伴已解除", Toast.LENGTH_SHORT).show();
+					
+					SharedPreferenceUtil.INSTANCE.setData(Constants.SP_PARTNER_ID, "");
+					SharedPreferenceUtil.INSTANCE.setData(Constants.SP_PARTNER_NAME, "");
+				}else{
+					Toast.makeText(mContext, "伙伴不存在", Toast.LENGTH_SHORT).show();
+				}
 			}
 		}
 

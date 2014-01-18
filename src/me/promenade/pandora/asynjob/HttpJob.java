@@ -53,9 +53,9 @@ public class HttpJob extends AsyncTask<HttpBean, Integer, String> {
 			Log.i(TAG,
 					"Start to post->" + mHttpBean.toString());
 			HttpResponse res = XMPPUtil.INSTANCE.post(this.mHttpBean);
-			if( res == null )
+			if (res == null)
 				return null;
-			
+
 			try {
 				String response = EntityUtils.toString(res.getEntity());
 
@@ -85,21 +85,31 @@ public class HttpJob extends AsyncTask<HttpBean, Integer, String> {
 				e.printStackTrace();
 			}
 
+			if (j == null) {
+				Toast.makeText(mContext,
+						"网络错误",
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
+
 			if (mHttpBean.getType() == TYPE_LOGIN) {
 				try {
 					if (j.getString("status").compareTo("ok") == 0 && j.getString("id") != null) {
-						SharedPreferenceUtil.INSTANCE.setData(Constants.SP_IS_LOGIN,
-								"true");
 						SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_ID,
 								j.getString("id"));
-						Log.i(TAG, "setting username:" + mHttpBean.getJson().getString("username"));
+						SharedPreferenceUtil.INSTANCE.setData(Constants.SP_PARTNER_ID,
+								j.getString("partner"));
 						SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_NAME,
 								mHttpBean.getJson().getString("username"));
 						SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_PASSWORD,
 								mHttpBean.getJson().getString("password"));
+						SharedPreferenceUtil.INSTANCE.setData(Constants.SP_PARTNER_NAME,
+								j.getString("partnerName"));
 						
-						XMPPUtil.INSTANCE.init(mContext);
+						Message msg = FriendFragment.mHandler.obtainMessage(FriendFragment.WHAT_REFRESH_FRIEND);
+						msg.sendToTarget();
 
+						XMPPUtil.INSTANCE.init(mContext);
 						Toast.makeText(mContext,
 								"登录成功",
 								Toast.LENGTH_SHORT).show();
@@ -116,17 +126,15 @@ public class HttpJob extends AsyncTask<HttpBean, Integer, String> {
 			} else if (mHttpBean.getType() == TYPE_REGISTER) {
 				try {
 					if (j.getString("status").compareTo("ok") == 0 && j.getString("id") != null) {
-						SharedPreferenceUtil.INSTANCE.setData(Constants.SP_IS_LOGIN,
-								"true");
 						SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_ID,
 								j.getString("id"));
-						
+
 						Toast.makeText(mContext,
 								"注册成功",
 								Toast.LENGTH_SHORT).show();
-						
+
 						closeHolderRefreshMenu();
-					} else if( j.getString("status").compareTo("duplicate") == 0 ){
+					} else if (j.getString("status").compareTo("duplicate") == 0) {
 						Toast.makeText(mContext,
 								"用户名重复",
 								Toast.LENGTH_SHORT).show();
@@ -138,15 +146,15 @@ public class HttpJob extends AsyncTask<HttpBean, Integer, String> {
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-			} else if ( mHttpBean.getType() == TYPE_UPDATE ){
-				
+			} else if (mHttpBean.getType() == TYPE_UPDATE) {
+
 			}
 		}
 
 		super.onPostExecute(result);
 	}
-	
-	private void closeHolderRefreshMenu(){
+
+	private void closeHolderRefreshMenu() {
 		Message msg = HolderActivity.mHandler.obtainMessage();
 		msg.what = HolderActivity.WHAT_FINISH;
 		msg.sendToTarget();

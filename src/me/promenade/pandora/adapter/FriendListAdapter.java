@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import me.promenade.pandora.HolderActivity;
 import me.promenade.pandora.R;
 import me.promenade.pandora.bean.Friend;
-import me.promenade.pandora.util.Constants;
-import me.promenade.pandora.util.SharedPreferenceUtil;
+import me.promenade.pandora.bean.RunningBean;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +21,7 @@ import android.widget.Toast;
 
 public class FriendListAdapter extends BaseAdapter {
 
-	private ArrayList<Friend> mList;
+	private ArrayList<Friend> mList = new ArrayList<Friend>();
 	private static LayoutInflater mInflater = null;
 	private Context mContext = null;
 
@@ -40,6 +39,7 @@ public class FriendListAdapter extends BaseAdapter {
 	public void setData(
 			ArrayList<Friend> list) {
 		this.mList = list;
+		notifyDataSetChanged();
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class FriendListAdapter extends BaseAdapter {
 			@Override
 			public void onClick(
 					View v) {
-				if( SharedPreferenceUtil.INSTANCE.getData(Constants.SP_IS_LOGIN).length() != 0 ){
+				if( RunningBean.INSTANCE.getUserId() != -1 ){
 					Intent i = new Intent(mContext, HolderActivity.class);
 					Bundle b = new Bundle();
 					b.putInt("fragment", HolderActivity.FRAGMENT_CHAT);

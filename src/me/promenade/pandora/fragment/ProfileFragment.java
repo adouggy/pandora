@@ -4,11 +4,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import me.promenade.pandora.R;
+import me.promenade.pandora.RelationActivity;
 import me.promenade.pandora.asynjob.GetPhotoJob;
 import me.promenade.pandora.asynjob.HttpJob;
 import me.promenade.pandora.bean.HttpBean;
 import me.promenade.pandora.bean.HttpMethod;
 import me.promenade.pandora.bean.Profile;
+import me.promenade.pandora.bean.RunningBean;
 import me.promenade.pandora.util.Constants;
 import me.promenade.pandora.util.ImageUtil;
 import me.promenade.pandora.util.SharedPreferenceUtil;
@@ -69,8 +71,15 @@ public class ProfileFragment extends SherlockFragment implements OnClickListener
 				container,
 				false);
 		
-		GetPhotoJob job = new GetPhotoJob();
-		job.execute(1);
+		int userId = RunningBean.INSTANCE.getUserId();
+		
+		if( userId == -1 ){
+			Toast.makeText(getActivity(), "尚未登录", Toast.LENGTH_SHORT).show();
+		}else{
+			GetPhotoJob job = new GetPhotoJob();
+			job.setContext(getActivity());
+			job.execute(userId);
+		}
 
 		mNick = (TextView) view.findViewById(R.id.txt_profile_nickname);
 		mGender = (ImageView) view.findViewById(R.id.img_profile_gender);
@@ -111,7 +120,7 @@ public class ProfileFragment extends SherlockFragment implements OnClickListener
 			View v) {
 		switch (v.getId()) {
 		case R.id.layout_profile_nick:
-			if( !Boolean.parseBoolean( SharedPreferenceUtil.INSTANCE.getData(Constants.SP_IS_LOGIN) ) ){
+			if( RunningBean.INSTANCE.getUserId() == -1 ){
 				Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
 				break;
 			}
@@ -173,6 +182,8 @@ public class ProfileFragment extends SherlockFragment implements OnClickListener
 					1);
 			break;
 		case R.id.layout_profile_relation:
+			Intent i = new Intent(getActivity(), RelationActivity.class);
+			getActivity().startActivity( i );
 			break;
 		}
 	}

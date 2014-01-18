@@ -68,6 +68,7 @@ public class MassagerFragment extends SherlockFragment implements OnClickListene
 		View view = inflater.inflate(R.layout.fragment_massager,
 				container,
 				false);
+		
 
 		mUri = Uri.parse("android.resource://" + getActivity().getPackageName() + "/" + R.raw.pandora);
 
@@ -82,6 +83,8 @@ public class MassagerFragment extends SherlockFragment implements OnClickListene
 					startVideo();
 				}
 			});
+		}else{
+			mVideo.setVisibility(View.GONE);
 		}
 
 		mSearchLayout = (RelativeLayout) view.findViewById(R.id.layout_massaer_search);

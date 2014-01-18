@@ -11,6 +11,8 @@ import me.promenade.pandora.asynjob.HttpJob;
 import me.promenade.pandora.bean.HttpBean;
 import me.promenade.pandora.bean.HttpMethod;
 import me.promenade.pandora.util.Constants;
+import me.promenade.pandora.util.NameUtil;
+import me.promenade.pandora.util.SharedPreferenceUtil;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,7 +78,7 @@ public class SignupFragment extends SherlockFragment implements OnClickListener 
 			View v) {
 		switch( v.getId() ){
 		case R.id.btn_signup_submit:
-			String username = this.mNick.getText().toString();
+			String username = NameUtil.INSTANCE.parseName( this.mNick.getText().toString() );
 			String password = this.mPassword.getText().toString();
 			String email = this.mEmail.getText().toString();
 			
@@ -103,6 +105,9 @@ public class SignupFragment extends SherlockFragment implements OnClickListener 
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
+			
+			SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_NAME, username);
+			SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_PASSWORD, password);
 			
 			HttpBean bean = new HttpBean();
 			bean.setJson(j);

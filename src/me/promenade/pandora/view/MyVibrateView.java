@@ -1,5 +1,6 @@
 package me.promenade.pandora.view;
 
+import me.promenade.pandora.util.SharedPreferenceUtil;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -35,8 +36,14 @@ public class MyVibrateView extends View {
 	private int currentColumn = -1;
 
 	private int[] mData = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	
+	private String vibrateKey = "";
+	
+	public void setVibrateKey(String vibrateKey){
+		this.vibrateKey = vibrateKey;
+	}
 
-	public Handler mHandler = new Handler() {
+	public static Handler mHandler = new Handler() {
 		public void handleMessage(
 				Message msg) {
 
@@ -46,7 +53,7 @@ public class MyVibrateView extends View {
 			int curr = b.getInt("currentColumn");
 			Log.i(TAG,
 					"column->" + curr);
-			setCurrentColumn(curr);
+//			setCurrentColumn(curr);
 
 		}
 	};
@@ -232,7 +239,8 @@ public class MyVibrateView extends View {
 					"touched at row:" + r + ", column:" + c);
 
 			mData[c] = ROW - r;
-
+			saveDataToKey();
+			
 			break;
 		default:
 			break;
@@ -240,5 +248,16 @@ public class MyVibrateView extends View {
 
 		invalidate();
 		return true;
+	}
+	
+	private void saveDataToKey(){
+		StringBuffer sb = new StringBuffer();
+		for( int i=0; i<mData.length; i++ ){
+			sb.append(mData[i]);
+			if( i!=mData.length-1 ){
+				sb.append(",");
+			}
+		}
+		SharedPreferenceUtil.INSTANCE.setData(vibrateKey, sb.toString());
 	}
 }

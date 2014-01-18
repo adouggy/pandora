@@ -4,6 +4,9 @@ package me.promenade.pandora.receiver;
 
 import java.util.Iterator;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import me.promenade.pandora.fragment.ChatFragment;
 
 import android.content.BroadcastReceiver;
@@ -42,14 +45,22 @@ public class PushReceiver extends BroadcastReceiver {
             String username = intent.getStringExtra("devId");
             
             try {
-				byte[] dataByte = Base64.decode(notificationData, Base64.NO_WRAP| Base64.URL_SAFE);
+				byte[] dataByte = Base64.decode(notificationData, Base64.DEFAULT);
 				if( dataByte != null ){
 					String data = new String(dataByte);
 					Log.d(TAG, "Receive Message:" + data);
 					
+					String realMsg = "";
+					try {
+						JSONObject j = new JSONObject(data);
+						realMsg = j.getString("b");
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+					
 					Bundle bundle = new Bundle();
 					bundle.putString("username", username);
-					bundle.putString("message", data);
+					bundle.putString("message", realMsg);
 					
 					Message msg = new Message();
 					msg.what = ChatFragment.MSG_RECEIVE;

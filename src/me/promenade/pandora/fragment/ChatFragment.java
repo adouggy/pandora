@@ -4,22 +4,15 @@ import java.util.ArrayList;
 
 import me.promenade.pandora.R;
 import me.promenade.pandora.adapter.ChatListAdapter;
-import me.promenade.pandora.asynjob.HttpJob;
+import me.promenade.pandora.asynjob.ChatJob;
 import me.promenade.pandora.bean.Chat;
-import me.promenade.pandora.bean.HttpBean;
-import me.promenade.pandora.bean.HttpMethod;
 import me.promenade.pandora.bean.MessageType;
 import me.promenade.pandora.bean.SendStatus;
 import me.promenade.pandora.util.Constants;
 import me.promenade.pandora.util.SharedPreferenceUtil;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,8 +45,8 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 				Message msg) {
 
 			Bundle b = msg.getData();
-			String username = b.getString("username");
 			String message = b.getString("message");
+			
 
 			Chat c = new Chat();
 			c.setMessage(message);
@@ -123,36 +116,11 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 		case R.id.btn_send:
 			String text = this.mEdtText.getText().toString().trim();
 
-			JSONObject j = new JSONObject();
-			try {
-				j.put("devId",
-						friendName);
-				j.put("data",
-						Base64.encodeToString(text.getBytes(),
-								Base64.NO_WRAP | Base64.URL_SAFE));
-
-				HttpBean b = new HttpBean();
-				b.setUrl("http://173.255.242.145:28080/MyPush/resources/xmpp/push");
-				b.setJson(j);
-				b.setMethod(HttpMethod.POST);
-				HttpJob job = new HttpJob();
-				job.execute(b);
-
-				Bundle bundle = new Bundle();
-				bundle.putString("username",
-						myName);
-				bundle.putString("message",
-						text);
-
-				Message msg = new Message();
-				msg.what = ChatFragment.MSG_SEND;
-				msg.setData(bundle);
-				ChatFragment.mHandler.sendMessage(msg);
-
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-
+			ChatJob job = new ChatJob();
+			job.setContext(getActivity());
+			job.execute(text);
+			
+			this.mEdtText.setText("");
 			break;
 		case R.id.btn_sendType:
 			break;

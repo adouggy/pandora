@@ -5,6 +5,7 @@ import me.promenade.pandora.asynjob.HttpJob;
 import me.promenade.pandora.bean.HttpBean;
 import me.promenade.pandora.bean.HttpMethod;
 import me.promenade.pandora.util.Constants;
+import me.promenade.pandora.util.NameUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,7 +56,7 @@ public class LoginFragment extends SherlockFragment implements OnClickListener {
 			View v) {
 		switch (v.getId()) {
 		case R.id.btn_login:
-			String username = this.mNick.getText().toString();
+			String username =  NameUtil.INSTANCE.parseName( this.mNick.getText().toString() );
 			String password = this.mPassword.getText().toString();
 
 			JSONObject j = new JSONObject();

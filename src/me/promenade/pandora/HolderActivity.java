@@ -9,6 +9,7 @@ import me.promenade.pandora.asynjob.HttpJob;
 import me.promenade.pandora.bean.Fantasy;
 import me.promenade.pandora.bean.HttpBean;
 import me.promenade.pandora.bean.HttpMethod;
+import me.promenade.pandora.bean.RunningBean;
 import me.promenade.pandora.bean.Vibration;
 import me.promenade.pandora.fragment.ChatFragment;
 import me.promenade.pandora.fragment.FantasyFragment;
@@ -162,7 +163,7 @@ public class HolderActivity extends SherlockFragmentActivity {
 				HttpBean hb = new HttpBean();
 				hb.setMethod(HttpMethod.POST);
 				hb.setJson(j);
-				hb.setUrl(Constants.UPLOAD_PHOTO_URL+"/"+1);
+				hb.setUrl(Constants.UPLOAD_PHOTO_URL+"/"+ RunningBean.INSTANCE.getUserId());
 				
 				HttpJob job = new HttpJob();
 				job.execute(hb);
