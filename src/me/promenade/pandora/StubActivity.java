@@ -16,8 +16,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
-import android.graphics.Shader.TileMode;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -57,10 +56,12 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 		// This is a workaround for http://b.android.com/15340 from
 		// http://stackoverflow.com/a/5852198/132047
 		// if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-		BitmapDrawable bg = (BitmapDrawable) getResources().getDrawable(R.drawable.img_top_bar_bg);
-		bg.setTileModeXY(TileMode.REPEAT,
-				TileMode.CLAMP);
-		getSupportActionBar().setBackgroundDrawable(bg);
+//		BitmapDrawable bg = (BitmapDrawable) getResources().getDrawable(R.drawable.img_top_bar_bg);
+//		bg.setTileModeXY(TileMode.REPEAT,
+//				TileMode.CLAMP);
+//		getSupportActionBar().setBackgroundDrawable(bg);
+		
+		getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xffdb2672));
 
 		// BitmapDrawable bgSplit = (BitmapDrawable)
 		// getResources().getDrawable(R.drawable.bg_striped_split_img);

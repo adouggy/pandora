@@ -150,5 +150,7 @@
     
     <color name="dodgerblue_trans">#201E90FF</color> <!-- 闪兰色 -->
     <color name="midnightblue_trans">#20191970</color> <!-- 中灰兰色 -->
+    
+    <color name="lavo_color">#db2672</color> <!-- lavo -->
 
 </resources>

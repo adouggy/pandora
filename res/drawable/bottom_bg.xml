@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+     <bitmap xmlns:android="http://schemas.android.com/apk/res/android"
     android:src="@drawable/img_tab_bottom_bg"
     android:tileMode="repeat" />
+-->
+
+<color xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#db2672" />

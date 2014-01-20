@@ -45,7 +45,7 @@ public class ConnectedThread extends Thread {
 //						bytes,
 //						-1,
 //						buffer).sendToTarget();
-//				Log.d( TAG, ">>>" + bytes  );
+				Log.d( TAG, ">>>" + String.valueOf(bytes)  );
 			} catch (IOException e) {
 				break;
 			}
