@@ -2,7 +2,6 @@ package me.promenade.pandora.receiver;
 
 import java.util.HashMap;
 
-import me.promenade.pandora.bean.Bluetooth;
 import me.promenade.pandora.fragment.MassagerFragment;
 import me.promenade.pandora.util.BluetoothUtil;
 import android.bluetooth.BluetoothDevice;

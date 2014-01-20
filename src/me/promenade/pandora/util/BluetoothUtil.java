@@ -111,19 +111,23 @@ public enum BluetoothUtil {
 	}
 
 	public void sendMessage(
-			byte[] msg) {
+			byte[] input) {
 		Log.i(TAG,
 				"sendMessage>>>>>");
 		
-		msg =  new byte[]{ 'b', 'x', '3', '2', '1', '3', '2', '1','3', '2', '1','3', '2', '1','3', '2'  };
+		if( input == null || input.length != 16 ){
+			Log.e(TAG, "vibrate message format error");
+			return;
+		}
+		
+//		byte[] msg = new byte[]{ 'b', 'x', '3', '2', '1', '3', '2', '1','3', '2', '1','3', '2', '1','3', '2'  };
 		
 		if (mConnectedThread != null) {
-			
-			for( byte b : msg ){
+			for( byte b : input ){
 				Log.i(TAG,  b + "" );
 			}
 			
-			mConnectedThread.write(msg);
+			mConnectedThread.write(input);
 		}
 	}
 }
