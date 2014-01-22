@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/layout_vibrateview"
-    android:background="@drawable/img_bground_splash" >
+    android:background="@color/lavo_background">
 
    <ListView 
        android:id="@+id/list_vibrate"

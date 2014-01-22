@@ -152,5 +152,6 @@
     <color name="midnightblue_trans">#20191970</color> <!-- 中灰兰色 -->
     
     <color name="lavo_color">#db2672</color> <!-- lavo -->
+    <color name="lavo_background">#eeddd5</color> <!-- lavo -->
 
 </resources>

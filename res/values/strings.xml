@@ -24,7 +24,7 @@
     <string name="btn_9">9</string>
     <string name="btn_10">10</string>
     <string name="btn_11">11</string>
-    <string name="txt_login_logo">Pandora</string>
+    <string name="txt_login_logo">登陆lavo</string>
     <string name="edt_login_nickname_hint">昵称</string>
     <string name="edt_login_password_hint">密码</string>
     <string name="btn_login">登陆</string>
