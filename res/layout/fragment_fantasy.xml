@@ -58,8 +58,7 @@
                 android:layout_toLeftOf="@+id/txt_fantasy_time"
                 android:layout_toRightOf="@+id/btn_play_fantasy"
                 android:max="100"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:thumbOffset="0dp"
                 android:progressDrawable="@drawable/progress_bar_states"
                 android:thumb="@drawable/slider" />
 

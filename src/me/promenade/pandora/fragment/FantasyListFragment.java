@@ -1,6 +1,7 @@
 package me.promenade.pandora.fragment;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import me.promenade.pandora.HolderActivity;
 import me.promenade.pandora.R;
@@ -124,6 +125,11 @@ public class FantasyListFragment extends SherlockFragment implements OnItemClick
 							int which) {
 
 						mAdapter.delData(position);
+						
+						ArrayList<TreeMap<Integer, Integer>> list = RunningBean.INSTANCE.getFantasyData();
+						list.set(position, new TreeMap<Integer, Integer>());
+						RunningBean.INSTANCE.storeFantasyData(list);
+						
 						dialog.dismiss();
 
 					}

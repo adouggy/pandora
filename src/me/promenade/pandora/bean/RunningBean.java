@@ -179,8 +179,9 @@ public enum RunningBean {
 		String s5 =SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_4);
 		String s6 =SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_5);
 		String s7 =SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_6);
+		String s8 =SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_7);
 		
-		String defaultFantasy = "0,0;10,1;20,2;30,3;40,4;50,5;60,6;70,7;80,8;90,9;100,10;110,11";
+		String defaultFantasy = "0,0;10,1;20,2;30,3;40,4;50,5;60,6;70,7;80,8;90,9;100,10";
 		if( s1 == null || s1.length() == 0 ){
 			s1 = defaultFantasy;
 		}
@@ -202,6 +203,9 @@ public enum RunningBean {
 		if( s7 == null || s7.length() == 0 ){
 			s7 = defaultFantasy;
 		}
+		if( s8 == null || s8.length() == 0 ){
+			s8 = defaultFantasy;
+		}
 		
 		list.add(parseFantasyString(s1));
 		list.add(parseFantasyString(s2));
@@ -210,12 +214,13 @@ public enum RunningBean {
 		list.add(parseFantasyString(s5));
 		list.add(parseFantasyString(s6));
 		list.add(parseFantasyString(s7));
+		list.add(parseFantasyString(s8));
 		
 		return list;
 	}
 	
 	public void storeFantasyData(ArrayList<TreeMap<Integer, Integer>> list){
-		if( list == null || list.size() != 7 )
+		if( list == null || list.size() != 8 )
 			return;
 		
 		int i=0;
