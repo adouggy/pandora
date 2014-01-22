@@ -11,7 +11,18 @@
         android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1" 
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/img_massager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:contentDescription="@string/defaultDescription"
+        android:visibility="gone"
+        android:src="@drawable/device"
+        android:scaleType="centerInside" />
 
     <RelativeLayout
         android:id="@+id/layout_massaer_search"

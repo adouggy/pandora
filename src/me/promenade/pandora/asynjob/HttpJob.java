@@ -3,6 +3,7 @@ package me.promenade.pandora.asynjob;
 import java.io.IOException;
 
 import me.promenade.pandora.HolderActivity;
+import me.promenade.pandora.NewUserActivity;
 import me.promenade.pandora.bean.HttpBean;
 import me.promenade.pandora.bean.HttpMethod;
 import me.promenade.pandora.fragment.FriendFragment;
@@ -106,8 +107,10 @@ public class HttpJob extends AsyncTask<HttpBean, Integer, String> {
 						SharedPreferenceUtil.INSTANCE.setData(Constants.SP_PARTNER_NAME,
 								j.getString("partnerName"));
 						
-						Message msg = FriendFragment.mHandler.obtainMessage(FriendFragment.WHAT_REFRESH_FRIEND);
-						msg.sendToTarget();
+						if( FriendFragment.mHandler != null ){
+							Message msg = FriendFragment.mHandler.obtainMessage(FriendFragment.WHAT_REFRESH_FRIEND);
+							msg.sendToTarget();
+						}
 
 						XMPPUtil.INSTANCE.init(mContext);
 						Toast.makeText(mContext,
@@ -158,9 +161,7 @@ public class HttpJob extends AsyncTask<HttpBean, Integer, String> {
 		Message msg = HolderActivity.mHandler.obtainMessage();
 		msg.what = HolderActivity.WHAT_FINISH;
 		msg.sendToTarget();
-
-		Message msg2 = FriendFragment.mHandler.obtainMessage();
-		msg2.what = FriendFragment.WHAT_REFRESH_MENU;
-		msg2.sendToTarget();
+		
+		NewUserActivity.mHandler.obtainMessage(NewUserActivity.MSG_WHAT_CLOSE).sendToTarget();
 	}
 }

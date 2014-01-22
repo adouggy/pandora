@@ -72,6 +72,10 @@
             android:name="me.promenade.pandora.RelationActivity"
             android:label="@string/title_activity_relation" >
         </activity>
+        <activity
+            android:name="me.promenade.pandora.NewUserActivity"
+            android:label="@string/title_activity_new_user" >
+        </activity>
     </application>
 
 </manifest>

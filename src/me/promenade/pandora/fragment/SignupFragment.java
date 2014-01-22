@@ -1,7 +1,6 @@
 package me.promenade.pandora.fragment;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,6 +64,9 @@ public class SignupFragment extends SherlockFragment implements OnClickListener 
 		
 		mBirthday.init(year, month, day, null);
 		
+		mBirthday.setVisibility(View.GONE);
+		mEmail.setVisibility(View.GONE);
+		
 		return view;
 	}
 
@@ -80,12 +82,12 @@ public class SignupFragment extends SherlockFragment implements OnClickListener 
 		case R.id.btn_signup_submit:
 			String username = NameUtil.INSTANCE.parseName( this.mNick.getText().toString() );
 			String password = this.mPassword.getText().toString();
-			String email = this.mEmail.getText().toString();
+//			String email = this.mEmail.getText().toString();
 			
-			int year = this.mBirthday.getYear();
-			int month = this.mBirthday.getMonth();
-			int day = this.mBirthday.getDayOfMonth();
-			long birthday = new GregorianCalendar(year, month, day).getTimeInMillis();
+//			int year = this.mBirthday.getYear();
+//			int month = this.mBirthday.getMonth();
+//			int day = this.mBirthday.getDayOfMonth();
+//			long birthday = new GregorianCalendar(year, month, day).getTimeInMillis();
 			
 			String gender = "0";
 			if( mMale.isChecked() ){
@@ -98,9 +100,9 @@ public class SignupFragment extends SherlockFragment implements OnClickListener 
 			try {
 				j.put("username", username);
 				j.put("password", password);
-				j.put("email", email);
+				j.put("email", username);
 				j.put("name", username);
-				j.put("birthday", birthday);
+				j.put("birthday", System.currentTimeMillis());
 				j.put("gender", gender);
 			} catch (JSONException e) {
 				e.printStackTrace();

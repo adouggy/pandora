@@ -30,6 +30,7 @@ public class MassagerFragment extends SherlockFragment implements OnClickListene
 	private static TextView mName = null;
 	private static TextView mSearch = null;
 	private static ImageView mImg = null;
+	private static ImageView mImgMasagger = null;
 
 	public static final int MSG_FOUND = 0;
 	public static final int MSG_DONE = 1;
@@ -68,12 +69,11 @@ public class MassagerFragment extends SherlockFragment implements OnClickListene
 		View view = inflater.inflate(R.layout.fragment_massager,
 				container,
 				false);
-		
 
 		mUri = Uri.parse("android.resource://" + getActivity().getPackageName() + "/" + R.raw.pandora);
-
-		mVideo = (VideoView) view.findViewById(R.id.videoView);
+		
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			mVideo = (VideoView) view.findViewById(R.id.videoView);
 			mVideo.setVideoURI(mUri);
 			mVideo.setOnPreparedListener(new OnPreparedListener() {
 				@Override
@@ -83,8 +83,10 @@ public class MassagerFragment extends SherlockFragment implements OnClickListene
 					startVideo();
 				}
 			});
+			mVideo.setVisibility(View.VISIBLE);
 		}else{
-			mVideo.setVisibility(View.GONE);
+			mImgMasagger = (ImageView) view.findViewById(R.id.img_massager);
+			mImgMasagger.setVisibility(View.VISIBLE);
 		}
 
 		mSearchLayout = (RelativeLayout) view.findViewById(R.id.layout_massaer_search);

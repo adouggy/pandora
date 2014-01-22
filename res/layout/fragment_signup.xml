@@ -31,7 +31,7 @@
             android:layout_height="40dp"
             android:background="@null"
             android:hint="@string/edt_signup_nickname_hint"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:padding="5dp"
             android:textSize="20sp" />
 
@@ -52,12 +52,14 @@
             android:textSize="20sp" />
 
         <ImageView
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
             android:contentDescription="@string/defaultDescription" />
 
         <EditText
+            android:visibility="gone"
             android:id="@+id/edt_signup_email"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -68,12 +70,14 @@
             android:textSize="20sp" />
 
         <ImageView
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
             android:contentDescription="@string/defaultDescription" />
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:orientation="horizontal" >

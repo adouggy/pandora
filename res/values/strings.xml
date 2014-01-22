@@ -7,8 +7,8 @@
     <string name="defaultDescription">blah</string>
     <string name="txt_tab1">首页</string>
     <string name="txt_tab2">交谈</string>
-    <string name="txt_tab3">Vi</string>
-    <string name="txt_tab4">Ma</string>
+    <string name="txt_tab3">震动</string>
+    <string name="txt_tab4">设备</string>
     <string name="txt_tab5">更多</string>
     <string name="txt_send">发送</string>
     <string name="txt_friend_chat">交谈</string>
@@ -24,7 +24,7 @@
     <string name="btn_9">9</string>
     <string name="btn_10">10</string>
     <string name="btn_11">11</string>
-    <string name="txt_login_logo">Pandora</string>
+    <string name="txt_login_logo">lavo</string>
     <string name="edt_login_nickname_hint">昵称</string>
     <string name="edt_login_password_hint">密码</string>
     <string name="btn_login">登陆</string>
@@ -49,6 +49,9 @@
     <string name="txt_profile_photo">头像</string>
     <string name="txt_profile_relation">关系</string>
     <string name="title_activity_relation">我的关系</string>
-
     <string name="btn_un_relation">解除关系</string>
+    <string name="title_activity_new_user">新用户</string>
+    <string name="txt_newuser_login">登陆</string>
+    <string name="txt_newuser_signup">注册</string>
+
 </resources>

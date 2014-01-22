@@ -1,5 +1,6 @@
 package me.promenade.pandora;
 
+import me.promenade.pandora.bean.RunningBean;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
@@ -32,8 +33,15 @@ public class SplashActivity extends Activity {
 	}
 
 	private void goHome() {
-		Intent intent = new Intent(SplashActivity.this, StubActivity.class);
-		SplashActivity.this.startActivity(intent);
+		
+		if (RunningBean.INSTANCE.getUserId() == -1) {
+			Intent i = new Intent(this, NewUserActivity.class);
+			startActivity(i);
+		} else {
+			Intent intent = new Intent(SplashActivity.this, StubActivity.class);
+			SplashActivity.this.startActivity(intent);
+		}
+			
 		SplashActivity.this.finish();
 	}
 

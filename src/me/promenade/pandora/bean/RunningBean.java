@@ -114,17 +114,56 @@ public enum RunningBean {
 
 	public ArrayList<int[]> getVibrateData() {
 		ArrayList<int[]> list = new ArrayList<int[]>();
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_0)));
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_1)));
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_2)));
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_3)));
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_4)));
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_5)));
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_6)));
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_7)));
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_8)));
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_9)));
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_10)));
+		
+		String s1 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_0);
+		String s2 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_1);
+		String s3 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_2);
+		String s4 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_3);
+		String s5 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_4);
+		String s6 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_5);
+		String s7 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_6);
+		String s8 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_7);
+		String s9 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_8);
+		String s10 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_9);
+		String s11 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_10);
+		
+		s1 = s1.compareTo("")==0?"1,0,0,0,1,0,1,0,1,0,0,0,1,0":s1;
+		s2 = s2.compareTo("")==0?"1,3,3,0,2,2,1,0,1,1,0,3,1,0":s2;
+		s3 = s3.compareTo("")==0?"1,2,3,2,1,2,3,2,1,2,3,2,1,0":s3;
+		s4 = s4.compareTo("")==0?"2,0,4,0,1,0,6,0,4,0,2,0,1,0":s4;
+		s5 = s5.compareTo("")==0?"2,0,4,0,2,0,5,0,1,0,2,3,4,0":s5;
+		s6 = s6.compareTo("")==0?"3,0,0,3,3,0,3,3,3,0,0,3,3,0":s6;
+		s7 = s7.compareTo("")==0?"1,0,3,0,5,0,6,0,4,0,3,0,2,0":s7;
+		s8 = s8.compareTo("")==0?"1,0,2,0,3,0,4,0,5,0,4,0,3,0":s8;
+		s9 = s9.compareTo("")==0?"3,3,0,4,4,0,3,3,0,4,4,0,3,3":s9;
+		s10 = s10.compareTo("")==0?"5,0,5,5,0,6,0,6,1,5,0,6,6,0":s10;
+		s11 = s11.compareTo("")==0?"6,6,6,0,6,6,6,0,6,6,6,0,6,6":s11;
+		
+		int[] v1 = parseVibrateData(s1);
+		int[] v2 = parseVibrateData(s2);
+		int[] v3 = parseVibrateData(s3);
+		int[] v4 = parseVibrateData(s4);
+		int[] v5 = parseVibrateData(s5);
+		int[] v6 = parseVibrateData(s6);
+		int[] v7 = parseVibrateData(s7);
+		int[] v8 = parseVibrateData(s8);
+		int[] v9 = parseVibrateData(s9);
+		int[] v10 = parseVibrateData(s10);
+		int[] v11 = parseVibrateData(s11);
+		
+		
+		
+		list.add(v1);
+		list.add(v2);
+		list.add(v3);
+		list.add(v4);
+		list.add(v5);
+		list.add(v6);
+		list.add(v7);
+		list.add(v8);
+		list.add(v9);
+		list.add(v10);
+		list.add(v11);
 		return list;
 	}
 
@@ -193,29 +232,6 @@ public enum RunningBean {
 		v9.setPattern(storedData.get(8));
 		v10.setPattern(storedData.get(9));
 		v11.setPattern(storedData.get(10));
-
-		// v1.setPattern(new int[] { 0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0, 1, 2, 3
-		// });
-		// v2.setPattern(new int[] { 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3
-		// });
-		// v3.setPattern(new int[] { 2, 1, 2, 3, 4, 5, 0, 3, 2, 1, 0, 1, 2, 3
-		// });
-		// v4.setPattern(new int[] { 3, 1, 2, 3, 4, 0, 4, 3, 2, 1, 0, 8, 2, 3
-		// });
-		// v5.setPattern(new int[] { 4, 1, 2, 3, 0, 5, 4, 3, 2, 1, 7, 1, 2, 3
-		// });
-		// v6.setPattern(new int[] { 0, 1, 2, 0, 4, 5, 4, 3, 2, 6, 0, 1, 2, 3
-		// });
-		// v7.setPattern(new int[] { 0, 1, 2, 0, 4, 5, 4, 3, 2, 6, 0, 1, 2, 3
-		// });
-		// v8.setPattern(new int[] { 0, 1, 2, 0, 4, 5, 4, 3, 2, 6, 0, 1, 2, 3
-		// });
-		// v9.setPattern(new int[] { 0, 1, 2, 0, 4, 5, 4, 3, 2, 6, 0, 1, 2, 3
-		// });
-		// v10.setPattern(new int[] { 0, 1, 2, 0, 4, 5, 4, 3, 2, 6, 0, 1, 2, 3
-		// });
-		// v11.setPattern(new int[] { 0, 1, 2, 0, 4, 5, 4, 3, 2, 6, 0, 1, 2, 3
-		// });
 
 		list.add(v1);
 		list.add(v2);
