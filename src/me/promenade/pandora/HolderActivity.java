@@ -1,6 +1,7 @@
 package me.promenade.pandora;
 
 import java.io.FileNotFoundException;
+import java.util.TreeMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -93,9 +94,10 @@ public class HolderActivity extends SherlockFragmentActivity {
 		case FRAGMENT_FANTASY:
 			int fantasyIndex = b.getInt("position");
 			Fantasy fantasy = (Fantasy)FantasyListFragment.mAdapter.getItem(fantasyIndex);
+			TreeMap<Integer, Integer> vMap = RunningBean.INSTANCE.getFantasyData().get(fantasyIndex);
 
 			f = new FantasyFragment();
-			((FantasyFragment) f).setFantasy(fantasy);
+			((FantasyFragment) f).setFantasy(fantasyIndex, fantasy, vMap);
 			break;
 		case FRAGMENT_VIBRATE:
 			int vibrateIndex = b.getInt("position");

@@ -12,7 +12,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -162,9 +161,6 @@ public class FantasyListFragment extends SherlockFragment implements OnItemClick
 			long id) {
 
 		int realPosition = (int) id;
-
-		Log.i(TAG,
-				realPosition + "<--");
 
 		Intent i = new Intent(getActivity(), HolderActivity.class);
 		Bundle b = new Bundle();

@@ -1,6 +1,8 @@
 package me.promenade.pandora.bean;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeMap;
 
 import me.promenade.pandora.R;
 import me.promenade.pandora.util.Constants;
@@ -11,7 +13,6 @@ public enum RunningBean {
 
 	private ArrayList<Vibration> vData = null;
 	private ArrayList<Fantasy> vFantasy = null;
-//	private ArrayList<Friend> vFriend = null;
 
 	RunningBean() {
 	}
@@ -64,31 +65,6 @@ public enum RunningBean {
 		String name = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_PARTNER_NAME);
 		return name;
 	}
-
-	// public ArrayList<Friend> getFriend() {
-	// if (vFriend == null)
-	// vFriend = initFriend();
-	//
-	// return vFriend;
-	// }
-
-	// public void reloadFriend() {
-	// vFriend = initFriend();
-	// }
-	//
-	// private ArrayList<Friend> initFriend() {
-	// ArrayList<Friend> list = new ArrayList<Friend>();
-	//
-	// String friendName =
-	// SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FRIEND);
-	// if (friendName.length() != 0) {
-	// Friend f = new Friend();
-	// f.setUsername(friendName);
-	// list.add(f);
-	// }
-	//
-	// return list;
-	// }
 
 	public ArrayList<Vibration> getVibration() {
 		if (vData == null)
@@ -151,8 +127,6 @@ public enum RunningBean {
 		int[] v10 = parseVibrateData(s10);
 		int[] v11 = parseVibrateData(s11);
 		
-		
-		
 		list.add(v1);
 		list.add(v2);
 		list.add(v3);
@@ -166,38 +140,90 @@ public enum RunningBean {
 		list.add(v11);
 		return list;
 	}
-
-	public ArrayList<String> getFantasyData() {
-		ArrayList<String> list = new ArrayList<String>();
-		list.add(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_0));
-		list.add(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_1));
-		list.add(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_2));
-		list.add(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_3));
-		list.add(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_4));
-		list.add(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_5));
-		list.add(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_6));
-		list.add(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_7));
-		return list;
+	
+	private TreeMap<Integer, Integer> parseFantasyString(String str){
+		TreeMap<Integer, Integer> map = new TreeMap<Integer, Integer>();
+		if( str != null && str.length()>0 ){
+			String[] pairStr = str.split(";");
+			for( String p : pairStr ){
+				String[] kv = p.split(",");
+				int k = Integer.parseInt(kv[0]);
+				int v = Integer.parseInt(kv[1]);
+				map.put(k, v);
+			}
+		}
+		return map;
+	}
+	
+	private String fantasyToString(TreeMap<Integer, Integer> f){
+		StringBuilder sb = new StringBuilder();
+		Iterator<Integer> iter = f.keySet().iterator();
+		while( iter.hasNext() ){
+			int key = iter.next();
+			int value = f.get( key );
+			sb.append(key + "," + value + ";");
+		}
+		String str = sb.toString();
+		
+		if( str.length() > 0 )
+			str = str.substring(0, str.length()-1);
+		return str;
 	}
 
-	// public void saveFantasyData(ArrayList<String> list){
-	// SharedPreferenceUtil.INSTANCE.setData(Constants.SP_FANTASY_0,
-	// list.get(0));
-	// SharedPreferenceUtil.INSTANCE.setData(Constants.SP_FANTASY_1,
-	// list.get(1));
-	// SharedPreferenceUtil.INSTANCE.setData(Constants.SP_FANTASY_2,
-	// list.get(2));
-	// SharedPreferenceUtil.INSTANCE.setData(Constants.SP_FANTASY_3,
-	// list.get(3));
-	// SharedPreferenceUtil.INSTANCE.setData(Constants.SP_FANTASY_4,
-	// list.get(4));
-	// SharedPreferenceUtil.INSTANCE.setData(Constants.SP_FANTASY_5,
-	// list.get(5));
-	// SharedPreferenceUtil.INSTANCE.setData(Constants.SP_FANTASY_6,
-	// list.get(6));
-	// SharedPreferenceUtil.INSTANCE.setData(Constants.SP_FANTASY_7,
-	// list.get(7));
-	// }
+	public ArrayList<TreeMap<Integer, Integer>> getFantasyData() {
+		ArrayList<TreeMap<Integer, Integer>> list = new ArrayList<TreeMap<Integer, Integer>>();
+		String s1 =SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_0);
+		String s2 =SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_1);
+		String s3 =SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_2);
+		String s4 =SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_3);
+		String s5 =SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_4);
+		String s6 =SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_5);
+		String s7 =SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_6);
+		
+		String defaultFantasy = "0,0;10,1;20,2;30,3;40,4;50,5;60,6;70,7;80,8;90,9;100,10;110,11";
+		if( s1 == null || s1.length() == 0 ){
+			s1 = defaultFantasy;
+		}
+		if( s2 == null || s2.length() == 0 ){
+			s2 = defaultFantasy;
+		}
+		if( s3 == null || s3.length() == 0 ){
+			s3 = defaultFantasy;
+		}
+		if( s4 == null || s4.length() == 0 ){
+			s4 = defaultFantasy;
+		}
+		if( s5 == null || s5.length() == 0 ){
+			s5 = defaultFantasy;
+		}
+		if( s6 == null || s6.length() == 0 ){
+			s6 = defaultFantasy;
+		}
+		if( s7 == null || s7.length() == 0 ){
+			s7 = defaultFantasy;
+		}
+		
+		list.add(parseFantasyString(s1));
+		list.add(parseFantasyString(s2));
+		list.add(parseFantasyString(s3));
+		list.add(parseFantasyString(s4));
+		list.add(parseFantasyString(s5));
+		list.add(parseFantasyString(s6));
+		list.add(parseFantasyString(s7));
+		
+		return list;
+	}
+	
+	public void storeFantasyData(ArrayList<TreeMap<Integer, Integer>> list){
+		if( list == null || list.size() != 7 )
+			return;
+		
+		int i=0;
+		for( TreeMap<Integer, Integer>  map : list){
+			String str = fantasyToString(map);
+			SharedPreferenceUtil.INSTANCE.setData("fantasy" + (i++), str);
+		}
+	}
 
 	public ArrayList<Fantasy> getFantasy() {
 		if (vFantasy == null)
