@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -14,7 +15,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 public enum PopupUtil {
 	INSTANCE;
@@ -37,11 +37,13 @@ public enum PopupUtil {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.img_popup_camera:
-				Toast.makeText(mActivity, "camera", Toast.LENGTH_SHORT).show();
+//				Toast.makeText(mActivity, "camera", Toast.LENGTH_SHORT).show();
+				Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);  
+                mActivity.startActivityForResult(cameraIntent, 2);  
 				hide();
 				break;
 			case R.id.img_popup_photo:
-				Toast.makeText(mActivity, "photo", Toast.LENGTH_SHORT).show();
+//				Toast.makeText(mActivity, "photo", Toast.LENGTH_SHORT).show();
 				hide();
 				
 				Intent intent = new Intent();
@@ -50,7 +52,7 @@ public enum PopupUtil {
 				mActivity.startActivityForResult(intent, 2);
 				break;
 			case R.id.img_popup_command:
-				Toast.makeText(mActivity, "command", Toast.LENGTH_SHORT).show();
+//				Toast.makeText(mActivity, "command", Toast.LENGTH_SHORT).show();
 				hide();
 				break;
 			}

@@ -196,13 +196,13 @@ public class HolderActivity extends SherlockFragmentActivity {
 				job.setType(ChatSendJob.TYPE_PHOTO);
 				job.execute(imgStr);
 				
-				Message msg = ChatFragment.mHandler
-						.obtainMessage(ChatFragment.MSG_SEND);
-				Bundle b = new Bundle();
-				b.putString("message", imgStr);
-				b.putInt("type", ChatSendJob.TYPE_PHOTO);
-				msg.setData(b);
-				msg.sendToTarget();
+//				Message msg = ChatFragment.mHandler
+//						.obtainMessage(ChatFragment.MSG_SEND);
+//				Bundle b = new Bundle();
+//				b.putString("message", imgStr);
+//				b.putInt("type", ChatSendJob.TYPE_PHOTO);
+//				msg.setData(b);
+//				msg.sendToTarget();
 			}
 
 		}
