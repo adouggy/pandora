@@ -1,6 +1,8 @@
 package me.promenade.pandora.bean;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeMap;
 
 import me.promenade.pandora.R;
 import me.promenade.pandora.util.Constants;
@@ -11,7 +13,6 @@ public enum RunningBean {
 
 	private ArrayList<Vibration> vData = null;
 	private ArrayList<Fantasy> vFantasy = null;
-//	private ArrayList<Friend> vFriend = null;
 
 	RunningBean() {
 	}
@@ -23,7 +24,7 @@ public enum RunningBean {
 		SharedPreferenceUtil.INSTANCE.setData(Constants.SP_PARTNER_ID, "");
 		SharedPreferenceUtil.INSTANCE.setData(Constants.SP_PARTNER_NAME, "");
 	}
-
+	
 	public int getUserId() {
 		String idStr = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_USER_ID);
 		int id = -1;
@@ -65,31 +66,6 @@ public enum RunningBean {
 		return name;
 	}
 
-	// public ArrayList<Friend> getFriend() {
-	// if (vFriend == null)
-	// vFriend = initFriend();
-	//
-	// return vFriend;
-	// }
-
-	// public void reloadFriend() {
-	// vFriend = initFriend();
-	// }
-	//
-	// private ArrayList<Friend> initFriend() {
-	// ArrayList<Friend> list = new ArrayList<Friend>();
-	//
-	// String friendName =
-	// SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FRIEND);
-	// if (friendName.length() != 0) {
-	// Friend f = new Friend();
-	// f.setUsername(friendName);
-	// list.add(f);
-	// }
-	//
-	// return list;
-	// }
-
 	public ArrayList<Vibration> getVibration() {
 		if (vData == null)
 			vData = initVibrateData();
@@ -114,51 +90,145 @@ public enum RunningBean {
 
 	public ArrayList<int[]> getVibrateData() {
 		ArrayList<int[]> list = new ArrayList<int[]>();
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_0)));
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_1)));
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_2)));
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_3)));
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_4)));
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_5)));
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_6)));
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_7)));
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_8)));
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_9)));
-		list.add(parseVibrateData(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_10)));
+		
+		String s1 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_0);
+		String s2 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_1);
+		String s3 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_2);
+		String s4 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_3);
+		String s5 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_4);
+		String s6 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_5);
+		String s7 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_6);
+		String s8 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_7);
+		String s9 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_8);
+		String s10 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_9);
+		String s11 = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_VIBRATE_10);
+		
+		s1 = s1.compareTo("")==0?"1,0,0,0,1,0,1,0,1,0,0,0,1,0":s1;
+		s2 = s2.compareTo("")==0?"1,3,3,0,2,2,1,0,1,1,0,3,1,0":s2;
+		s3 = s3.compareTo("")==0?"1,2,3,2,1,2,3,2,1,2,3,2,1,0":s3;
+		s4 = s4.compareTo("")==0?"2,0,4,0,1,0,6,0,4,0,2,0,1,0":s4;
+		s5 = s5.compareTo("")==0?"2,0,4,0,2,0,5,0,1,0,2,3,4,0":s5;
+		s6 = s6.compareTo("")==0?"3,0,0,3,3,0,3,3,3,0,0,3,3,0":s6;
+		s7 = s7.compareTo("")==0?"1,0,3,0,5,0,6,0,4,0,3,0,2,0":s7;
+		s8 = s8.compareTo("")==0?"1,0,2,0,3,0,4,0,5,0,4,0,3,0":s8;
+		s9 = s9.compareTo("")==0?"3,3,0,4,4,0,3,3,0,4,4,0,3,3":s9;
+		s10 = s10.compareTo("")==0?"5,0,5,5,0,6,0,6,1,5,0,6,6,0":s10;
+		s11 = s11.compareTo("")==0?"6,6,6,0,6,6,6,0,6,6,6,0,6,6":s11;
+		
+		int[] v1 = parseVibrateData(s1);
+		int[] v2 = parseVibrateData(s2);
+		int[] v3 = parseVibrateData(s3);
+		int[] v4 = parseVibrateData(s4);
+		int[] v5 = parseVibrateData(s5);
+		int[] v6 = parseVibrateData(s6);
+		int[] v7 = parseVibrateData(s7);
+		int[] v8 = parseVibrateData(s8);
+		int[] v9 = parseVibrateData(s9);
+		int[] v10 = parseVibrateData(s10);
+		int[] v11 = parseVibrateData(s11);
+		
+		list.add(v1);
+		list.add(v2);
+		list.add(v3);
+		list.add(v4);
+		list.add(v5);
+		list.add(v6);
+		list.add(v7);
+		list.add(v8);
+		list.add(v9);
+		list.add(v10);
+		list.add(v11);
 		return list;
 	}
-
-	public ArrayList<String> getFantasyData() {
-		ArrayList<String> list = new ArrayList<String>();
-		list.add(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_0));
-		list.add(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_1));
-		list.add(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_2));
-		list.add(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_3));
-		list.add(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_4));
-		list.add(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_5));
-		list.add(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_6));
-		list.add(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_7));
-		return list;
+	
+	private TreeMap<Integer, Integer> parseFantasyString(String str){
+		TreeMap<Integer, Integer> map = new TreeMap<Integer, Integer>();
+		if( str != null && str.length()>0 ){
+			String[] pairStr = str.split(";");
+			for( String p : pairStr ){
+				String[] kv = p.split(",");
+				int k = Integer.parseInt(kv[0]);
+				int v = Integer.parseInt(kv[1]);
+				map.put(k, v);
+			}
+		}
+		return map;
+	}
+	
+	private String fantasyToString(TreeMap<Integer, Integer> f){
+		StringBuilder sb = new StringBuilder();
+		Iterator<Integer> iter = f.keySet().iterator();
+		while( iter.hasNext() ){
+			int key = iter.next();
+			int value = f.get( key );
+			sb.append(key + "," + value + ";");
+		}
+		String str = sb.toString();
+		
+		if( str.length() > 0 )
+			str = str.substring(0, str.length()-1);
+		return str;
 	}
 
-	// public void saveFantasyData(ArrayList<String> list){
-	// SharedPreferenceUtil.INSTANCE.setData(Constants.SP_FANTASY_0,
-	// list.get(0));
-	// SharedPreferenceUtil.INSTANCE.setData(Constants.SP_FANTASY_1,
-	// list.get(1));
-	// SharedPreferenceUtil.INSTANCE.setData(Constants.SP_FANTASY_2,
-	// list.get(2));
-	// SharedPreferenceUtil.INSTANCE.setData(Constants.SP_FANTASY_3,
-	// list.get(3));
-	// SharedPreferenceUtil.INSTANCE.setData(Constants.SP_FANTASY_4,
-	// list.get(4));
-	// SharedPreferenceUtil.INSTANCE.setData(Constants.SP_FANTASY_5,
-	// list.get(5));
-	// SharedPreferenceUtil.INSTANCE.setData(Constants.SP_FANTASY_6,
-	// list.get(6));
-	// SharedPreferenceUtil.INSTANCE.setData(Constants.SP_FANTASY_7,
-	// list.get(7));
-	// }
+	public ArrayList<TreeMap<Integer, Integer>> getFantasyData() {
+		ArrayList<TreeMap<Integer, Integer>> list = new ArrayList<TreeMap<Integer, Integer>>();
+		String s1 =SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_0);
+		String s2 =SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_1);
+		String s3 =SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_2);
+		String s4 =SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_3);
+		String s5 =SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_4);
+		String s6 =SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_5);
+		String s7 =SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_6);
+		String s8 =SharedPreferenceUtil.INSTANCE.getData(Constants.SP_FANTASY_7);
+		
+		String defaultFantasy = "0,0;10,1;20,2;30,3;40,4;50,5;60,6;70,7;80,8;90,9;100,10";
+		if( s1 == null || s1.length() == 0 ){
+			s1 = defaultFantasy;
+		}
+		if( s2 == null || s2.length() == 0 ){
+			s2 = defaultFantasy;
+		}
+		if( s3 == null || s3.length() == 0 ){
+			s3 = defaultFantasy;
+		}
+		if( s4 == null || s4.length() == 0 ){
+			s4 = defaultFantasy;
+		}
+		if( s5 == null || s5.length() == 0 ){
+			s5 = defaultFantasy;
+		}
+		if( s6 == null || s6.length() == 0 ){
+			s6 = defaultFantasy;
+		}
+		if( s7 == null || s7.length() == 0 ){
+			s7 = defaultFantasy;
+		}
+		if( s8 == null || s8.length() == 0 ){
+			s8 = defaultFantasy;
+		}
+		
+		list.add(parseFantasyString(s1));
+		list.add(parseFantasyString(s2));
+		list.add(parseFantasyString(s3));
+		list.add(parseFantasyString(s4));
+		list.add(parseFantasyString(s5));
+		list.add(parseFantasyString(s6));
+		list.add(parseFantasyString(s7));
+		list.add(parseFantasyString(s8));
+		
+		return list;
+	}
+	
+	public void storeFantasyData(ArrayList<TreeMap<Integer, Integer>> list){
+		if( list == null || list.size() != 8 )
+			return;
+		
+		int i=0;
+		for( TreeMap<Integer, Integer>  map : list){
+			String str = fantasyToString(map);
+			SharedPreferenceUtil.INSTANCE.setData("fantasy" + (i++), str);
+		}
+	}
 
 	public ArrayList<Fantasy> getFantasy() {
 		if (vFantasy == null)
@@ -193,29 +263,6 @@ public enum RunningBean {
 		v9.setPattern(storedData.get(8));
 		v10.setPattern(storedData.get(9));
 		v11.setPattern(storedData.get(10));
-
-		// v1.setPattern(new int[] { 0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0, 1, 2, 3
-		// });
-		// v2.setPattern(new int[] { 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3
-		// });
-		// v3.setPattern(new int[] { 2, 1, 2, 3, 4, 5, 0, 3, 2, 1, 0, 1, 2, 3
-		// });
-		// v4.setPattern(new int[] { 3, 1, 2, 3, 4, 0, 4, 3, 2, 1, 0, 8, 2, 3
-		// });
-		// v5.setPattern(new int[] { 4, 1, 2, 3, 0, 5, 4, 3, 2, 1, 7, 1, 2, 3
-		// });
-		// v6.setPattern(new int[] { 0, 1, 2, 0, 4, 5, 4, 3, 2, 6, 0, 1, 2, 3
-		// });
-		// v7.setPattern(new int[] { 0, 1, 2, 0, 4, 5, 4, 3, 2, 6, 0, 1, 2, 3
-		// });
-		// v8.setPattern(new int[] { 0, 1, 2, 0, 4, 5, 4, 3, 2, 6, 0, 1, 2, 3
-		// });
-		// v9.setPattern(new int[] { 0, 1, 2, 0, 4, 5, 4, 3, 2, 6, 0, 1, 2, 3
-		// });
-		// v10.setPattern(new int[] { 0, 1, 2, 0, 4, 5, 4, 3, 2, 6, 0, 1, 2, 3
-		// });
-		// v11.setPattern(new int[] { 0, 1, 2, 0, 4, 5, 4, 3, 2, 6, 0, 1, 2, 3
-		// });
 
 		list.add(v1);
 		list.add(v2);

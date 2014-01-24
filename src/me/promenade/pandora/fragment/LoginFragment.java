@@ -38,9 +38,7 @@ public class LoginFragment extends SherlockFragment implements OnClickListener {
 
 		mNick = (EditText) view.findViewById(R.id.edt_login_nickname);
 		mPassword = (EditText) view.findViewById(R.id.edt_login_password);
-
 		mLogin = (Button) view.findViewById(R.id.btn_login);
-
 		mLogin.setOnClickListener(this);
 
 		return view;

@@ -6,8 +6,10 @@ import me.promenade.pandora.HolderActivity;
 import me.promenade.pandora.R;
 import me.promenade.pandora.bean.Friend;
 import me.promenade.pandora.bean.RunningBean;
+import me.promenade.pandora.util.ImageUtil;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,6 +100,11 @@ public class FriendListAdapter extends BaseAdapter {
 				}
 			}
 		});
+		
+		if( f.getPhoto() != null && f.getPhoto().length()>0 ){
+			Bitmap bmp = ImageUtil.INSTANCE.String2Bitmap(f.getPhoto());
+			holder.personImage.setImageBitmap(bmp);
+		}
 
 		return convertView;
 	}

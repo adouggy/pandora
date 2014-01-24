@@ -27,6 +27,7 @@
             android:layout_margin="10dp"
             android:contentDescription="@string/defaultDescription"
             android:src="@drawable/female_head_loading" />
+        
     </LinearLayout>
 
     <LinearLayout

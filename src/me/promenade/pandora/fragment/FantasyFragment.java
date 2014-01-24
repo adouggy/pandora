@@ -1,20 +1,17 @@
-package me.promenade.pandora.fragment;	
+package me.promenade.pandora.fragment;
 
-import java.util.concurrent.Executors;
+import java.util.ArrayList;
+import java.util.TreeMap;
 
 import me.promenade.pandora.R;
-import me.promenade.pandora.asynjob.PlayMusicJob;
-import me.promenade.pandora.asynjob.VibrateAllJob;
 import me.promenade.pandora.asynjob.VibrateJob;
 import me.promenade.pandora.bean.Fantasy;
 import me.promenade.pandora.bean.RunningBean;
 import me.promenade.pandora.util.MusicUtil;
 import me.promenade.pandora.view.PlayButton;
-import android.os.Build;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,80 +26,89 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
+@SuppressLint("HandlerLeak")
 public class FantasyFragment extends SherlockFragment implements OnClickListener, OnSeekBarChangeListener, OnGlobalLayoutListener {
 	public static final String TAG = "FantasyFragment";
-	
-	private static SeekBar mPb = null;
-	private static PlayButton mBtn = null;
-	private static TextView mTime = null;
-	private static ImageView mImage = null;
-	private static TextView mCurrentVibration = null;
-	private static Button[] mButtonList = new Button[12];
+
+	private SeekBar mSeekbar = null;
+	private PlayButton mBtn = null;
+	private TextView mTime = null;
+	private ImageView mImage = null;
+
+	private Button[] mButtonList = new Button[12];
 
 	private Fantasy mFantasy = null;
+	private TreeMap<Integer, Integer> mVibrateData = null;
 
-	public static final int WHAT_POSITION_REFRESH = 1;
-	public static final int WHAT_DURATION_REFRESH = 2;
-	public static final int WHAT_FINISH = 3;
-	public static final int WHAT_START_V = 4;
-	public static final int WHAT_STOP_V = 5;
-
-	private PlayMusicJob mPlayJob = null;
-	private VibrateAllJob mVibrateALlJob = null;
 	private VibrateJob mVibrateJob = null;
 
-	private static int currentProgress = 0;
-	
-	public static boolean isPrepared = false;
+	private Timer mTimer = null;
+	private boolean running = true;
+	private int mFantasyIndex;
+	private int currentProgress = 0;
+	private TextView mCurrentVibration = null;
+	private int currentVibrateIndex = 0;
 
-	public void setFantasy(
-			Fantasy f) {
-		this.mFantasy = f;
+	private class Timer extends Thread {
+		@Override
+		public void run() {
+			long time = 0;
+			while (running) {
+				try {
+					time = System.currentTimeMillis();
+					mHandler.obtainMessage(MSG_WHAT_UPDATE_TIME).sendToTarget();
+					Integer vibrateIndex = mVibrateData.get(currentProgress);
+					if (vibrateIndex != null) {
+						mVibrateJob = new VibrateJob();
+						mVibrateJob.setHandler(mHandler);
+						mVibrateJob.execute(vibrateIndex);
+						currentVibrateIndex = vibrateIndex;
+						mHandler.obtainMessage(MSG_WHAT_SHOW_VIBRATE).sendToTarget();
+					}
+					time = System.currentTimeMillis() - time;
+					if (time < 1000)
+						Thread.sleep(1000 - time);
+					currentProgress++;
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
-	public static Handler mHandler = new Handler() {
+	public static final int MSG_WHAT_UPDATE_TIME = 1;
+	public static final int MSG_WHAT_SHOW_VIBRATE = 2;
+	public static final int MSG_WHAT_CLEAR_SHOW_VIBRATE = 3;
+
+	private Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(
-				Message msg) {
+				android.os.Message msg) {
 			switch (msg.what) {
-			case WHAT_POSITION_REFRESH:
-				Bundle b = msg.getData();
-				int p = b.getInt("progress");
-				currentProgress = p;
-				Log.i(TAG,
-						p + "");
-				mPb.setProgress(p);
-
+			case MSG_WHAT_UPDATE_TIME:
+				mTime.setText("" + currentProgress);
+				mSeekbar.setProgress(currentProgress);
 				break;
-			case WHAT_DURATION_REFRESH:
-				Bundle bundle = msg.getData();
-				int duration = bundle.getInt("duration");
-				String time = bundle.getString("time");
-				mTime.setText(time);
-				mPb.setMax(duration);
-				break;
-			case WHAT_FINISH:
-				currentProgress = 0;
-				mPb.setProgress(0);
-				MusicUtil.INSTANCE.stop();
-				mBtn.setPlaying(false);
-				break;
-			case WHAT_START_V:
+			case MSG_WHAT_SHOW_VIBRATE:
 				mCurrentVibration.setVisibility(View.VISIBLE);
-				String currentV = msg.getData().getString("currentV");
-				Log.i(TAG,
-						currentV);
-				mCurrentVibration.setText(currentV);
+				mCurrentVibration.setText(RunningBean.INSTANCE.getVibration().get(currentVibrateIndex).getTitle());
 				break;
-			case WHAT_STOP_V:
+			case MSG_WHAT_CLEAR_SHOW_VIBRATE:
 				mCurrentVibration.setVisibility(View.INVISIBLE);
-				break;
-			default:
+				mCurrentVibration.setText("");
 				break;
 			}
-			super.handleMessage(msg);
-		}
+		};
 	};
+
+	public void setFantasy(
+			int index,
+			Fantasy f,
+			TreeMap<Integer, Integer> vMap) {
+		this.mFantasyIndex = index;
+		this.mFantasy = f;
+		this.mVibrateData = vMap;
+	}
 
 	@Override
 	public View onCreateView(
@@ -113,7 +119,7 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 				container,
 				false);
 
-		mPb = (SeekBar) view.findViewById(R.id.pb_fantasy);
+		mSeekbar = (SeekBar) view.findViewById(R.id.pb_fantasy);
 		mBtn = (PlayButton) view.findViewById(R.id.btn_play_fantasy);
 		mTime = (TextView) view.findViewById(R.id.txt_fantasy_time);
 		mImage = (ImageView) view.findViewById(R.id.img_fantasy);
@@ -135,7 +141,6 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 
 		for (int i = 0; i < mButtonList.length; i++) {
 			mButtonList[i].setOnClickListener(this);
-
 			mButtonList[i].getViewTreeObserver().addOnGlobalLayoutListener(this);
 		}
 
@@ -144,45 +149,51 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 		}
 
 		mBtn.setOnClickListener(this);
+		mSeekbar.setOnSeekBarChangeListener(this);
 
-		mPb.setOnSeekBarChangeListener(this);
 		return view;
 	}
 
-	private void stopAll() {
+	public void stopAll(int position) {
 		mBtn.setPlaying(false);
+		currentProgress = position;
 
-		if (mPlayJob != null) {
-			mPlayJob.cancel(true);
-		}
-		if (mVibrateALlJob != null) {
-			mVibrateALlJob.cancel(true);
-		}
 		if (mVibrateJob != null) {
 			mVibrateJob.cancel(true);
+			mVibrateJob = null;
 		}
 
+		running = false;
+		mTimer = null;
 		MusicUtil.INSTANCE.stop();
+	}
+
+	private void startAll(
+			int position) {
+		running = true;
+		mBtn.setPlaying(true);
+		currentProgress = position;
+
+		mTimer = new Timer();
+		mTimer.start();
+		MusicUtil.INSTANCE.setId(mFantasy.getMusicId()).play(position);
 	}
 
 	@Override
 	public void onStart() {
-		currentProgress = 0;
-		isPrepared = true;
 		super.onStart();
 	}
 
 	@Override
 	public void onStop() {
-		stopAll();
-		isPrepared = false;
+		stopAll(0);
 		super.onStop();
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		stopAll();
+		stopAll(0);
 	}
 
 	@Override
@@ -191,34 +202,13 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 		switch (v.getId()) {
 		case R.id.btn_play_fantasy:
 			if (mBtn.isPlaying()) {
-				Log.i(TAG,
-						"stop..");
-				stopAll();
+				stopAll(currentProgress);
 			} else {
-				Log.i(TAG,
-						"start..");
-				mBtn.setPlaying(true);
-
-//				mVibrateALlJob = new VibrateAllJob();
-				mPlayJob = new PlayMusicJob();
-
-				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-//					mVibrateALlJob.execute(0);
-					mPlayJob.execute(mFantasy.getMusicId(),
-							currentProgress);
-				} else {
-//					mVibrateALlJob.executeOnExecutor(Executors.newCachedThreadPool(),
-//							0);// .execute(0);
-					mPlayJob.executeOnExecutor(Executors.newCachedThreadPool(),
-							mFantasy.getMusicId(),
-							currentProgress);// .execute(mFantasy.getMusicId(),currentProgress);
-				}
+				startAll(0);
 			}
 			break;
 
 		case R.id.btn_0:
-			if (mVibrateALlJob != null)
-				mVibrateALlJob.cancel(true);
 			if (mVibrateJob != null)
 				mVibrateJob.cancel(true);
 			break;
@@ -234,12 +224,19 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 		case R.id.btn_10:
 		case R.id.btn_11:
 			int index = Integer.parseInt(((TextView) v).getText().toString());
-			if (mVibrateALlJob != null)
-				mVibrateALlJob.cancel(true);
 			mCurrentVibration.setVisibility(View.VISIBLE);
 			mCurrentVibration.setText(RunningBean.INSTANCE.getVibration().get(index - 1).getTitle());
+			if( mVibrateJob != null ){
+				mVibrateJob.cancel(true);
+				mVibrateJob = null;
+			}
 			mVibrateJob = new VibrateJob();
-			mVibrateJob.execute(index - 1, VibrateJob.WITH_UI);
+			mVibrateJob.execute(index - 1);
+			
+			ArrayList<TreeMap<Integer, Integer>> list = RunningBean.INSTANCE.getFantasyData();
+			list.get( mFantasyIndex ).put(currentProgress, index-1);
+			RunningBean.INSTANCE.storeFantasyData(list);
+			
 			break;
 		}
 	}
@@ -249,18 +246,17 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 			SeekBar seekBar,
 			int progress,
 			boolean fromUser) {
+		currentProgress = progress;
 	}
 
 	@Override
 	public void onStartTrackingTouch(
 			SeekBar seekBar) {
-
 	}
 
 	@Override
 	public void onStopTrackingTouch(
 			SeekBar seekBar) {
-
 	}
 
 	@Override
@@ -273,4 +269,5 @@ public class FantasyFragment extends SherlockFragment implements OnClickListener
 		}
 	}
 
+	
 }

@@ -5,7 +5,6 @@ import org.json.JSONObject;
 
 import me.promenade.pandora.R;
 import me.promenade.pandora.RelationActivity;
-import me.promenade.pandora.asynjob.GetPhotoJob;
 import me.promenade.pandora.asynjob.HttpJob;
 import me.promenade.pandora.bean.HttpBean;
 import me.promenade.pandora.bean.HttpMethod;
@@ -22,6 +21,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,8 +50,10 @@ public class ProfileFragment extends SherlockFragment implements OnClickListener
 	
 	public static Handler mHandler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
-			String imgStr = msg.getData().getString("photo");
-			if( imgStr != null ){
+			Log.i(TAG, "hadle message");
+			String imgStr = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_USER_PHOTO);
+			if( imgStr != null && imgStr.length() > 0 ){
+				Log.i(TAG, "set photo");
 				Bitmap bmp = ImageUtil.INSTANCE.String2Bitmap(imgStr);
 				mPhoto.setImageBitmap(bmp);
 				if( mProfile!=null ){
@@ -75,10 +77,6 @@ public class ProfileFragment extends SherlockFragment implements OnClickListener
 		
 		if( userId == -1 ){
 			Toast.makeText(getActivity(), "尚未登录", Toast.LENGTH_SHORT).show();
-		}else{
-			GetPhotoJob job = new GetPhotoJob();
-			job.setContext(getActivity());
-			job.execute(userId);
 		}
 
 		mNick = (TextView) view.findViewById(R.id.txt_profile_nickname);
@@ -100,6 +98,8 @@ public class ProfileFragment extends SherlockFragment implements OnClickListener
 		p.setMale(true);
 		mProfile = p;
 		refreshProfile(p);
+		
+		mHandler.obtainMessage().sendToTarget();
 				
 		return view;
 	}

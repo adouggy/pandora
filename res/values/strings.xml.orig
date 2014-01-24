@@ -53,6 +53,5 @@
     <string name="title_activity_new_user">新用户</string>
     <string name="txt_newuser_login">登陆</string>
     <string name="txt_newuser_signup">注册</string>
-    <string name="txt_newuser_guest">游客</string>
 
 </resources>

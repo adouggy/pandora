@@ -3,6 +3,7 @@ package me.promenade.pandora.bean;
 public class Friend {
 
 	private String username = null;
+	private String photo = null;
 
 	public String getUsername() {
 		return username;
@@ -12,5 +13,14 @@ public class Friend {
 			String username) {
 		this.username = username;
 	}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+	
 	
 }

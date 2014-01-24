@@ -12,13 +12,14 @@ public class Constants {
 	public static final String ADD_PARTNER_URL = "http://" + XMPP_HOST + ":28080/MyPush/resources/xmpp/addPartner";
 	public static final String UPDATE_USER_URL = "http://" + XMPP_HOST + ":28080/MyPush/resources/xmpp/update";
 	
-//	public static final String SP_IS_LOGIN = "isLogin";
 	public static final String SP_USER_ID = "userId";
 	public static final String SP_PARTNER_ID = "partnerId";
 	public static final String SP_USER_NAME = "userName";
 	public static final String SP_PARTNER_NAME = "parterName";
 	public static final String SP_USER_PASSWORD = "userPassword";
-//	public static final String SP_FRIEND = "friend";
+	
+	public static final String SP_USER_PHOTO = "userPhoto";
+	public static final String SP_PARTNER_PHOTO = "partnerPhoto";
 	
 	public static final String SP_FANTASY_0 = "fantasy0";
 	public static final String SP_FANTASY_1 = "fantasy1";

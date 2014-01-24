@@ -1,6 +1,7 @@
 package me.promenade.pandora;
 
 import java.io.FileNotFoundException;
+import java.util.TreeMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,6 +54,8 @@ public class HolderActivity extends SherlockFragmentActivity {
 	public static final int WHAT_FINISH = 1;
 
 	private static HolderActivity me;
+	
+	private Fragment f = null;
 
 	public static Handler mHandler = new Handler() {
 		public void handleMessage(
@@ -85,7 +88,7 @@ public class HolderActivity extends SherlockFragmentActivity {
 		Bundle b = getIntent().getExtras();
 		int fId = b.getInt("fragment");
 
-		Fragment f = null;
+		
 		switch (fId) {
 		case FRAGMENT_CHAT:
 			f = new ChatFragment();
@@ -93,9 +96,11 @@ public class HolderActivity extends SherlockFragmentActivity {
 		case FRAGMENT_FANTASY:
 			int fantasyIndex = b.getInt("position");
 			Fantasy fantasy = (Fantasy)FantasyListFragment.mAdapter.getItem(fantasyIndex);
+			TreeMap<Integer, Integer> vMap = RunningBean.INSTANCE.getFantasyData().get(fantasyIndex);
 
 			f = new FantasyFragment();
-			((FantasyFragment) f).setFantasy(fantasy);
+			((FantasyFragment) f).setFantasy(fantasyIndex, fantasy, vMap);
+			
 			break;
 		case FRAGMENT_VIBRATE:
 			int vibrateIndex = b.getInt("position");
@@ -118,11 +123,10 @@ public class HolderActivity extends SherlockFragmentActivity {
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.replace(R.id.fragment_holder,
-				f);
+				f).commit();;
 
 		// ---add to the back stack---
 		// fragmentTransaction.addToBackStack(null);
-		fragmentTransaction.commit();
 	}
 
 	/**
@@ -186,4 +190,15 @@ public class HolderActivity extends SherlockFragmentActivity {
 				data);
 	}
 
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		
+		if( f instanceof FantasyFragment ){
+//			Toast.makeText(this, "back", Toast.LENGTH_SHORT).show();
+			if( f != null ){
+				((FantasyFragment)f).stopAll(0);
+			}
+		}
+	}
 }

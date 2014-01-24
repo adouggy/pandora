@@ -19,6 +19,8 @@
         android:id="@+id/img_more_list_right_arrow"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:contentDescription="@string/defaultDescription"
         android:src="@drawable/right_arrow"
         android:scaleType="centerInside" />

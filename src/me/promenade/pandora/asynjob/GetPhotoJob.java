@@ -2,8 +2,8 @@ package me.promenade.pandora.asynjob;
 
 import java.io.IOException;
 
-import me.promenade.pandora.fragment.ProfileFragment;
 import me.promenade.pandora.util.Constants;
+import me.promenade.pandora.util.SharedPreferenceUtil;
 import me.promenade.pandora.util.XMPPUtil;
 
 import org.apache.http.HttpResponse;
@@ -14,8 +14,6 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -23,6 +21,11 @@ public class GetPhotoJob extends AsyncTask<Integer, Integer, String> {
 	public static final String TAG = "GetPhotoJob";
 	
 	private Context mContext = null;
+	
+	public static final int PHOTO_FOR_USER = 1;
+	public static final int PHOTO_FOR_PARTNER = 2;
+	
+	private int mUserForWho = -1;
 
 	public void setContext(
 			Context ctx) {
@@ -34,10 +37,11 @@ public class GetPhotoJob extends AsyncTask<Integer, Integer, String> {
 			Integer... param) {
 		Log.d(TAG,
 				"retriving...");
-		if (param == null)
+		if (param == null || param.length != 2)
 			return null;
 
 		int userId = param[0];
+		mUserForWho = param[1];
 
 		HttpResponse res = XMPPUtil.INSTANCE.get(Constants.GET_PHOTO_URL + "/" + userId);
 		if (res == null)
@@ -78,16 +82,20 @@ public class GetPhotoJob extends AsyncTask<Integer, Integer, String> {
 				Log.i(TAG,
 						j.toString());
 
-				Message msg = ProfileFragment.mHandler.obtainMessage();
-				Bundle b = new Bundle();
+				String userPhotoStr = "";
 				try {
-					b.putString("photo",
-							j.getString("photo"));
+					userPhotoStr = j.getString("photo");
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-				msg.setData(b);
-				msg.sendToTarget();
+				switch(mUserForWho){
+				case PHOTO_FOR_USER:
+					SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_PHOTO, userPhotoStr);
+					break;
+				case PHOTO_FOR_PARTNER:
+					SharedPreferenceUtil.INSTANCE.setData(Constants.SP_PARTNER_PHOTO, userPhotoStr);
+					break;
+				}
 			}
 		}
 

@@ -90,7 +90,7 @@ public class VibrateListAdapter extends BaseAdapter {
 			public void onClick(
 					View view) {
 				VibrateJob j = new VibrateJob();
-				j.execute((Integer)view.getTag(), VibrateJob.WITHOUT_UI);
+				j.execute((Integer)view.getTag());
 
 			}
 		});

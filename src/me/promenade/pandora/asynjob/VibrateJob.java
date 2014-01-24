@@ -6,38 +6,27 @@ import me.promenade.pandora.fragment.FantasyFragment;
 import me.promenade.pandora.util.BluetoothUtil;
 import me.promenade.pandora.util.VibrateUtil;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Message;
+import android.os.Handler;
 
 public class VibrateJob extends AsyncTask<Integer, Integer, String> {
 	
-	public static final int WITH_UI = 1;
-	public static final int WITHOUT_UI = 2;
+	private Handler mHandler = null;
 	
-	private int ui = 2;
-
+	public void setHandler(Handler h){
+		this.mHandler = h;
+	}
+	
 	@Override
 	protected String doInBackground(
 			Integer... param) {
-		if (param == null || param.length != 2) {
+		if (param == null || param.length != 1) {
 			return null;
 		}
 
 		int patternIndex = param[0];
-		ui = param[1];
 		
 		Vibration v = RunningBean.INSTANCE.getVibration().get(patternIndex);
 		int[] pattern = v.getPattern();
-
-		if (ui == WITH_UI) {
-			Message msg = FantasyFragment.mHandler.obtainMessage();
-			msg.what = FantasyFragment.WHAT_START_V;
-			Bundle b = new Bundle();
-			b.putString("currentV",
-					v.getTitle());
-			msg.setData(b);
-			msg.sendToTarget();
-		}
 
 		if (BluetoothUtil.INSTANCE.isConntected()) {
 			byte[] bArr = new byte[2 + 14];
@@ -78,13 +67,10 @@ public class VibrateJob extends AsyncTask<Integer, Integer, String> {
 	@Override
 	protected void onPostExecute(
 			String result) {
-		if (ui == WITH_UI) {
-			Message msg = FantasyFragment.mHandler.obtainMessage();
-			msg.what = FantasyFragment.WHAT_STOP_V;
-			msg.sendToTarget();
-		}
-
 		super.onPostExecute(result);
+		if( mHandler != null ){
+			mHandler.obtainMessage(FantasyFragment.MSG_WHAT_CLEAR_SHOW_VIBRATE).sendToTarget();
+		}
 	}
 
 }
