@@ -7,6 +7,7 @@ import me.promenade.pandora.adapter.ChatListAdapter;
 import me.promenade.pandora.asynjob.ChatSendJob;
 import me.promenade.pandora.bean.Chat;
 import me.promenade.pandora.bean.MessageType;
+import me.promenade.pandora.bean.RunningBean;
 import me.promenade.pandora.bean.SendStatus;
 import me.promenade.pandora.util.Constants;
 import me.promenade.pandora.util.ImageUtil;
@@ -77,6 +78,11 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 				Bitmap bmp = ImageUtil.INSTANCE.String2Bitmap(message);
 				c.setSendPhoto(bmp);
 				c.setMessageType(MessageType.Image);
+				break;
+			case ChatSendJob.TYPE_COMMAND:
+				String str = RunningBean.INSTANCE.getVibration().get( Integer.parseInt( message ) ).getTitle();
+				c.setMessage(str );
+				c.setMessageType(MessageType.Command);
 				break;
 			}
 

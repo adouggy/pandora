@@ -71,6 +71,8 @@ public class PushReceiver extends BroadcastReceiver {
 						bundle.putInt("type", ChatSendJob.TYPE_PHOTO);
 					} else if (type.compareTo("text") == 0) {
 						bundle.putInt("type", ChatSendJob.TYPE_TEXT);
+					} else if (type.compareTo("command") == 0) {
+						bundle.putInt("type", ChatSendJob.TYPE_COMMAND);
 					}
 
 					Message msg = new Message();

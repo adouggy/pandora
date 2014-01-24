@@ -112,6 +112,11 @@ public class ChatListAdapter extends BaseAdapter {
 			holder.message.setVisibility(View.VISIBLE);
 			
 			holder.message.setText(c.getMessage());
+		}else if( c.getMessageType() == MessageType.Command ){
+			holder.sendImage.setVisibility(View.GONE);
+			holder.message.setVisibility(View.VISIBLE);
+			
+			holder.message.setText(c.getMessage());
 		}
 
 		return convertView;

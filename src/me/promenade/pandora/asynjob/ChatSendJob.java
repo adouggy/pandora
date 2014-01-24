@@ -66,6 +66,9 @@ public class ChatSendJob extends AsyncTask<String, Integer, String> {
 			}
 			
 			textJson.put("b", content);
+			
+			Log.d(TAG, textJson.toString());
+			
 			json.put("data", Base64.encodeToString(textJson.toString()
 					.getBytes(), Base64.DEFAULT));
 		} catch (JSONException e1) {
@@ -73,7 +76,7 @@ public class ChatSendJob extends AsyncTask<String, Integer, String> {
 		}
 
 		String url = Constants.PUSH_URL;
-
+		
 		HttpResponse res = XMPPUtil.INSTANCE.post(url, json);
 		if (res == null)
 			return null;
