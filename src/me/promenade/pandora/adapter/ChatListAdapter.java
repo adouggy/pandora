@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import me.promenade.pandora.R;
 import me.promenade.pandora.bean.Chat;
 import me.promenade.pandora.bean.MessageType;
+import me.promenade.pandora.util.ChatUtil;
 import me.promenade.pandora.util.Constants;
 import me.promenade.pandora.util.ImageUtil;
 import me.promenade.pandora.util.SharedPreferenceUtil;
@@ -41,15 +42,20 @@ public class ChatListAdapter extends BaseAdapter {
 		if (partnerPhotoStr != null && partnerPhotoStr.length() > 0) {
 			partnerBmp = ImageUtil.INSTANCE.String2Bitmap(partnerPhotoStr);
 		}
+		
+		mList = ChatUtil.INSTANCE.retrieve();
+		if( mList == null ){
+			mList = new ArrayList<Chat>();
+		}else{
+			notifyDataSetChanged();
+		}
 	}
 
 	public void addChat(Chat c) {
 		this.mList.add(c);
 		this.notifyDataSetChanged();
-	}
-
-	public void setData(ArrayList<Chat> list) {
-		this.mList = list;
+		
+		ChatUtil.INSTANCE.store(mList);
 	}
 
 	@Override
@@ -105,8 +111,9 @@ public class ChatListAdapter extends BaseAdapter {
 		if( c.getMessageType() == MessageType.Image ){
 			holder.sendImage.setVisibility(View.VISIBLE);
 			holder.message.setVisibility(View.GONE);
+			String bitmapStr = c.getSendPhoto();
 			
-			holder.sendImage.setImageBitmap( c.getSendPhoto() );
+			holder.sendImage.setImageBitmap( ImageUtil.INSTANCE.String2Bitmap(bitmapStr) );
 		}else if (c.getMessageType() == MessageType.Message){
 			holder.sendImage.setVisibility(View.GONE);
 			holder.message.setVisibility(View.VISIBLE);

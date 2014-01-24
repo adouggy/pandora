@@ -146,6 +146,9 @@ public class HolderActivity extends SherlockFragmentActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
 			Uri uri = data.getData();
+			if( uri == null ){
+				return;
+			}
 			Log.e("uri", uri.toString());
 			ContentResolver cr = this.getContentResolver();
 			JSONObject j = null;

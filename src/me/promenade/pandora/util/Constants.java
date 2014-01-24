@@ -41,4 +41,6 @@ public class Constants {
 	public static final String SP_VIBRATE_8 = "vibrate8";
 	public static final String SP_VIBRATE_9 = "vibrate9";
 	public static final String SP_VIBRATE_10 = "vibrate10";
+	
+	public static final String CHAT_LOG = "chat_object_list";
 }

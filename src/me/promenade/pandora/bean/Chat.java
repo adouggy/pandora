@@ -1,15 +1,18 @@
 package me.promenade.pandora.bean;
 
+import java.io.Serializable;
+
 import android.graphics.Bitmap;
 
-public class Chat {
+public class Chat implements Serializable {
 
+	private static final long serialVersionUID = -1232923641636978760L;
 	private String message;
 	private long timestamp;
 	private boolean isRemote;
 	private SendStatus sendStatus;
 	private MessageType messageType;
-	private Bitmap sendPhoto;
+	private String sendPhotoStr;
 
 	public String getMessage() {
 		return message;
@@ -51,12 +54,18 @@ public class Chat {
 		this.messageType = messageType;
 	}
 
-	public Bitmap getSendPhoto() {
-		return sendPhoto;
+	public String getSendPhoto() {
+		return sendPhotoStr;
 	}
 
-	public void setSendPhoto(Bitmap sendPhoto) {
-		this.sendPhoto = sendPhoto;
+	public void setSendPhoto(String sendPhoto) {
+		this.sendPhotoStr = sendPhoto;
+	}
+
+	@Override
+	public String toString() {
+		return "[" + message + "" + timestamp + "," + isRemote + ","
+				+ sendStatus + "," + messageType + "," + sendPhotoStr + "]";
 	}
 
 }

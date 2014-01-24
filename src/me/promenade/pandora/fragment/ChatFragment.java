@@ -1,7 +1,5 @@
 package me.promenade.pandora.fragment;
 
-import java.util.ArrayList;
-
 import me.promenade.pandora.R;
 import me.promenade.pandora.adapter.ChatListAdapter;
 import me.promenade.pandora.asynjob.ChatSendJob;
@@ -78,8 +76,8 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 				c.setMessageType(MessageType.Message);
 				break;
 			case ChatSendJob.TYPE_PHOTO:
-				Bitmap bmp = ImageUtil.INSTANCE.String2Bitmap(message);
-				c.setSendPhoto(bmp);
+//				Bitmap bmp = ImageUtil.INSTANCE.String2Bitmap(message);
+				c.setSendPhoto(message);
 				c.setMessageType(MessageType.Image);
 				break;
 			case ChatSendJob.TYPE_COMMAND:
@@ -131,7 +129,6 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 		this.mBtnType.setOnClickListener(this);
 
 		mAdapter = new ChatListAdapter(this.getActivity());
-		mAdapter.setData(new ArrayList<Chat>());
 
 		mList.setAdapter(mAdapter);
 
