@@ -9,6 +9,7 @@ import me.promenade.pandora.bean.Chat;
 import me.promenade.pandora.bean.MessageType;
 import me.promenade.pandora.bean.SendStatus;
 import me.promenade.pandora.util.Constants;
+import me.promenade.pandora.util.PopupUtil;
 import me.promenade.pandora.util.SharedPreferenceUtil;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -82,6 +84,8 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 				container,
 				false);
 		
+		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);  
+		
 		friendName = getActivity().getIntent().getExtras().getString("friend");
 		myName = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_USER_NAME);
 		Log.i( TAG, friendName + "<->" + myName );
@@ -123,6 +127,7 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 			this.mEdtText.setText("");
 			break;
 		case R.id.btn_sendType:
+			PopupUtil.INSTANCE.init(v, getActivity());
 			break;
 		}
 	}

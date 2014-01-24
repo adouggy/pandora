@@ -3,7 +3,8 @@
     android:id="@+id/layout_vibrateview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/img_bground_splash" >
+    android:background="@drawable/img_bground_splash"
+     >
 
     <ListView
         android:id="@+id/list_chat"
@@ -19,7 +20,7 @@
         android:layout_height="65dp"
         android:orientation="horizontal"
         android:weightSum="10" 
-        android:background="@drawable/bottom_bg"
+        android:background="@color/lavo_color"
         android:paddingBottom="5dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"

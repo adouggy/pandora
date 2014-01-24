@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_vibrateview"
+    android:layout_width="210dp"
+    android:layout_height="80dp"
+    android:background="@drawable/img_round_corner" >
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:contentDescription="@string/defaultDescription"
+        android:src="@drawable/tab_icon_vibrator_selected" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:contentDescription="@string/defaultDescription"
+        android:src="@drawable/img_camera_selected" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:contentDescription="@string/defaultDescription"
+        android:src="@drawable/img" />
+
+</LinearLayout>

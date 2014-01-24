@@ -16,11 +16,21 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-    
+
     <style name="Theme.Styled" parent="Theme.Sherlock.Light.DarkActionBar">
-        <item name="actionBarSize">60dp</item>
-        <item name="android:actionBarSize">60dp</item> 
+        <item name="actionBarSize">50dp</item>
+        <!-- <item name="android:actionBarSize">60dp</item> -->
     </style>
-    
+
     <style name="MySherlockTheme" parent="Theme.Sherlock.Light"></style>
+
+    <style name="dialog" parent="@android:style/Theme.Dialog">
+        <!-- <item name="android:windowFrame">@null</item> -->
+        <!-- <item name="android:windowIsFloating">true</item> -->
+        <!-- <item name="android:windowIsTranslucent">false</item> -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@null</item>
+        <!-- <item name="android:backgroundDimEnabled">false</item> -->
+    </style>
+
 </resources>

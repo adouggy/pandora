@@ -2,27 +2,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="top|right"
     android:background="@color/lavo_background"
+    android:gravity="top|right"
     android:orientation="horizontal" >
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="center_vertical|right"
+        android:layout_marginTop="10dp"
+        android:gravity="right"
         android:orientation="vertical" >
 
         <TextView
             android:id="@+id/txt_chat_send_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/chat_bullet_blue" />
+            android:background="@drawable/chat_bullet_blue"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/txt_chat_timestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/chat_bullet_blue" />
+            android:background="@drawable/chat_bullet_blue"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <TextView
@@ -31,13 +34,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/chat_bubble_pink"
-        android:maxWidth="200dp" />
+        android:maxWidth="200dp"
+        android:textSize="20sp" />
 
     <ImageView
         android:id="@+id/img_chat_person"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginTop="5dp"
+        android:layout_margin="5dp"
         android:contentDescription="@string/defaultDescription"
         android:src="@drawable/empty_profile" />
 
