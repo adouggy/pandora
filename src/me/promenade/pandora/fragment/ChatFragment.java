@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import me.promenade.pandora.R;
 import me.promenade.pandora.adapter.ChatListAdapter;
 import me.promenade.pandora.asynjob.ChatSendJob;
+import me.promenade.pandora.asynjob.VibrateJob;
 import me.promenade.pandora.bean.Chat;
 import me.promenade.pandora.bean.MessageType;
 import me.promenade.pandora.bean.RunningBean;
@@ -43,6 +44,8 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 	
 	private String myName = null;
 	private String friendName = null;
+	
+	private static VibrateJob mVibrateJob = null;
 
 	public static Handler mHandler = new Handler() {
 		@Override
@@ -83,6 +86,13 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 				String str = RunningBean.INSTANCE.getVibration().get( Integer.parseInt( message ) ).getTitle();
 				c.setMessage(str );
 				c.setMessageType(MessageType.Command);
+				
+				if( mVibrateJob != null ){
+					mVibrateJob.cancel(true);
+				}
+				
+				mVibrateJob = new VibrateJob();
+				mVibrateJob.execute(Integer.parseInt(message));
 				break;
 			}
 
