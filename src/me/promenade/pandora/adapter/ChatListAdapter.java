@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import me.promenade.pandora.R;
 import me.promenade.pandora.bean.Chat;
+import me.promenade.pandora.bean.MessageType;
 import me.promenade.pandora.util.Constants;
 import me.promenade.pandora.util.ImageUtil;
 import me.promenade.pandora.util.SharedPreferenceUtil;
@@ -89,9 +90,9 @@ public class ChatListAdapter extends BaseAdapter {
 				.findViewById(R.id.txt_chat_send_status);
 		holder.timeStamp = (TextView) convertView
 				.findViewById(R.id.txt_chat_timestamp);
+		holder.sendImage = (ImageView) convertView.findViewById(R.id.img_chat_photo);
 		convertView.setTag(holder);
 
-		holder.message.setText(c.getMessage());
 		holder.sendStatus.setText(c.getSendStatus().toString());
 		holder.timeStamp.setText(mFormatter.format(c.getTimestamp()));
 		
@@ -99,6 +100,18 @@ public class ChatListAdapter extends BaseAdapter {
 			holder.personImage.setImageBitmap(partnerBmp);
 		} else {
 			holder.personImage.setImageBitmap(userBmp);
+		}
+		
+		if( c.getMessageType() == MessageType.Image ){
+			holder.sendImage.setVisibility(View.VISIBLE);
+			holder.message.setVisibility(View.GONE);
+			
+			holder.sendImage.setImageBitmap( c.getSendPhoto() );
+		}else if (c.getMessageType() == MessageType.Message){
+			holder.sendImage.setVisibility(View.GONE);
+			holder.message.setVisibility(View.VISIBLE);
+			
+			holder.message.setText(c.getMessage());
 		}
 
 		return convertView;
@@ -109,5 +122,6 @@ public class ChatListAdapter extends BaseAdapter {
 		TextView message;
 		TextView sendStatus;
 		TextView timeStamp;
+		ImageView sendImage;
 	}
 }

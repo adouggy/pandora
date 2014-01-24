@@ -4,13 +4,15 @@ import java.util.ArrayList;
 
 import me.promenade.pandora.R;
 import me.promenade.pandora.adapter.ChatListAdapter;
-import me.promenade.pandora.asynjob.ChatJob;
+import me.promenade.pandora.asynjob.ChatSendJob;
 import me.promenade.pandora.bean.Chat;
 import me.promenade.pandora.bean.MessageType;
 import me.promenade.pandora.bean.SendStatus;
 import me.promenade.pandora.util.Constants;
+import me.promenade.pandora.util.ImageUtil;
 import me.promenade.pandora.util.PopupUtil;
 import me.promenade.pandora.util.SharedPreferenceUtil;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -33,7 +35,7 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 	public static final int MSG_SEND = 2;
 
 	private static ListView mList = null;
-	private static ChatListAdapter mAdapter = null;
+	public static ChatListAdapter mAdapter = null;
 	private Button mBtnSend = null;
 	private Button mBtnType = null;
 	private EditText mEdtText = null;
@@ -48,12 +50,12 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 
 			Bundle b = msg.getData();
 			String message = b.getString("message");
-			
+			int type = b.getInt("type");
 
 			Chat c = new Chat();
-			c.setMessage(message);
+			
 			c.setTimestamp(System.currentTimeMillis());
-			c.setMessageType(MessageType.Message);
+			
 
 			switch (msg.what) {
 			case MSG_RECEIVE:
@@ -63,6 +65,18 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 			case MSG_SEND:
 				c.setSendStatus(SendStatus.Sent);
 				c.setRemote(false);
+				break;
+			}
+			
+			switch( type ){
+			case ChatSendJob.TYPE_TEXT:
+				c.setMessage(message);
+				c.setMessageType(MessageType.Message);
+				break;
+			case ChatSendJob.TYPE_PHOTO:
+				Bitmap bmp = ImageUtil.INSTANCE.String2Bitmap(message);
+				c.setSendPhoto(bmp);
+				c.setMessageType(MessageType.Image);
 				break;
 			}
 
@@ -120,8 +134,9 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 		case R.id.btn_send:
 			String text = this.mEdtText.getText().toString().trim();
 
-			ChatJob job = new ChatJob();
+			ChatSendJob job = new ChatSendJob();
 			job.setContext(getActivity());
+			job.setType(ChatSendJob.TYPE_TEXT);
 			job.execute(text);
 			
 			this.mEdtText.setText("");

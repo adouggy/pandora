@@ -6,6 +6,7 @@
     android:background="@drawable/img_round_corner" >
 
     <ImageView
+        android:id="@+id/img_popup_command"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
@@ -13,6 +14,7 @@
         android:src="@drawable/tab_icon_vibrator_selected" />
 
     <ImageView
+         android:id="@+id/img_popup_camera"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
@@ -20,6 +22,7 @@
         android:src="@drawable/img_camera_selected" />
 
     <ImageView
+         android:id="@+id/img_popup_photo"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
