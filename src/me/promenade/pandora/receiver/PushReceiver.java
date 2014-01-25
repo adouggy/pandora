@@ -44,8 +44,10 @@ public class PushReceiver extends BroadcastReceiver {
 			String username = intent.getStringExtra("devId");
 
 			try {
-				byte[] dataByte = Base64.decode(notificationData,
-						Base64.DEFAULT);
+//				byte[] dataByte = Base64.decode(notificationData,
+//						Base64.DEFAULT);
+				byte[] dataByte = notificationData.getBytes();
+				
 				if (dataByte != null) {
 					String data = new String(dataByte);
 					Log.d(TAG, "Receive Message:" + data);

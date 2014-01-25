@@ -69,8 +69,9 @@ public class ChatSendJob extends AsyncTask<String, Integer, String> {
 			
 			Log.d(TAG, textJson.toString());
 			
-			json.put("data", Base64.encodeToString(textJson.toString()
-					.getBytes(), Base64.DEFAULT));
+//			json.put("data", Base64.encodeToString(textJson.toString()
+//					.getBytes(), Base64.DEFAULT));
+			json.put("data", textJson.toString());
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}

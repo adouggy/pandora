@@ -13,6 +13,7 @@ import me.promenade.pandora.util.ImageUtil;
 import me.promenade.pandora.util.SharedPreferenceUtil;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,13 @@ public class ChatListAdapter extends BaseAdapter {
 		}
 		if (partnerPhotoStr != null && partnerPhotoStr.length() > 0) {
 			partnerBmp = ImageUtil.INSTANCE.String2Bitmap(partnerPhotoStr);
+		}
+		
+		if( userBmp == null ){
+			userBmp = BitmapFactory.decodeResource(ctx.getResources(),R.drawable.empty_profile);
+		}
+		if( partnerBmp == null ){
+			partnerBmp = BitmapFactory.decodeResource(ctx.getResources(),R.drawable.empty_profile);
 		}
 		
 		mList = ChatUtil.INSTANCE.retrieve();
