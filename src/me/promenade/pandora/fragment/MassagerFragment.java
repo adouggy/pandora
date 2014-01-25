@@ -72,7 +72,7 @@ public class MassagerFragment extends SherlockFragment implements OnClickListene
 
 		mUri = Uri.parse("android.resource://" + getActivity().getPackageName() + "/" + R.raw.pandora);
 		
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 			mVideo = (VideoView) view.findViewById(R.id.videoView);
 			mVideo.setVideoURI(mUri);
 			mVideo.setOnPreparedListener(new OnPreparedListener() {

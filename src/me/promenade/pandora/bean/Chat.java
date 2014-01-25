@@ -2,8 +2,6 @@ package me.promenade.pandora.bean;
 
 import java.io.Serializable;
 
-import android.graphics.Bitmap;
-
 public class Chat implements Serializable {
 
 	private static final long serialVersionUID = -1232923641636978760L;

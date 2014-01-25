@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -78,6 +79,7 @@ public class HolderActivity extends SherlockFragmentActivity {
 		// this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		// getSupportActionBar().setDisplayShowTitleEnabled(false);
 		getSupportActionBar().hide();
+		getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xffdb2672));
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -90,6 +92,8 @@ public class HolderActivity extends SherlockFragmentActivity {
 
 		switch (fId) {
 		case FRAGMENT_CHAT:
+			getSupportActionBar().show();
+			getSupportActionBar().setTitle("与[" + RunningBean.INSTANCE.getPartnerName() + "] 的交谈");
 			f = new ChatFragment();
 			break;
 		case FRAGMENT_FANTASY:
@@ -118,6 +122,8 @@ public class HolderActivity extends SherlockFragmentActivity {
 			f = new SignupFragment();
 			break;
 		case FRAGMENT_PROFILE:
+			getSupportActionBar().show();
+			getSupportActionBar().setTitle("[" + RunningBean.INSTANCE.getUserName() + "]的资料");
 			f = new ProfileFragment();
 			break;
 		}

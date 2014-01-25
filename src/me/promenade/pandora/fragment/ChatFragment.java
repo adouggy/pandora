@@ -9,10 +9,8 @@ import me.promenade.pandora.bean.MessageType;
 import me.promenade.pandora.bean.RunningBean;
 import me.promenade.pandora.bean.SendStatus;
 import me.promenade.pandora.util.Constants;
-import me.promenade.pandora.util.ImageUtil;
 import me.promenade.pandora.util.PopupUtil;
 import me.promenade.pandora.util.SharedPreferenceUtil;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -131,6 +129,12 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 		mAdapter = new ChatListAdapter(this.getActivity());
 
 		mList.setAdapter(mAdapter);
+		
+		mList.post(new Runnable() {
+			public void run() {
+				mList.setSelection(mList.getCount() - 1);
+			}
+		});
 
 		return view;
 	}

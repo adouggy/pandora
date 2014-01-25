@@ -23,6 +23,7 @@ public enum RunningBean {
 		SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_PASSWORD, "");
 		SharedPreferenceUtil.INSTANCE.setData(Constants.SP_PARTNER_ID, "");
 		SharedPreferenceUtil.INSTANCE.setData(Constants.SP_PARTNER_NAME, "");
+		SharedPreferenceUtil.INSTANCE.setData(Constants.CHAT_LOG, "");
 	}
 	
 	public int getUserId() {

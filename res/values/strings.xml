@@ -36,9 +36,9 @@
     <string name="radio_gender_female">女银</string>
     <string name="btn_signup">注册</string>
     <string name="btn_submit">提交</string>
-    <string name="txt_bluetooth_name_no">[没有找到Lova]</string>
-    <string name="txt_bluetooth_name_yes">[已连接Lova]</string>
-    <string name="txt_bluetooth_search_hint">点此开始搜索配对Lova</string>
+    <string name="txt_bluetooth_name_no">[没有找到lavo]</string>
+    <string name="txt_bluetooth_name_yes">[已连接lavo]</string>
+    <string name="txt_bluetooth_search_hint">点此开始搜索配对lavo</string>
     <string name="txt_bluetooth_search_hint_ongoing">正在搜索...</string>
     <string name="txt_time">时间</string>
     <string name="txt_add_friend_hint">输入您朋友的昵称，开启亲密的分享</string>

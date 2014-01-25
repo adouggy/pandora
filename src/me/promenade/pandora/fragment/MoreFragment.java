@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -102,8 +103,10 @@ public class MoreFragment extends SherlockFragment implements OnItemClickListene
 			}
 			break;
 		case R.id.list_about:
-			// Toast.makeText(getActivity(), "about",
-			// Toast.LENGTH_SHORT).show();
+			if( position == 4 ){
+				Toast.makeText(getActivity(), "当前版本：0.6.2014.1.26", Toast.LENGTH_SHORT).show();
+			}
+			
 			break;
 		case R.id.list_login:
 			// Toast.makeText(getActivity(), "login",

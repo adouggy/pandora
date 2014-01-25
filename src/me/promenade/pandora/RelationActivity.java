@@ -1,17 +1,17 @@
 package me.promenade.pandora;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import me.promenade.pandora.asynjob.GetPhotoJobForRelation;
 import me.promenade.pandora.asynjob.RemovePartnerJob;
 import me.promenade.pandora.bean.RunningBean;
 import me.promenade.pandora.util.ImageUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.app.Activity;
-import android.graphics.Bitmap;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -19,7 +19,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RelationActivity extends Activity implements OnClickListener {
+import com.actionbarsherlock.app.SherlockActivity;
+
+public class RelationActivity extends SherlockActivity implements OnClickListener {
 
 	private static ImageView mMalePhoto;
 	private static ImageView mFemalePhoto;
@@ -58,6 +60,9 @@ public class RelationActivity extends Activity implements OnClickListener {
 			Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_relation);
+		
+		getSupportActionBar().show();
+		getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xffdb2672));
 
 		mMalePhoto = (ImageView) findViewById(R.id.img_relation_male);
 		mFemalePhoto = (ImageView) findViewById(R.id.img_relation_female);
@@ -90,14 +95,6 @@ public class RelationActivity extends Activity implements OnClickListener {
 		
 
 		mUnRelation.setOnClickListener(this);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(
-			Menu menu) {
-		getMenuInflater().inflate(R.menu.relation,
-				menu);
-		return true;
 	}
 
 	@Override
