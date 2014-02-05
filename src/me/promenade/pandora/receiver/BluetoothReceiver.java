@@ -22,12 +22,14 @@ public class BluetoothReceiver extends BroadcastReceiver {
 		return mBLEMap;
 	}
 
-	public static boolean addDeviceIfFound(BluetoothDevice device, boolean useRemote) {
+	public static boolean addDeviceIfFound(BluetoothDevice device,
+			boolean useRemote) {
 		if (device.getName() != null
 				&& device.getName().compareTo(DEVICE_NAME) == 0) {
-			if( useRemote ){
-				device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(device.getAddress());
-			}else{
+			if (useRemote) {
+				device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(
+						device.getAddress());
+			} else {
 			}
 			BluetoothUtil.INSTANCE.setDevice(device);
 			MassagerWithVideoFragment.mHandler.obtainMessage(
@@ -45,7 +47,8 @@ public class BluetoothReceiver extends BroadcastReceiver {
 			BluetoothDevice device = paramAnonymousIntent
 					.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
-			Log.i(TAG,"name:" + device.getName() + ", mac:" + device.getAddress());
+			Log.i(TAG,
+					"name:" + device.getName() + ", mac:" + device.getAddress());
 
 			boolean found = addDeviceIfFound(device, false);
 			if (found) {
@@ -56,8 +59,8 @@ public class BluetoothReceiver extends BroadcastReceiver {
 				.equals(str)) {
 			Log.i(TAG, "discovery finished");
 
-//			MassagerWithVideoFragment.mHandler.obtainMessage(
-//					MassagerWithVideoFragment.MSG_DONE).sendToTarget();
+			// MassagerWithVideoFragment.mHandler.obtainMessage(
+			// MassagerWithVideoFragment.MSG_DONE).sendToTarget();
 		} else if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(str)) {
 			BluetoothDevice device = paramAnonymousIntent
 					.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
@@ -67,7 +70,8 @@ public class BluetoothReceiver extends BroadcastReceiver {
 				case BluetoothDevice.BOND_NONE:
 					Log.i(TAG, "bond none");
 					MassagerWithVideoFragment.mHandler.obtainMessage(
-							MassagerWithVideoFragment.MSG_DISCONNECTED).sendToTarget();
+							MassagerWithVideoFragment.MSG_DISCONNECTED)
+							.sendToTarget();
 					break;
 				case BluetoothDevice.BOND_BONDING:
 					Log.i(TAG, "bonding..");
@@ -79,6 +83,16 @@ public class BluetoothReceiver extends BroadcastReceiver {
 					break;
 				}
 			}
+		} else if (str
+				.equals("android.bluetooth.BluetoothDevice.ACTION_ACL_CONNECTED")) {
+			Log.d(TAG, "Received: Bluetooth Connected");
+		}
+		if (str.equals("android.bluetooth.BluetoothDevice.ACTION_ACL_DISCONNECTED")
+				|| str.equals("android.bluetooth.BluetoothDevice.ACTION_ACL_DISCONNECTED_REQUESTED")) {
+			Log.d(TAG, "Received: Bluetooth Disconnected");
+			MassagerWithVideoFragment.mHandler.obtainMessage(
+					MassagerWithVideoFragment.MSG_DISCONNECTED).sendToTarget();
+			BluetoothUtil.INSTANCE.disconnect();
 		}
 	}
 

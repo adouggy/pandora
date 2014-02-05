@@ -16,20 +16,18 @@ public enum BluetoothUtil {
 	BluetoothUtil() {
 	}
 
-	public void init(
-			Context ctx) {
+	public void init(Context ctx) {
 	}
 
 	public void stopSearch() {
-		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		BluetoothAdapter bluetoothAdapter = BluetoothAdapter
+				.getDefaultAdapter();
 		if ((bluetoothAdapter != null) && (bluetoothAdapter.isDiscovering()))
 			bluetoothAdapter.cancelDiscovery();
 	}
 
-	public void setDevice(
-			BluetoothDevice device) {
-		Log.i(TAG,
-				"setDevice");
+	public void setDevice(BluetoothDevice device) {
+		Log.i(TAG, "setDevice");
 
 		BluetoothConnectJob job = new BluetoothConnectJob();
 		job.execute(device);
@@ -42,15 +40,11 @@ public enum BluetoothUtil {
 		return false;
 	}
 
-	public void sendMessage(
-			byte[] msg,
-			long interval) {
-		Log.i(TAG,
-				"sendMessage");
+	public void sendMessage(byte[] msg, long interval) {
+		Log.i(TAG, "sendMessage");
 		if (mConnectedThread != null) {
 			for (byte b : msg) {
-				Log.i(TAG,
-						"->" + b);
+				Log.i(TAG, "->" + b);
 				mConnectedThread.write(new byte[] { b });
 				try {
 					Thread.sleep(interval);
@@ -62,24 +56,30 @@ public enum BluetoothUtil {
 		}
 	}
 
-	public void sendMessage(
-			byte[] input) {
-		Log.i(TAG,
-				"sendMessage>>>>>");
-		
-		if( input == null || input.length != 16 ){
+	public void sendMessage(byte[] input) {
+		Log.i(TAG, "sendMessage>>>>>");
+
+		if (input == null || input.length != 16) {
 			Log.e(TAG, "vibrate message format error");
 			return;
 		}
-		
-//		byte[] msg = new byte[]{ 'b', 'x', '3', '2', '1', '3', '2', '1','3', '2', '1','3', '2', '1','3', '2'  };
-		
+
+		// byte[] msg = new byte[]{ 'b', 'x', '3', '2', '1', '3', '2', '1','3',
+		// '2', '1','3', '2', '1','3', '2' };
+
 		if (mConnectedThread != null) {
-			for( byte b : input ){
-				Log.i(TAG,  b + "" );
+			for (byte b : input) {
+				Log.i(TAG, b + "");
 			}
-			
+
 			mConnectedThread.write(input);
 		}
+	}
+
+	public void disconnect(){
+		if( mConnectedThread != null )
+			mConnectedThread.cancel();
+			
+		mConnectedThread = null;
 	}
 }

@@ -56,9 +56,13 @@
                 <action android:name="org.androidpn.client.SHOW_NOTIFICATION" />
             </intent-filter>
         </receiver>
+        
         <receiver android:name="me.promenade.pandora.receiver.BluetoothReceiver" >
             <intent-filter>
                 <action android:name="android.bluetooth.device.action.FOUND" />
+                <action android:name="android.bluetooth.BluetoothDevice.ACTION_ACL_CONNECTED" />
+                <action android:name="android.bluetooth.BluetoothDevice.ACTION_ACL_DISCONNECTED" />
+                <action android:name="android.bluetooth.BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED" />
             </intent-filter>
         </receiver>
 
