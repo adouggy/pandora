@@ -38,8 +38,13 @@ public class FantasyListFragment extends SherlockFragment implements OnItemClick
 			LayoutInflater inflater,
 			ViewGroup container,
 			Bundle savedInstanceState) {
-		@SuppressWarnings("unchecked")
-		ArrayList<Fantasy> list = (ArrayList<Fantasy>) RunningBean.INSTANCE.getFantasy().clone();
+		ArrayList<Fantasy> list = new ArrayList<Fantasy>();
+		
+//		(ArrayList<Fantasy>) RunningBean.INSTANCE.getFantasy().clone();
+		list.add( RunningBean.INSTANCE.getFantasy().get(0) );
+		list.add( RunningBean.INSTANCE.getFantasy().get(1) );
+		list.add( RunningBean.INSTANCE.getFantasy().get(2) );
+		
 		View view = inflater.inflate(R.layout.fragment_fantasy_list,
 				container,
 				false);

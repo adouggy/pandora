@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class StubActivity extends SherlockFragmentActivity implements OnClickListener {
@@ -37,6 +38,8 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 	private TextView[] mTxtList;
 
 	private int currIndex = 0;
+	
+	private TextView mTitle = null;
 
 	@Override
 	protected void onCreate(
@@ -62,6 +65,12 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 //		getSupportActionBar().setBackgroundDrawable(bg);
 		
 		getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xffdb2672));
+		getSupportActionBar().setIcon(android.R.color.transparent);
+		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		getSupportActionBar().setCustomView(R.layout.abs_layout);
+		
+		mTitle = (TextView) getSupportActionBar().getCustomView().findViewById(R.id.txt_title);
+		mTitle.setText( R.string.txt_tab1 );
 
 		// BitmapDrawable bgSplit = (BitmapDrawable)
 		// getResources().getDrawable(R.drawable.bg_striped_split_img);
@@ -235,11 +244,13 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 			switch (arg0) {
 			case 0:
 				makeTabSelected(0);
-				getSupportActionBar().setTitle(R.string.txt_tab1);
+//				getSupportActionBar().setTitle(R.string.txt_tab1);
+				mTitle.setText( R.string.txt_tab1 );
 				break;
 			case 1:
 				makeTabSelected(1);
-				getSupportActionBar().setTitle(R.string.txt_tab2);
+				mTitle.setText( R.string.txt_tab2 );
+//				getSupportActionBar().setTitle(R.string.txt_tab2);
 				
 //				boolean isLogin = SharedPreferenceUtil.INSTANCE.getData("isLogin").length()==0?false:true;
 //				
@@ -255,16 +266,19 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 				break;
 			case 2:
 				makeTabSelected(2);
-				getSupportActionBar().setTitle(R.string.txt_tab3);
+				mTitle.setText( R.string.txt_tab3 );
+//				getSupportActionBar().setTitle(R.string.txt_tab3);
 				break;
 			case 3:
 				VibrateUtil.INSTANCE.test();
 				makeTabSelected(3);
-				getSupportActionBar().setTitle(R.string.txt_tab4);
+				mTitle.setText( R.string.txt_tab4 );
+//				getSupportActionBar().setTitle(R.string.txt_tab4);
 				break;
 			case 4:
 				makeTabSelected(4);
-				getSupportActionBar().setTitle(R.string.txt_tab5);
+				mTitle.setText( R.string.txt_tab5 );
+//				getSupportActionBar().setTitle(R.string.txt_tab5);
 				break;
 			}
 
