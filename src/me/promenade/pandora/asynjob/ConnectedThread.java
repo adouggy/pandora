@@ -9,7 +9,7 @@ import android.util.Log;
 
 public class ConnectedThread extends Thread {
 	public static final String TAG = "ConnectedThread";
-	
+
 	private final BluetoothSocket mmSocket;
 	private final InputStream mmInStream;
 	private final OutputStream mmOutStream;
@@ -41,11 +41,11 @@ public class ConnectedThread extends Thread {
 				// Read from the InputStream
 				bytes = mmInStream.read(buffer);
 				// Send the obtained bytes to the UI activity
-//				mHandler.obtainMessage(MESSAGE_READ,
-//						bytes,
-//						-1,
-//						buffer).sendToTarget();
-				Log.d( TAG, ">>>" + String.valueOf(bytes)  );
+				// mHandler.obtainMessage(MESSAGE_READ,
+				// bytes,
+				// -1,
+				// buffer).sendToTarget();
+				Log.d(TAG, ">>>" + String.valueOf(bytes));
 			} catch (IOException e) {
 				break;
 			}
@@ -53,8 +53,7 @@ public class ConnectedThread extends Thread {
 	}
 
 	/* Call this from the main activity to send data to the remote device */
-	public void write(
-			byte[] bytes) {
+	public void write(byte[] bytes) {
 		try {
 			mmOutStream.write(bytes);
 		} catch (IOException e) {
@@ -64,8 +63,23 @@ public class ConnectedThread extends Thread {
 	/* Call this from the main activity to shutdown the connection */
 	public void cancel() {
 		try {
+			if (mmInStream != null)
+				mmInStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			if (mmOutStream != null)
+				mmOutStream.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		try {
 			mmSocket.close();
 		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

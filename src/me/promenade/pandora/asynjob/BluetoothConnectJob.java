@@ -12,7 +12,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 public class BluetoothConnectJob extends AsyncTask<BluetoothDevice, Integer, String> {
-
 	public static final String TAG = "BluetoothConnectJob";
 	private BluetoothSocket btSocket = null;
 
@@ -76,6 +75,9 @@ public class BluetoothConnectJob extends AsyncTask<BluetoothDevice, Integer, Str
 	protected void onPostExecute(
 			String result) {
 		super.onPostExecute(result);
+		if( BluetoothUtil.INSTANCE.mConnectedThread != null ){
+			BluetoothUtil.INSTANCE.mConnectedThread.cancel();
+		}
 		BluetoothUtil.INSTANCE.mConnectedThread = new ConnectedThread( btSocket );
 		BluetoothUtil.INSTANCE.mConnectedThread.start();
 	}

@@ -69,7 +69,7 @@ public class VibrateJob extends AsyncTask<Integer, Integer, String> {
 			String result) {
 		super.onPostExecute(result);
 		if( mHandler != null ){
-			mHandler.obtainMessage(FantasyFragment.MSG_WHAT_CLEAR_SHOW_VIBRATE).sendToTarget();
+//			mHandler.obtainMessage(FantasyFragment.MSG_WHAT_CLEAR_SHOW_VIBRATE).sendToTarget();
 		}
 	}
 
