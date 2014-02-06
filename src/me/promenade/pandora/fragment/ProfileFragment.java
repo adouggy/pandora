@@ -12,7 +12,6 @@ import me.promenade.pandora.bean.Profile;
 import me.promenade.pandora.bean.RunningBean;
 import me.promenade.pandora.util.Constants;
 import me.promenade.pandora.util.ImageUtil;
-import me.promenade.pandora.util.NameUtil;
 import me.promenade.pandora.util.SharedPreferenceUtil;
 import android.app.AlertDialog;
 import android.app.Dialog;

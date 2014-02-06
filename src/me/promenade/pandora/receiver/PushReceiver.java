@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import me.promenade.pandora.asynjob.ChatSendJob;
 import me.promenade.pandora.fragment.ChatFragment;
+import me.promenade.pandora.util.NotificationUtil;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -80,6 +81,8 @@ public class PushReceiver extends BroadcastReceiver {
 					msg.what = ChatFragment.MSG_RECEIVE;
 					msg.setData(bundle);
 					ChatFragment.mHandler.sendMessage(msg);
+					
+					NotificationUtil.INSTACE.notification();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

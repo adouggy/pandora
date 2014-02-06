@@ -37,25 +37,23 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 	private Button mBtnSend = null;
 	private Button mBtnType = null;
 	private EditText mEdtText = null;
-	
+
 	private String myName = null;
 	private String friendName = null;
-	
+
 	private static VibrateJob mVibrateJob = null;
 
 	public static Handler mHandler = new Handler() {
 		@Override
-		public void handleMessage(
-				Message msg) {
+		public void handleMessage(Message msg) {
 
 			Bundle b = msg.getData();
 			String message = b.getString("message");
 			int type = b.getInt("type");
 
 			Chat c = new Chat();
-			
+
 			c.setTimestamp(System.currentTimeMillis());
-			
 
 			switch (msg.what) {
 			case MSG_RECEIVE:
@@ -67,54 +65,55 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 				c.setRemote(false);
 				break;
 			}
-			
-			switch( type ){
+
+			switch (type) {
 			case ChatSendJob.TYPE_TEXT:
 				c.setMessage(message);
 				c.setMessageType(MessageType.Message);
 				break;
 			case ChatSendJob.TYPE_PHOTO:
-//				Bitmap bmp = ImageUtil.INSTANCE.String2Bitmap(message);
+				// Bitmap bmp = ImageUtil.INSTANCE.String2Bitmap(message);
 				c.setSendPhoto(message);
 				c.setMessageType(MessageType.Image);
 				break;
 			case ChatSendJob.TYPE_COMMAND:
-				String str = RunningBean.INSTANCE.getVibration().get( Integer.parseInt( message ) ).getTitle();
-				c.setMessage(str );
+				String str = RunningBean.INSTANCE.getVibration()
+						.get(Integer.parseInt(message)).getTitle();
+				c.setMessage(str);
 				c.setMessageType(MessageType.Command);
-				
-				if( mVibrateJob != null ){
+
+				if (mVibrateJob != null) {
 					mVibrateJob.cancel(true);
 				}
-				
+
 				mVibrateJob = new VibrateJob();
 				mVibrateJob.execute(Integer.parseInt(message));
 				break;
 			}
 
-			mAdapter.addChat(c);
-			mList.post(new Runnable() {
-				public void run() {
-					mList.setSelection(mList.getCount() - 1);
-				}
-			});
+			if (mAdapter != null) {
+				mAdapter.addChat(c);
+				mList.post(new Runnable() {
+					public void run() {
+						mList.setSelection(mList.getCount() - 1);
+					}
+				});
+			}
+
 		}
 	};
 
 	@Override
-	public View onCreateView(
-			LayoutInflater inflater,
-			ViewGroup container,
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_chat,
-				container,
-				false);
-		
-		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);  
-		
+		View view = inflater.inflate(R.layout.fragment_chat, container, false);
+
+		getActivity().getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
 		friendName = getActivity().getIntent().getExtras().getString("friend");
 		myName = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_USER_NAME);
-		Log.i( TAG, friendName + "<->" + myName );
+		Log.i(TAG, friendName + "<->" + myName);
 
 		mList = (ListView) view.findViewById(R.id.list_chat);
 		mList.setDivider(null);
@@ -129,7 +128,7 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 		mAdapter = new ChatListAdapter(this.getActivity());
 
 		mList.setAdapter(mAdapter);
-		
+
 		mList.post(new Runnable() {
 			public void run() {
 				mList.setSelection(mList.getCount() - 1);
@@ -145,8 +144,7 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 	}
 
 	@Override
-	public void onClick(
-			View v) {
+	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_send:
 			String text = this.mEdtText.getText().toString().trim();
@@ -155,7 +153,7 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 			job.setContext(getActivity());
 			job.setType(ChatSendJob.TYPE_TEXT);
 			job.execute(text);
-			
+
 			this.mEdtText.setText("");
 			break;
 		case R.id.btn_sendType:
