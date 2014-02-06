@@ -12,7 +12,7 @@
         android:layout_above="@+id/layout_signup"
         android:layout_margin="20dp"
         android:gravity="center"
-        android:text="@string/txt_login_logo"
+        android:text="@string/txt_signup_logo"
         android:textColor="@color/lightslategray"
         android:textSize="30sp" />
 
@@ -76,7 +76,7 @@
             android:contentDescription="@string/defaultDescription"
             android:visibility="gone" />
 
-        <LinearLayout
+       <!--  <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:orientation="horizontal"
@@ -96,7 +96,7 @@
                 android:background="@null"
                 android:endYear="2013"
                 android:startYear="1960" />
-        </LinearLayout>
+        </LinearLayout> -->
 
         <ImageView
             android:layout_width="match_parent"

@@ -20,6 +20,8 @@ public enum RunningBean {
 	public void logout() {
 		SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_ID, "");
 		SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_NAME, "");
+		SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_GENDER, "");
+		SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_NICK, "");
 		SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_PASSWORD, "");
 		SharedPreferenceUtil.INSTANCE.setData(Constants.SP_PARTNER_ID, "");
 		SharedPreferenceUtil.INSTANCE.setData(Constants.SP_PARTNER_NAME, "");

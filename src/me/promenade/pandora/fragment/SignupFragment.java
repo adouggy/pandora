@@ -1,10 +1,5 @@
 package me.promenade.pandora.fragment;
 
-import java.util.Calendar;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import me.promenade.pandora.R;
 import me.promenade.pandora.ShouldKnowActivity;
 import me.promenade.pandora.asynjob.HttpJob;
@@ -14,6 +9,10 @@ import me.promenade.pandora.util.Constants;
 import me.promenade.pandora.util.EmailUtil;
 import me.promenade.pandora.util.NameUtil;
 import me.promenade.pandora.util.SharedPreferenceUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,7 +21,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -36,7 +34,7 @@ public class SignupFragment extends SherlockFragment implements OnClickListener 
 	private EditText mNick = null;
 	private EditText mPassword = null;
 	private EditText mEmail = null;
-	private DatePicker mBirthday = null;
+//	private DatePicker mBirthday = null;
 	private RadioButton mMale = null;
 	// private RadioButton mFemale = null;
 	private Button mSubmit = null;
@@ -54,7 +52,7 @@ public class SignupFragment extends SherlockFragment implements OnClickListener 
 		mPassword = (EditText) view.findViewById(R.id.edt_signup_password);
 		mEmail = (EditText) view.findViewById(R.id.edt_signup_email);
 
-		mBirthday = (DatePicker) view.findViewById(R.id.dp_signup);
+//		mBirthday = (DatePicker) view.findViewById(R.id.dp_signup);
 
 		mMale = (RadioButton) view.findViewById(R.id.radio_signup_male);
 		// mFemale = (RadioButton) view.findViewById(R.id.radio_signup_female);
@@ -63,14 +61,14 @@ public class SignupFragment extends SherlockFragment implements OnClickListener 
 
 		this.mSubmit.setOnClickListener(this);
 
-		final Calendar c = Calendar.getInstance();
-		int year = c.get(Calendar.YEAR);
-		int month = c.get(Calendar.MONTH);
-		int day = c.get(Calendar.DAY_OF_MONTH);
+//		final Calendar c = Calendar.getInstance();
+//		int year = c.get(Calendar.YEAR);
+//		int month = c.get(Calendar.MONTH);
+//		int day = c.get(Calendar.DAY_OF_MONTH);
 
-		mBirthday.init(year, month, day, null);
+//		mBirthday.init(year, month, day, null);
 
-		mBirthday.setVisibility(View.GONE);
+//		mBirthday.setVisibility(View.GONE);
 		mEmail.setVisibility(View.GONE);
 
 		mCheck = (CheckBox) view.findViewById(R.id.chk_should_know);

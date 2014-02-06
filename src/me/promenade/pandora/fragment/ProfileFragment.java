@@ -12,6 +12,7 @@ import me.promenade.pandora.bean.Profile;
 import me.promenade.pandora.bean.RunningBean;
 import me.promenade.pandora.util.Constants;
 import me.promenade.pandora.util.ImageUtil;
+import me.promenade.pandora.util.NameUtil;
 import me.promenade.pandora.util.SharedPreferenceUtil;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -34,7 +35,8 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class ProfileFragment extends SherlockFragment implements OnClickListener {
+public class ProfileFragment extends SherlockFragment implements
+		OnClickListener {
 	public static final String TAG = "ProfileFragment";
 
 	private static TextView mNick;
@@ -47,35 +49,33 @@ public class ProfileFragment extends SherlockFragment implements OnClickListener
 	private RelativeLayout mLayoutRelation;
 
 	public static Profile mProfile;
-	
-	public static Handler mHandler = new Handler(){
+
+	public static Handler mHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			Log.i(TAG, "hadle message");
-			String imgStr = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_USER_PHOTO);
-			if( imgStr != null && imgStr.length() > 0 ){
+			String imgStr = SharedPreferenceUtil.INSTANCE
+					.getData(Constants.SP_USER_PHOTO);
+			if (imgStr != null && imgStr.length() > 0) {
 				Log.i(TAG, "set photo");
 				Bitmap bmp = ImageUtil.INSTANCE.String2Bitmap(imgStr);
 				mPhoto.setImageBitmap(bmp);
-				if( mProfile!=null ){
+				if (mProfile != null) {
 					mProfile.setPhoto(bmp);
 				}
 			}
-			
+
 		};
 	};
 
 	@Override
-	public View onCreateView(
-			LayoutInflater inflater,
-			ViewGroup container,
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_profile,
-				container,
+		View view = inflater.inflate(R.layout.fragment_profile, container,
 				false);
-		
+
 		int userId = RunningBean.INSTANCE.getUserId();
-		
-		if( userId == -1 ){
+
+		if (userId == -1) {
 			Toast.makeText(getActivity(), "尚未登录", Toast.LENGTH_SHORT).show();
 		}
 
@@ -83,29 +83,34 @@ public class ProfileFragment extends SherlockFragment implements OnClickListener
 		mGender = (ImageView) view.findViewById(R.id.img_profile_gender);
 		mPhoto = (ImageView) view.findViewById(R.id.img_profile_photo);
 
-		mLayoutNick = (RelativeLayout) view.findViewById(R.id.layout_profile_nick);
-		mLayoutGender = (RelativeLayout) view.findViewById(R.id.layout_profile_gender);
-		mLayoutPhoto = (RelativeLayout) view.findViewById(R.id.layout_profile_photo);
-		mLayoutRelation = (RelativeLayout) view.findViewById(R.id.layout_profile_relation);
+		mLayoutNick = (RelativeLayout) view
+				.findViewById(R.id.layout_profile_nick);
+		mLayoutGender = (RelativeLayout) view
+				.findViewById(R.id.layout_profile_gender);
+		mLayoutPhoto = (RelativeLayout) view
+				.findViewById(R.id.layout_profile_photo);
+		mLayoutRelation = (RelativeLayout) view
+				.findViewById(R.id.layout_profile_relation);
 
 		mLayoutNick.setOnClickListener(this);
 		mLayoutGender.setOnClickListener(this);
 		mLayoutPhoto.setOnClickListener(this);
 		mLayoutRelation.setOnClickListener(this);
-		
+
 		Profile p = new Profile();
-		p.setNickName("xxx");
-		p.setMale(true);
+		p.setNickName(SharedPreferenceUtil.INSTANCE
+				.getData(Constants.SP_USER_NICK));
+		p.setMale(Boolean.parseBoolean(SharedPreferenceUtil.INSTANCE
+				.getData(Constants.SP_USER_GENDER)));
 		mProfile = p;
 		refreshProfile(p);
-		
+
 		mHandler.obtainMessage().sendToTarget();
-				
+
 		return view;
 	}
 
-	public void refreshProfile(
-			Profile p) {
+	public void refreshProfile(Profile p) {
 		mNick.setText(p.getNickName());
 		if (p.isMale()) {
 			mGender.setImageResource(R.drawable.male_head_loading);
@@ -116,61 +121,68 @@ public class ProfileFragment extends SherlockFragment implements OnClickListener
 	}
 
 	@Override
-	public void onClick(
-			View v) {
+	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.layout_profile_nick:
-			if( RunningBean.INSTANCE.getUserId() == -1 ){
-				Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
+			if (RunningBean.INSTANCE.getUserId() == -1) {
+				Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT)
+						.show();
 				break;
 			}
-			
+
 			final EditText input = new EditText(getActivity());
-			
 
 			new AlertDialog.Builder(getActivity())
-		    .setTitle("输入昵称")
-		    .setMessage("昵称")
-		    .setView(input)
-		    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-		        public void onClick(DialogInterface dialog, int whichButton) {
-		            Editable value = input.getText(); 
-		            String nickname = value.toString();
-		            updateNickname( nickname );
-		            mNick.setText(nickname);
-		        }
-		    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-		        public void onClick(DialogInterface dialog, int whichButton) {
-		        }
-		    }).show();
-			
+					.setTitle("输入昵称")
+					.setMessage("昵称")
+					.setView(input)
+					.setPositiveButton("Ok",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									Editable value = input.getText();
+									String nickname = value.toString();
+									updateNickname(nickname);
+									mNick.setText(nickname);
+								}
+							})
+					.setNegativeButton("Cancel",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+								}
+							}).show();
+
 			break;
 		case R.id.layout_profile_gender:
-			Dialog alertDialog = new AlertDialog.Builder(getActivity()).setTitle("性别").setMessage("请选择性别").setIcon(R.drawable.ic_launcher).setPositiveButton("男",
-					new DialogInterface.OnClickListener() {
+			Dialog alertDialog = new AlertDialog.Builder(getActivity())
+					.setTitle("性别")
+					.setMessage("请选择性别")
+					.setIcon(R.drawable.ic_launcher)
+					.setPositiveButton("男",
+							new DialogInterface.OnClickListener() {
 
-						@Override
-						public void onClick(
-								DialogInterface arg0,
-								int arg1) {
-							updateGender(true);
-							mProfile.setMale(true);
-							refreshProfile(mProfile);
-						}
+								@Override
+								public void onClick(DialogInterface arg0,
+										int arg1) {
+									updateGender(true);
+									mProfile.setMale(true);
+									refreshProfile(mProfile);
+								}
 
-					}).setNegativeButton("女",
-					new DialogInterface.OnClickListener() {
+							})
+					.setNegativeButton("女",
+							new DialogInterface.OnClickListener() {
 
-						@Override
-						public void onClick(
-								DialogInterface dialog,
-								int which) {
-							updateGender(false);
-							mProfile.setMale(false);
-							refreshProfile(mProfile);
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									updateGender(false);
+									mProfile.setMale(false);
+									refreshProfile(mProfile);
 
-						}
-					}).create();
+								}
+							}).create();
 			alertDialog.show();
 
 			break;
@@ -178,30 +190,35 @@ public class ProfileFragment extends SherlockFragment implements OnClickListener
 			Intent intent = new Intent();
 			intent.setType("image/*");
 			intent.setAction(Intent.ACTION_GET_CONTENT);
-			startActivityForResult(intent,
-					1);
+			startActivityForResult(intent, 1);
 			break;
 		case R.id.layout_profile_relation:
 			Intent i = new Intent(getActivity(), RelationActivity.class);
-			getActivity().startActivity( i );
+			getActivity().startActivity(i);
 			break;
 		}
 	}
-	
-	private void updateNickname(String nickname){
-		int userId = Integer.parseInt( SharedPreferenceUtil.INSTANCE.getData(Constants.SP_USER_ID) );
-		String password = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_USER_PASSWORD);
-		String username = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_USER_NAME);
-		
+
+	private void updateNickname(String nickname) {
+		int userId = Integer.parseInt(SharedPreferenceUtil.INSTANCE
+				.getData(Constants.SP_USER_ID));
+		String password = SharedPreferenceUtil.INSTANCE
+				.getData(Constants.SP_USER_PASSWORD);
+		String username =SharedPreferenceUtil.INSTANCE
+						.getData(Constants.SP_USER_NAME);
+
 		JSONObject json = new JSONObject();
 		try {
 			json.put("username", username);
 			json.put("password", password);
 			json.put("name", nickname);
 		} catch (JSONException e) {
-			e.printStackTrace();
+			Log.e(TAG, e.getMessage());
+			// e.printStackTrace();
 		}
-		
+
+		Log.d(TAG, json.toString());
+
 		HttpBean h = new HttpBean();
 		h.setJson(json);
 		h.setMethod(HttpMethod.POST);
@@ -212,21 +229,24 @@ public class ProfileFragment extends SherlockFragment implements OnClickListener
 		job.setContext(getActivity());
 		job.execute(h);
 	}
-	
-	private void updateGender(boolean isMale){
-		int userId = Integer.parseInt( SharedPreferenceUtil.INSTANCE.getData(Constants.SP_USER_ID) );
-		String password = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_USER_PASSWORD);
-		String username = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_USER_NAME);
-		
+
+	private void updateGender(boolean isMale) {
+		int userId = Integer.parseInt(SharedPreferenceUtil.INSTANCE
+				.getData(Constants.SP_USER_ID));
+		String password = SharedPreferenceUtil.INSTANCE
+				.getData(Constants.SP_USER_PASSWORD);
+		String username =SharedPreferenceUtil.INSTANCE
+						.getData(Constants.SP_USER_NAME);
+
 		JSONObject json = new JSONObject();
 		try {
 			json.put("username", username);
 			json.put("password", password);
-			json.put("gender", isMale?"1":"0");
+			json.put("gender", isMale ? "1" : "0");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		
+
 		HttpBean h = new HttpBean();
 		h.setJson(json);
 		h.setMethod(HttpMethod.POST);

@@ -7,6 +7,7 @@ import me.promenade.pandora.NewUserActivity;
 import me.promenade.pandora.bean.HttpBean;
 import me.promenade.pandora.bean.HttpMethod;
 import me.promenade.pandora.util.Constants;
+import me.promenade.pandora.util.NameUtil;
 import me.promenade.pandora.util.SharedPreferenceUtil;
 import me.promenade.pandora.util.XMPPUtil;
 
@@ -98,12 +99,21 @@ public class HttpJob extends AsyncTask<HttpBean, Integer, String> {
 								Constants.SP_USER_ID, userId);
 						SharedPreferenceUtil.INSTANCE.setData(
 								Constants.SP_PARTNER_ID, partnerId);
+
 						SharedPreferenceUtil.INSTANCE.setData(
-								Constants.SP_USER_NAME, mHttpBean.getJson()
-										.getString("username"));
+								Constants.SP_USER_NAME,
+								j.getString("username"));
+						// get just from input
 						SharedPreferenceUtil.INSTANCE.setData(
 								Constants.SP_USER_PASSWORD, mHttpBean.getJson()
 										.getString("password"));
+
+						SharedPreferenceUtil.INSTANCE.setData(
+								Constants.SP_USER_NICK, j.getString("name"));
+						SharedPreferenceUtil.INSTANCE.setData(
+								Constants.SP_USER_GENDER,
+								j.getBoolean("gender") + "");
+
 						SharedPreferenceUtil.INSTANCE.setData(
 								Constants.SP_PARTNER_NAME, partnerName);
 

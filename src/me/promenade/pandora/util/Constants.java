@@ -1,7 +1,7 @@
 package me.promenade.pandora.util;
 
 public class Constants {
-	public static final String XMPP_HOST = "www.i-lavo.net";
+	public static final String XMPP_HOST = "172.16.1.39";//"115.28.146.123";
 	public static final String PUSH_URL = "http://" + XMPP_HOST + ":28080/MyPush/resources/xmpp/push";
 	public static final String CALLBACK_URL = "http://" + XMPP_HOST + ":28080/MyPush/resources/xmpp/callback";
 	public static final String LOGIN_URL = "http://" + XMPP_HOST + ":28080/MyPush/resources/xmpp/confirm";
@@ -15,6 +15,8 @@ public class Constants {
 	public static final String SP_USER_ID = "userId";
 	public static final String SP_PARTNER_ID = "partnerId";
 	public static final String SP_USER_NAME = "userName";
+	public static final String SP_USER_NICK = "userNick";
+	public static final String SP_USER_GENDER = "userGender";
 	public static final String SP_PARTNER_NAME = "parterName";
 	public static final String SP_USER_PASSWORD = "userPassword";
 	

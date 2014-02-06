@@ -12,7 +12,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -76,15 +75,18 @@
         </activity>
         <activity
             android:name="me.promenade.pandora.RelationActivity"
-            android:label="@string/title_activity_relation" >
+            android:label="@string/title_activity_relation"
+            android:theme="@style/MySherlockTheme" >
         </activity>
         <activity
             android:name="me.promenade.pandora.NewUserActivity"
-            android:label="@string/title_activity_new_user" >
+            android:label="@string/title_activity_new_user"
+            android:theme="@style/MySherlockTheme" >
         </activity>
         <activity
             android:name="me.promenade.pandora.ShouldKnowActivity"
-            android:label="@string/title_activity_should_know" >
+            android:label="@string/title_activity_should_know"
+            android:theme="@style/MySherlockTheme" >
         </activity>
     </application>
 
