@@ -3,7 +3,8 @@
     android:id="@+id/layout_vibrateview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-  android:background="@color/lavo_background" >
+    android:background="@color/lavo_background" >
+
     <TextView
         android:id="@+id/txt_signup_logo"
         android:layout_width="match_parent"
@@ -51,14 +52,13 @@
             android:textSize="20sp" />
 
         <ImageView
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
-            android:contentDescription="@string/defaultDescription" />
+            android:contentDescription="@string/defaultDescription"
+            android:visibility="gone" />
 
         <EditText
-            android:visibility="gone"
             android:id="@+id/edt_signup_email"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -66,20 +66,21 @@
             android:hint="@string/edt_signup_email_hint"
             android:inputType="textEmailAddress"
             android:padding="5dp"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:visibility="gone" />
 
         <ImageView
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
-            android:contentDescription="@string/defaultDescription" />
+            android:contentDescription="@string/defaultDescription"
+            android:visibility="gone" />
 
         <LinearLayout
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:visibility="gone" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -107,16 +108,36 @@
             android:id="@+id/rg_gender"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal" >
 
             <RadioButton
                 android:id="@+id/radio_signup_male"
-                android:text="@string/radio_gender_male" />
+                android:drawableLeft="@drawable/male" />
 
             <RadioButton
                 android:id="@+id/radio_signup_female"
-                android:text="@string/radio_gender_female" />
+                android:drawableLeft="@drawable/female" />
         </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <CheckBox
+                android:id="@+id/chk_should_know"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_should_know" />
+
+            <TextView
+                  android:id="@+id/txt_should_know_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_should_know_check" />
+        </LinearLayout>
     </LinearLayout>
 
     <Button

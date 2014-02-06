@@ -1,7 +1,7 @@
 package me.promenade.pandora.util;
 
 public class Constants {
-	public static final String XMPP_HOST = "www.promenade.me";
+	public static final String XMPP_HOST = "www.i-lavo.net";
 	public static final String PUSH_URL = "http://" + XMPP_HOST + ":28080/MyPush/resources/xmpp/push";
 	public static final String CALLBACK_URL = "http://" + XMPP_HOST + ":28080/MyPush/resources/xmpp/callback";
 	public static final String LOGIN_URL = "http://" + XMPP_HOST + ":28080/MyPush/resources/xmpp/confirm";

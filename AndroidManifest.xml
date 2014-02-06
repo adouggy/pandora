@@ -56,7 +56,6 @@
                 <action android:name="org.androidpn.client.SHOW_NOTIFICATION" />
             </intent-filter>
         </receiver>
-        
         <receiver android:name="me.promenade.pandora.receiver.BluetoothReceiver" >
             <intent-filter>
                 <action android:name="android.bluetooth.device.action.FOUND" />
@@ -82,6 +81,10 @@
         <activity
             android:name="me.promenade.pandora.NewUserActivity"
             android:label="@string/title_activity_new_user" >
+        </activity>
+        <activity
+            android:name="me.promenade.pandora.ShouldKnowActivity"
+            android:label="@string/title_activity_should_know" >
         </activity>
     </application>
 

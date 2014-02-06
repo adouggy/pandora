@@ -31,7 +31,7 @@
             android:layout_height="40dp"
             android:background="@null"
             android:hint="@string/edt_login_nickname_hint"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:padding="5dp"
             android:textSize="20sp" />
 

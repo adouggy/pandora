@@ -5,6 +5,7 @@ import me.promenade.pandora.asynjob.HttpJob;
 import me.promenade.pandora.bean.HttpBean;
 import me.promenade.pandora.bean.HttpMethod;
 import me.promenade.pandora.util.Constants;
+import me.promenade.pandora.util.EmailUtil;
 import me.promenade.pandora.util.NameUtil;
 
 import org.json.JSONException;
@@ -17,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -54,6 +56,11 @@ public class LoginFragment extends SherlockFragment implements OnClickListener {
 			View v) {
 		switch (v.getId()) {
 		case R.id.btn_login:
+			if( !EmailUtil.isEmailValid(this.mNick.getText().toString()) ){
+				Toast.makeText(getActivity(), "请输入合法的Email地址", Toast.LENGTH_SHORT).show();
+				break;
+			}
+			
 			String username =  NameUtil.INSTANCE.parseName( this.mNick.getText().toString() );
 			String password = this.mPassword.getText().toString();
 

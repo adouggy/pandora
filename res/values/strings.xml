@@ -24,7 +24,7 @@
     <string name="btn_9">9</string>
     <string name="btn_10">10</string>
     <string name="btn_11">11</string>
-    <string name="txt_login_logo">登陆lavo</string>
+    <string name="txt_login_logo">注册lavo账户</string>
     <string name="edt_login_nickname_hint">昵称</string>
     <string name="edt_login_password_hint">密码</string>
     <string name="btn_login">登陆</string>
@@ -32,8 +32,8 @@
     <string name="edt_signup_nickname_hint">昵称</string>
     <string name="edt_signup_password_hint">密码</string>
     <string name="edt_signup_email_hint">邮箱地址</string>
-    <string name="radio_gender_male">男银</string>
-    <string name="radio_gender_female">女银</string>
+    <string name="radio_gender_male">男</string>
+    <string name="radio_gender_female">女</string>
     <string name="btn_signup">注册</string>
     <string name="btn_submit">提交</string>
     <string name="txt_bluetooth_name_no">[没有找到lavo]</string>
@@ -54,5 +54,9 @@
     <string name="txt_newuser_login">登陆</string>
     <string name="txt_newuser_signup">注册</string>
     <string name="txt_newuser_guest">游客</string>
+    <string name="txt_should_know">已阅读并同意使用</string>
+    <string name="txt_should_know_check"><b>条款和隐私策略</b></string>
+    <string name="should_know_content">loading..</string>
+    <string name="title_activity_should_know">条款和隐私策略</string>
 
 </resources>

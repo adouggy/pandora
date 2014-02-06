@@ -9,4 +9,11 @@ public enum NameUtil {
 		}
 		return name;
 	}
+	
+	public String showName(String name){
+		if( name.contains("$") ){
+			name = name.replace("$", "@");
+		}
+		return name;
+	}
 }
