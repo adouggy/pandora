@@ -1,6 +1,7 @@
 package me.promenade.pandora.util;
 
 import me.promenade.pandora.R;
+import me.promenade.pandora.asynjob.ChatSendJob;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +33,13 @@ public enum PopupUtil {
 	private ImageView mCamera = null;
 	private ImageView mPhoto = null;
 	private ImageView mCommand = null;
+	
+	public boolean isRequestAccept = false;
+	private Context mContext = null;
+	
+	public void init(Context ctx){
+		this.mContext = ctx;
+	}
 
 	private OnClickListener mListener = new OnClickListener() {
 		@Override
@@ -55,7 +63,14 @@ public enum PopupUtil {
 			case R.id.img_popup_command:
 //				Toast.makeText(mActivity, "command", Toast.LENGTH_SHORT).show();
 				hide();
-				PopupCommandUtil.INSTANCE.init(attachView, mActivity);
+				if( isRequestAccept ){
+					PopupCommandUtil.INSTANCE.init(attachView, mActivity);
+				}else{
+					ChatSendJob job = new ChatSendJob();
+					job.setContext(mContext);
+					job.setType(ChatSendJob.TYPE_COMMAND_REQUEST);
+					job.execute(SharedPreferenceUtil.INSTANCE.getData(Constants.SP_USER_ID));
+				}
 				break;
 			}
 		}

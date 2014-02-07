@@ -11,6 +11,9 @@ import me.promenade.pandora.bean.SendStatus;
 import me.promenade.pandora.util.Constants;
 import me.promenade.pandora.util.PopupUtil;
 import me.promenade.pandora.util.SharedPreferenceUtil;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -40,6 +43,8 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 
 	private String myName = null;
 	private String friendName = null;
+
+	private static Context me = null;
 
 	private static VibrateJob mVibrateJob = null;
 
@@ -89,6 +94,54 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 				mVibrateJob = new VibrateJob();
 				mVibrateJob.execute(Integer.parseInt(message));
 				break;
+			case ChatSendJob.TYPE_COMMAND_REQUEST:
+				if (msg.what == MSG_RECEIVE) {
+					c.setMessage("［对方请求控制您的设备］");
+					c.setMessageType(MessageType.Message);
+
+					new AlertDialog.Builder(me)
+							.setTitle("是否同意控制请求")
+							.setPositiveButton("是",
+									new DialogInterface.OnClickListener() {
+										@Override
+										public void onClick(DialogInterface di,
+												int index) {
+											ChatSendJob job = new ChatSendJob();
+											job.setContext(me);
+											job.setType(ChatSendJob.TYPE_COMMAND_RESPONSE);
+											job.execute(1 + "");
+										}
+									})
+							.setNegativeButton("否",
+									new DialogInterface.OnClickListener() {
+										@Override
+										public void onClick(DialogInterface di,
+												int index) {
+											ChatSendJob job = new ChatSendJob();
+											job.setContext(me);
+											job.setType(ChatSendJob.TYPE_COMMAND_RESPONSE);
+											job.execute(0 + "");
+										}
+									}).show();
+				} else {
+					c.setMessage("［已发送请求，请稍后］");
+					c.setMessageType(MessageType.Message);
+				}
+				break;
+			case ChatSendJob.TYPE_COMMAND_RESPONSE:
+				if (msg.what == MSG_RECEIVE) {
+					c.setMessage("［对方回复："
+							+ (message.compareTo("1") == 0 ? "同意" : "拒绝") + "］");
+					c.setMessageType(MessageType.Message);
+					if( message.compareTo("1") == 0 ){
+						PopupUtil.INSTANCE.isRequestAccept = true;
+					}
+				} else {
+					c.setMessage("［已回复对方］");
+					c.setMessageType(MessageType.Message);
+				}
+
+				break;
 			}
 
 			if (mAdapter != null) {
@@ -110,6 +163,8 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 
 		getActivity().getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+		me = getActivity();
 
 		friendName = getActivity().getIntent().getExtras().getString("friend");
 		myName = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_USER_NAME);
@@ -158,6 +213,7 @@ public class ChatFragment extends SherlockFragment implements OnClickListener {
 			break;
 		case R.id.btn_sendType:
 			PopupUtil.INSTANCE.init(v, getActivity());
+
 			break;
 		}
 	}

@@ -28,6 +28,8 @@ public class ChatSendJob extends AsyncTask<String, Integer, String> {
 	public static final int TYPE_TEXT = 1;
 	public static final int TYPE_PHOTO = 2;
 	public static final int TYPE_COMMAND = 3;
+	public static final int TYPE_COMMAND_REQUEST = 4;
+	public static final int TYPE_COMMAND_RESPONSE = 5;
 	private int mType = -1;
 	
 	public void setType(int type){
@@ -61,6 +63,12 @@ public class ChatSendJob extends AsyncTask<String, Integer, String> {
 				break;
 			case TYPE_COMMAND:
 				textJson.put("t", "command");
+				break;
+			case TYPE_COMMAND_REQUEST:
+				textJson.put("t", "partnerRequest");
+				break;
+			case TYPE_COMMAND_RESPONSE:
+				textJson.put("t", "partnerFeedback");
 				break;
 			}
 			

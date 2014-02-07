@@ -75,7 +75,11 @@ public class PushReceiver extends BroadcastReceiver {
 						bundle.putInt("type", ChatSendJob.TYPE_TEXT);
 					} else if (type.compareTo("command") == 0) {
 						bundle.putInt("type", ChatSendJob.TYPE_COMMAND);
-					}
+					} else if (type.compareTo("partnerRequest") == 0) {
+						bundle.putInt("type", ChatSendJob.TYPE_COMMAND_REQUEST);
+					} else if (type.compareTo("partnerFeedback") == 0) {
+						bundle.putInt("type", ChatSendJob.TYPE_COMMAND_RESPONSE);
+					} 
 
 					Message msg = new Message();
 					msg.what = ChatFragment.MSG_RECEIVE;
