@@ -44,7 +44,7 @@ public class FriendFragment extends SherlockFragment implements OnClickListener 
 				String partnerPhoto = SharedPreferenceUtil.INSTANCE
 						.getData(Constants.SP_PARTNER_PHOTO);
 				Friend f = new Friend();
-				f.setUsername(partnerName);
+				f.setUsername(NameUtil.INSTANCE.showName(partnerName));
 				f.setPhoto(partnerPhoto);
 				ArrayList<Friend> list = new ArrayList<Friend>();
 				list.add(f);

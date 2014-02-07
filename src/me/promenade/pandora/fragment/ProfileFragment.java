@@ -189,7 +189,7 @@ public class ProfileFragment extends SherlockFragment implements
 			Intent intent = new Intent();
 			intent.setType("image/*");
 			intent.setAction(Intent.ACTION_GET_CONTENT);
-			startActivityForResult(intent, 1);
+			getActivity().startActivityForResult(intent, 1);
 			break;
 		case R.id.layout_profile_relation:
 			Intent i = new Intent(getActivity(), RelationActivity.class);

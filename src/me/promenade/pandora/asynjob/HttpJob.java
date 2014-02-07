@@ -7,7 +7,6 @@ import me.promenade.pandora.NewUserActivity;
 import me.promenade.pandora.bean.HttpBean;
 import me.promenade.pandora.bean.HttpMethod;
 import me.promenade.pandora.util.Constants;
-import me.promenade.pandora.util.NameUtil;
 import me.promenade.pandora.util.SharedPreferenceUtil;
 import me.promenade.pandora.util.XMPPUtil;
 

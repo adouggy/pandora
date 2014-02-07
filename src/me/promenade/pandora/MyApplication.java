@@ -8,7 +8,6 @@ import me.promenade.pandora.util.SharedPreferenceUtil;
 import me.promenade.pandora.util.VibrateUtil;
 import me.promenade.pandora.util.XMPPUtil;
 import android.app.Application;
-import android.app.Notification;
 
 public class MyApplication extends Application {
 

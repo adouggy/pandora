@@ -20,6 +20,8 @@ import me.promenade.pandora.fragment.VibrateFragment;
 import me.promenade.pandora.fragment.VibrateViewListFragment;
 import me.promenade.pandora.util.Constants;
 import me.promenade.pandora.util.ImageUtil;
+import me.promenade.pandora.util.NameUtil;
+import me.promenade.pandora.util.SharedPreferenceUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,7 +42,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.WindowManager;
-import android.widget.ImageView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
@@ -93,7 +94,7 @@ public class HolderActivity extends SherlockFragmentActivity {
 		switch (fId) {
 		case FRAGMENT_CHAT:
 			getSupportActionBar().show();
-			getSupportActionBar().setTitle("与[" + RunningBean.INSTANCE.getPartnerName() + "] 的交谈");
+			getSupportActionBar().setTitle("与[" + NameUtil.INSTANCE.showName( RunningBean.INSTANCE.getPartnerName() ) + "] 的交谈");
 			f = new ChatFragment();
 			break;
 		case FRAGMENT_FANTASY:
@@ -123,7 +124,7 @@ public class HolderActivity extends SherlockFragmentActivity {
 			break;
 		case FRAGMENT_PROFILE:
 			getSupportActionBar().show();
-			getSupportActionBar().setTitle("[" + RunningBean.INSTANCE.getUserName() + "]的资料");
+			getSupportActionBar().setTitle("[" + NameUtil.INSTANCE.showName( RunningBean.INSTANCE.getUserName() ) + "]的资料");
 			f = new ProfileFragment();
 			break;
 		}
@@ -155,7 +156,7 @@ public class HolderActivity extends SherlockFragmentActivity {
 			if( uri == null ){
 				return;
 			}
-			Log.e("uri", uri.toString());
+			Log.d("uri", uri.toString());
 			ContentResolver cr = this.getContentResolver();
 			JSONObject j = null;
 			Bitmap bitmap = null;
@@ -165,7 +166,7 @@ public class HolderActivity extends SherlockFragmentActivity {
 				imgStr = ImageUtil.INSTANCE.compressImageToString(bitmap);
 				bitmap.recycle();
 
-				Log.d(TAG, imgStr);
+				Log.d(TAG, imgStr.length() + " length..");
 
 				j = new JSONObject();
 				try {
@@ -176,6 +177,8 @@ public class HolderActivity extends SherlockFragmentActivity {
 			} catch (FileNotFoundException e) {
 				Log.e("Exception", e.getMessage(), e);
 			}
+			
+			Log.d(TAG, "request code:" + requestCode);
 
 			switch (requestCode) {
 			case 1:
@@ -188,15 +191,18 @@ public class HolderActivity extends SherlockFragmentActivity {
 
 					HttpJob job = new HttpJob();
 					job.execute(hb);
+					
+					SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_PHOTO, imgStr);
+					ProfileFragment.mHandler.obtainMessage().sendToTarget();
 				}
-				if (bitmap != null) {
-					ImageView imageView = (ImageView) findViewById(R.id.img_profile_photo);
-					// Bitmap bmp = ImageUtil.INSTANCE.String2Bitmap(imgStr);
-					imageView.setImageBitmap(bitmap);
-					if (ProfileFragment.mProfile != null) {
-						ProfileFragment.mProfile.setPhoto(bitmap);
-					}
-				}
+//				if (bitmap != null) {
+//					ImageView imageView = (ImageView) findViewById(R.id.img_profile_photo);
+//					// Bitmap bmp = ImageUtil.INSTANCE.String2Bitmap(imgStr);
+//					imageView.setImageBitmap(bitmap);
+//					if (ProfileFragment.mProfile != null) {
+//						ProfileFragment.mProfile.setPhoto(bitmap);
+//					}
+//				}
 				break;
 			case 2:
 				ChatSendJob job = new ChatSendJob();

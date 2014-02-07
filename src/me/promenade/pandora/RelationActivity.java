@@ -4,6 +4,7 @@ import me.promenade.pandora.asynjob.GetPhotoJobForRelation;
 import me.promenade.pandora.asynjob.RemovePartnerJob;
 import me.promenade.pandora.bean.RunningBean;
 import me.promenade.pandora.util.ImageUtil;
+import me.promenade.pandora.util.NameUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -84,8 +85,8 @@ public class RelationActivity extends SherlockActivity implements OnClickListene
 			job2.execute(partnerId,
 					0);
 			
-			mMaleName.setText(RunningBean.INSTANCE.getUserName());
-			mFemaleName.setText(RunningBean.INSTANCE.getPartnerName());
+			mMaleName.setText( NameUtil.INSTANCE.showName( RunningBean.INSTANCE.getUserName()) );
+			mFemaleName.setText( NameUtil.INSTANCE.showName(RunningBean.INSTANCE.getPartnerName()) );
 		} else {
 			Toast.makeText(this,
 					"请先选择您的伙伴",
