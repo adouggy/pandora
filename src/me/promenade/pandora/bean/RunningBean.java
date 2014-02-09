@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.TreeMap;
 
 import me.promenade.pandora.R;
+import me.promenade.pandora.util.ChatUtil;
 import me.promenade.pandora.util.Constants;
 import me.promenade.pandora.util.SharedPreferenceUtil;
 
@@ -25,7 +26,11 @@ public enum RunningBean {
 		SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_PASSWORD, "");
 		SharedPreferenceUtil.INSTANCE.setData(Constants.SP_PARTNER_ID, "");
 		SharedPreferenceUtil.INSTANCE.setData(Constants.SP_PARTNER_NAME, "");
-		SharedPreferenceUtil.INSTANCE.setData(Constants.CHAT_LOG, "");
+//		SharedPreferenceUtil.INSTANCE.setData(Constants.CHAT_LOG, "");
+		SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_PHOTO, "");
+		SharedPreferenceUtil.INSTANCE.setData(Constants.SP_PARTNER_PHOTO, "");
+		
+		ChatUtil.INSTANCE.clear();
 	}
 
 	public int getUserId() {

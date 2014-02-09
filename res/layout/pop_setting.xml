@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_vibrateview"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/img_round_corner"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/btn_setting_delete_chat_log"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/pink"
+        android:gravity="center"
+        android:text="@string/setting_delete_chat_log"
+        android:textAlignment="center"
+        android:textColor="@color/darkgoldenrod" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="3dp"
+        android:background="@color/grey"
+        android:contentDescription="@string/defaultDescription" />
+
+    <ToggleButton
+        android:id="@+id/btn_setting_show_notification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lightcoral"
+        android:textOff="@string/setting_notification_off"
+        android:textOn="@string/setting_notification" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="3dp"
+        android:background="@color/grey"
+        android:contentDescription="@string/defaultDescription" />
+
+    <Button
+        android:id="@+id/btn_setting_close"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lightseagreen"
+        android:text="@string/setting_close" />
+
+</LinearLayout>

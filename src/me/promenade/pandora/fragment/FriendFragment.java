@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import me.promenade.pandora.R;
 import me.promenade.pandora.adapter.FriendListAdapter;
 import me.promenade.pandora.asynjob.AddPartnerJob;
+import me.promenade.pandora.asynjob.PresenceJob;
 import me.promenade.pandora.bean.Friend;
 import me.promenade.pandora.bean.RunningBean;
 import me.promenade.pandora.util.Constants;
@@ -35,6 +36,7 @@ public class FriendFragment extends SherlockFragment implements OnClickListener 
 	public static FriendListAdapter mAdapter = null;
 	private static Button mAddButton = null;
 	public static final int WHAT_REFRESH_FRIEND = 2;
+	public static final int WHAT_REFRESH_PRESENCE = 3;
 
 	public static Handler mHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
@@ -50,6 +52,14 @@ public class FriendFragment extends SherlockFragment implements OnClickListener 
 				list.add(f);
 				mAdapter.setData(list);
 
+				break;
+
+			case WHAT_REFRESH_PRESENCE:
+				if (msg.arg1 == 1) {
+					mAdapter.setPresence(true);
+				} else {
+					mAdapter.setPresence(false);
+				}
 				break;
 			}
 		};
@@ -80,6 +90,18 @@ public class FriendFragment extends SherlockFragment implements OnClickListener 
 	}
 
 	@Override
+	public void onResume() {
+		String partnerIdStr = SharedPreferenceUtil.INSTANCE
+				.getData(Constants.SP_PARTNER_ID);
+		if (partnerIdStr != null && partnerIdStr.length() > 0) {
+			PresenceJob job = new PresenceJob();
+			job.setContext(getActivity());
+			job.execute(partnerIdStr);
+		}
+		super.onResume();
+	}
+
+	@Override
 	public void onDestroy() {
 		super.onDestroy();
 	}
@@ -105,7 +127,7 @@ public class FriendFragment extends SherlockFragment implements OnClickListener 
 			}
 
 			AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
-			b.setTitle("请输入好友昵称");
+			b.setTitle("请输入好友账户名（邮箱）");
 			final EditText input = new EditText(getActivity());
 			b.setView(input);
 			b.setPositiveButton("确定", new DialogInterface.OnClickListener() {

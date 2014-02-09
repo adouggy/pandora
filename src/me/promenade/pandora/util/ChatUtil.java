@@ -27,6 +27,10 @@ public enum ChatUtil {
 				+ java.io.File.separator + "lavo" + java.io.File.separator
 				+ Constants.CHAT_LOG);
 	}
+	
+	public void clear(){
+		store(new ArrayList<Chat>());
+	}
 
 	public void store(ArrayList<Chat> list) {
 		FileOutputStream fos = null;

@@ -26,6 +26,7 @@ public class FriendListAdapter extends BaseAdapter {
 	private ArrayList<Friend> mList = new ArrayList<Friend>();
 	private static LayoutInflater mInflater = null;
 	private Context mContext = null;
+	private boolean presence = false;
 
 	public FriendListAdapter(Context ctx) {
 		mInflater = LayoutInflater.from(ctx);
@@ -36,6 +37,11 @@ public class FriendListAdapter extends BaseAdapter {
 			Friend c) {
 		this.mList.add(c);
 		this.notifyDataSetChanged();
+	}
+	
+	public void setPresence( boolean presence) {
+		this.presence = presence;
+		notifyDataSetChanged();
 	}
 
 	public void setData(
@@ -77,6 +83,7 @@ public class FriendListAdapter extends BaseAdapter {
 			holder.username = (TextView) convertView.findViewById(R.id.txt_friend_name);
 			holder.personImage = (ImageView) convertView.findViewById(R.id.img_friend_img);
 			holder.chat = (Button) convertView.findViewById(R.id.btn_friend_chat);
+			holder.presence = (TextView) convertView.findViewById(R.id.txt_friend_presence);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -105,6 +112,8 @@ public class FriendListAdapter extends BaseAdapter {
 			Bitmap bmp = ImageUtil.INSTANCE.String2Bitmap(f.getPhoto());
 			holder.personImage.setImageBitmap(bmp);
 		}
+		
+		holder.presence.setText(presence?"在线":"离线" );
 
 		return convertView;
 	}
@@ -112,6 +121,7 @@ public class FriendListAdapter extends BaseAdapter {
 	static final class ViewHolder {
 		ImageView personImage;
 		TextView username;
+		TextView presence;
 		Button chat;
 	}
 }

@@ -2,9 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="10dp"
     android:background="@drawable/img_round_corner"
-    android:padding="15dp"
-    android:layout_margin="10dp">
+    android:padding="15dp" >
 
     <ImageView
         android:id="@+id/img_friend_img"
@@ -16,9 +16,9 @@
         android:src="@drawable/empty_profile" />
 
     <LinearLayout
-        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/img_friend_img"
         android:orientation="vertical" >
 
@@ -27,19 +27,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxWidth="200dp" />
-        
+
         <TextView
             android:id="@+id/txt_friend_presence"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxWidth="200dp" />
-        
-        <Button 
+
+        <Button
             android:id="@+id/btn_friend_chat"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="@string/txt_friend_chat"
-            android:background="@drawable/chat_btn_start"/>
+            android:background="@drawable/chat_btn_start"
+            android:text="@string/txt_friend_chat" />
     </LinearLayout>
 
 </RelativeLayout>

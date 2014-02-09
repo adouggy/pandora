@@ -2,7 +2,6 @@ package me.promenade.pandora.asynjob;
 
 import me.promenade.pandora.bean.RunningBean;
 import me.promenade.pandora.bean.Vibration;
-import me.promenade.pandora.fragment.FantasyFragment;
 import me.promenade.pandora.util.BluetoothUtil;
 import me.promenade.pandora.util.VibrateUtil;
 import android.os.AsyncTask;

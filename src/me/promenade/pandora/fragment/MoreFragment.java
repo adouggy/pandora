@@ -8,6 +8,7 @@ import me.promenade.pandora.R;
 import me.promenade.pandora.adapter.StringListAdapter;
 import me.promenade.pandora.bean.Friend;
 import me.promenade.pandora.bean.RunningBean;
+import me.promenade.pandora.util.PopupSettingUtil;
 import me.promenade.pandora.util.XMPPUtil;
 import android.content.Intent;
 import android.os.Bundle;
@@ -64,7 +65,7 @@ public class MoreFragment extends SherlockFragment implements OnItemClickListene
 
 	private ArrayList<String> getAbout() {
 		ArrayList<String> list = new ArrayList<String>();
-		list.add("使用指南");
+		list.add("使用设置");
 		list.add("分享给朋友");
 		list.add("意见反馈");
 		// list.add("评价我们的应用");
@@ -103,8 +104,12 @@ public class MoreFragment extends SherlockFragment implements OnItemClickListene
 			}
 			break;
 		case R.id.list_about:
+			if(position ==0){
+				Toast.makeText(getActivity(), "使用设置", Toast.LENGTH_SHORT).show();
+				PopupSettingUtil.INSTANCE.init( mAboutList, getActivity() );
+			}
 			if( position == 4 ){
-				Toast.makeText(getActivity(), "当前版本：0.6.2014.1.26", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "当前版本：0.8.2014.2.08", Toast.LENGTH_SHORT).show();
 			}
 			
 			break;

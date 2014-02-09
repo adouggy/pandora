@@ -24,13 +24,11 @@ public enum NotificationUtil {
 
 	public void notification() {
 		Long when = System.currentTimeMillis();
-		CharSequence tickerText = "My notification: Hello World! Click to deal this notification.";
+		CharSequence tickerText = "你的伙伴给您发来的新的消息";
 		Notification notification = new Notification(R.drawable.ic_launcher,
 				tickerText, when);
 		notification.vibrate = new long[] { 100, 250, 100, 500 };
 
-		CharSequence contentTitle = "My notification";
-		CharSequence contentText = "Hello World! Click to deal this notification.";
 
 		Intent i = new Intent(mContext, HolderActivity.class);
 		Bundle b = new Bundle();
@@ -40,7 +38,7 @@ public enum NotificationUtil {
 		i.putExtras(b);
 
 		PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0, i, 0);
-		notification.setLatestEventInfo(mContext, contentTitle, contentText,
+		notification.setLatestEventInfo(mContext, "有新消息", "点击查看",
 				contentIntent);
 
 		mNotificationManager.notify(9999, notification);

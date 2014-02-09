@@ -1,7 +1,7 @@
 package me.promenade.pandora.util;
 
 public class Constants {
-	public static final String XMPP_HOST = "172.16.1.39";//"115.28.146.123";
+	public static final String XMPP_HOST = "115.28.146.123";
 	public static final String PUSH_URL = "http://" + XMPP_HOST + ":28080/MyPush/resources/xmpp/push";
 	public static final String CALLBACK_URL = "http://" + XMPP_HOST + ":28080/MyPush/resources/xmpp/callback";
 	public static final String LOGIN_URL = "http://" + XMPP_HOST + ":28080/MyPush/resources/xmpp/confirm";
@@ -11,6 +11,7 @@ public class Constants {
 	public static final String GET_PHOTO_URL = "http://" + XMPP_HOST + ":28080/MyPush/resources/xmpp/getPhoto";
 	public static final String ADD_PARTNER_URL = "http://" + XMPP_HOST + ":28080/MyPush/resources/xmpp/addPartner";
 	public static final String UPDATE_USER_URL = "http://" + XMPP_HOST + ":28080/MyPush/resources/xmpp/update";
+	public static final String USER_URL = "http://" + XMPP_HOST + ":28080/MyPush/resources/xmpp/user";
 	
 	public static final String SP_USER_ID = "userId";
 	public static final String SP_PARTNER_ID = "partnerId";
@@ -45,4 +46,6 @@ public class Constants {
 	public static final String SP_VIBRATE_10 = "vibrate10";
 	
 	public static final String CHAT_LOG = "chat_object_list";
+	
+	public static final String SHOW_NOTIFICATION = "showNotification";
 }

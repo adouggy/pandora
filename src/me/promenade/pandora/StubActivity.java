@@ -9,6 +9,8 @@ import me.promenade.pandora.fragment.FriendFragment;
 import me.promenade.pandora.fragment.MassagerWithVideoFragment;
 import me.promenade.pandora.fragment.MoreFragment;
 import me.promenade.pandora.fragment.VibrateViewListFragment;
+import me.promenade.pandora.util.Constants;
+import me.promenade.pandora.util.SharedPreferenceUtil;
 import me.promenade.pandora.util.VibrateUtil;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -189,6 +191,26 @@ public class StubActivity extends SherlockFragmentActivity implements OnClickLis
 
 		for (TextView tv : mTxtList) {
 			tv.setOnClickListener(this);
+		}
+		
+		String userId = SharedPreferenceUtil.INSTANCE.getData(Constants.SP_USER_ID);
+		if( userId == null || userId.length() == 0 ){
+			mTxtList[1].setOnClickListener(null);
+//			mTxtList[1].setBackgroundColor(0x99111111);
+			
+			d2 = new StateListDrawable();
+			d2.addState(new int[] { android.R.attr.state_selected },
+					getResources().getDrawable(R.drawable.disable_talk));
+			d2.addState(StateSet.WILD_CARD,
+					getResources().getDrawable(R.drawable.disable_talk));
+			d2.setBounds(0,
+					0,
+					width,
+					height);
+			mTxtList[1].setCompoundDrawables(null,
+					d2,
+					null,
+					null);
 		}
 	}
 

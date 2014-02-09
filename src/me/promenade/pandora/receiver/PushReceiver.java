@@ -7,7 +7,9 @@ import org.json.JSONObject;
 
 import me.promenade.pandora.asynjob.ChatSendJob;
 import me.promenade.pandora.fragment.ChatFragment;
+import me.promenade.pandora.util.Constants;
 import me.promenade.pandora.util.NotificationUtil;
+import me.promenade.pandora.util.SharedPreferenceUtil;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -86,7 +88,15 @@ public class PushReceiver extends BroadcastReceiver {
 					msg.setData(bundle);
 					ChatFragment.mHandler.sendMessage(msg);
 					
+					String showStringStr = SharedPreferenceUtil.INSTANCE.getData(Constants.SHOW_NOTIFICATION);
+					boolean show = true;
+					if( showStringStr != null && showStringStr.length()>0 ){
+						show = Boolean.parseBoolean(showStringStr);
+					}
+					
+					if( show ){
 					NotificationUtil.INSTACE.notification();
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -94,5 +104,4 @@ public class PushReceiver extends BroadcastReceiver {
 
 		}
 	}
-
 }

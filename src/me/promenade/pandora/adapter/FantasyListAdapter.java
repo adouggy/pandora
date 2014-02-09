@@ -42,7 +42,12 @@ public class FantasyListAdapter extends BaseAdapter {
 	}
 	
 	public void addData(int index, Fantasy f){
-		this.mList.add(index, f);
+		if( mList.size() <= index ){
+			mList.add(f);
+		}else{
+			this.mList.add(index, f);
+		}
+		
 		this.notifyDataSetChanged();
 	}
 	
