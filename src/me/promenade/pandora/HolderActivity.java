@@ -14,6 +14,7 @@ import me.promenade.pandora.fragment.ChatFragment;
 import me.promenade.pandora.fragment.FantasyFragment;
 import me.promenade.pandora.fragment.FantasyListFragment;
 import me.promenade.pandora.fragment.LoginFragment;
+import me.promenade.pandora.fragment.MoreSettingFragment;
 import me.promenade.pandora.fragment.ProfileFragment;
 import me.promenade.pandora.fragment.SignupFragment;
 import me.promenade.pandora.fragment.VibrateFragment;
@@ -42,7 +43,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class HolderActivity extends SherlockFragmentActivity {
@@ -54,6 +57,7 @@ public class HolderActivity extends SherlockFragmentActivity {
 	public static final int FRAGMENT_LOGIN = 4;
 	public static final int FRAGMENT_SIGNUP = 5;
 	public static final int FRAGMENT_PROFILE = 6;
+	public static final int FRAGMENT_MORE_SETTING = 7;
 
 	public static final int WHAT_FINISH = 1;
 
@@ -80,7 +84,8 @@ public class HolderActivity extends SherlockFragmentActivity {
 		// this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		// getSupportActionBar().setDisplayShowTitleEnabled(false);
 		getSupportActionBar().hide();
-		getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xffdb2672));
+		getSupportActionBar().setBackgroundDrawable(
+				new ColorDrawable(0xffdb2672));
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -94,7 +99,10 @@ public class HolderActivity extends SherlockFragmentActivity {
 		switch (fId) {
 		case FRAGMENT_CHAT:
 			getSupportActionBar().show();
-			getSupportActionBar().setTitle("与[" + NameUtil.INSTANCE.showName( RunningBean.INSTANCE.getPartnerName() ) + "] 的交谈");
+			getSupportActionBar().setTitle(
+					"与["
+							+ NameUtil.INSTANCE.showName(RunningBean.INSTANCE
+									.getPartnerName()) + "] 的交谈");
 			f = new ChatFragment();
 			break;
 		case FRAGMENT_FANTASY:
@@ -124,8 +132,25 @@ public class HolderActivity extends SherlockFragmentActivity {
 			break;
 		case FRAGMENT_PROFILE:
 			getSupportActionBar().show();
-			getSupportActionBar().setTitle("[" + NameUtil.INSTANCE.showName( RunningBean.INSTANCE.getUserName() ) + "]的资料");
+			getSupportActionBar().setTitle(
+					"["
+							+ NameUtil.INSTANCE.showName(RunningBean.INSTANCE
+									.getUserName()) + "]的资料");
 			f = new ProfileFragment();
+			break;
+		case FRAGMENT_MORE_SETTING:
+			getSupportActionBar().show();
+			// getSupportActionBar().setTitle("更多设置");
+			f = new MoreSettingFragment();
+			getSupportActionBar().setBackgroundDrawable(
+					new ColorDrawable(0xffdb2672));
+			getSupportActionBar().setIcon(android.R.color.transparent);
+			getSupportActionBar().setDisplayOptions(
+					ActionBar.DISPLAY_SHOW_CUSTOM);
+			getSupportActionBar().setCustomView(R.layout.abs_layout);
+			TextView mTitle = (TextView) getSupportActionBar().getCustomView()
+					.findViewById(R.id.txt_title);
+			mTitle.setText("更多设置");
 			break;
 		}
 
@@ -153,7 +178,7 @@ public class HolderActivity extends SherlockFragmentActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
 			Uri uri = data.getData();
-			if( uri == null ){
+			if (uri == null) {
 				return;
 			}
 			Log.d("uri", uri.toString());
@@ -177,7 +202,7 @@ public class HolderActivity extends SherlockFragmentActivity {
 			} catch (FileNotFoundException e) {
 				Log.e("Exception", e.getMessage(), e);
 			}
-			
+
 			Log.d(TAG, "request code:" + requestCode);
 
 			switch (requestCode) {
@@ -191,32 +216,34 @@ public class HolderActivity extends SherlockFragmentActivity {
 
 					HttpJob job = new HttpJob();
 					job.execute(hb);
-					
-					SharedPreferenceUtil.INSTANCE.setData(Constants.SP_USER_PHOTO, imgStr);
+
+					SharedPreferenceUtil.INSTANCE.setData(
+							Constants.SP_USER_PHOTO, imgStr);
 					ProfileFragment.mHandler.obtainMessage().sendToTarget();
 				}
-//				if (bitmap != null) {
-//					ImageView imageView = (ImageView) findViewById(R.id.img_profile_photo);
-//					// Bitmap bmp = ImageUtil.INSTANCE.String2Bitmap(imgStr);
-//					imageView.setImageBitmap(bitmap);
-//					if (ProfileFragment.mProfile != null) {
-//						ProfileFragment.mProfile.setPhoto(bitmap);
-//					}
-//				}
+				// if (bitmap != null) {
+				// ImageView imageView = (ImageView)
+				// findViewById(R.id.img_profile_photo);
+				// // Bitmap bmp = ImageUtil.INSTANCE.String2Bitmap(imgStr);
+				// imageView.setImageBitmap(bitmap);
+				// if (ProfileFragment.mProfile != null) {
+				// ProfileFragment.mProfile.setPhoto(bitmap);
+				// }
+				// }
 				break;
 			case 2:
 				ChatSendJob job = new ChatSendJob();
 				job.setContext(this);
 				job.setType(ChatSendJob.TYPE_PHOTO);
 				job.execute(imgStr);
-				
-//				Message msg = ChatFragment.mHandler
-//						.obtainMessage(ChatFragment.MSG_SEND);
-//				Bundle b = new Bundle();
-//				b.putString("message", imgStr);
-//				b.putInt("type", ChatSendJob.TYPE_PHOTO);
-//				msg.setData(b);
-//				msg.sendToTarget();
+
+				// Message msg = ChatFragment.mHandler
+				// .obtainMessage(ChatFragment.MSG_SEND);
+				// Bundle b = new Bundle();
+				// b.putString("message", imgStr);
+				// b.putInt("type", ChatSendJob.TYPE_PHOTO);
+				// msg.setData(b);
+				// msg.sendToTarget();
 			}
 
 		}
