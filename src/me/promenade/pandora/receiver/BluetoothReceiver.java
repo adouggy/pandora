@@ -14,7 +14,7 @@ import android.util.Log;
 public class BluetoothReceiver extends BroadcastReceiver {
 	public static final String TAG = "BluetoothReceiver";
 
-	public static final String DEVICE_NAME = "HC-05";
+	public static final String DEVICE_NAME = "lavo Pandora";
 
 	private static HashMap<String, Long> mBLEMap = new HashMap<String, Long>();
 
@@ -25,7 +25,7 @@ public class BluetoothReceiver extends BroadcastReceiver {
 	public static boolean addDeviceIfFound(BluetoothDevice device,
 			boolean useRemote) {
 		if (device.getName() != null
-				&& device.getName().compareTo(DEVICE_NAME) == 0) {
+				&& device.getName().startsWith("lavo")/*.compareTo(DEVICE_NAME) == 0*/) {
 			if (useRemote) {
 				device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(
 						device.getAddress());
